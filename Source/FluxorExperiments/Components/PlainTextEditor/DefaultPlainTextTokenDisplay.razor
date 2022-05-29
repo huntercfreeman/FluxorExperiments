@@ -3,10 +3,13 @@
     @{
         var toPlainText = DefaultPlainTextToken.ToPlainText;
 
-        foreach (var character in toPlainText)
+        for (var i = 0; i < toPlainText.Length; i++)
         {
+            var characterIndex = i;
+            var character = toPlainText[characterIndex];
+            
             <CharacterDisplay Character="@character.ToString()"
-                              ShouldDisplayCursor="ShouldDisplayCursor" />
+                              ShouldDisplayCursor="@(ShouldDisplayCursor && characterIndex == DefaultPlainTextToken.IndexInContent)"/>
         }
     }
 </span>

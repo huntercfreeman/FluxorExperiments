@@ -5,15 +5,15 @@ using System.Text;
 
 namespace FluxorExperiments.Classes.PlainTextEditor;
 
-public record DefaultPlainTextToken(PlainTextTokenKey PlainTextTokenKey, SequenceKey SequenceKey) 
-	: PlainTextTokenBase(PlainTextTokenKey, SequenceKey)
+public record DefaultPlainTextToken(PlainTextTokenKey PlainTextTokenKey, int? IndexInContent, SequenceKey SequenceKey) 
+	: PlainTextTokenBase(PlainTextTokenKey, IndexInContent, SequenceKey)
 {
 	// TODO: DefaultPlainTextToken needs to be immutable look into perhaps Span<T>?
 	private readonly ImmutableStringBuilderRecord _immutableStringBuilderRecord;
 	private readonly ImmutableStringBuilderRecordKey _immutableStringBuilderRecordKey;
 
 	public DefaultPlainTextToken(KeyDownEventRecord keyDownEventRecord)
-		: this(PlainTextTokenKey.NewPlainTextTokenKey(), SequenceKey.NewSequenceKey())
+		: this(PlainTextTokenKey.NewPlainTextTokenKey(), 0, SequenceKey.NewSequenceKey())
 	{
 		_immutableStringBuilderRecord = new();
 
@@ -23,7 +23,7 @@ public record DefaultPlainTextToken(PlainTextTokenKey PlainTextTokenKey, Sequenc
 	
 	public DefaultPlainTextToken(KeyDownEventRecord keyDownEventRecord,
 		DefaultPlainTextToken otherDefaultPlainTextToken)
-		: this(otherDefaultPlainTextToken.PlainTextTokenKey, SequenceKey.NewSequenceKey())
+		: this(otherDefaultPlainTextToken.PlainTextTokenKey, otherDefaultPlainTextToken.IndexInContent + 1, SequenceKey.NewSequenceKey())
 	{
 		_immutableStringBuilderRecord = otherDefaultPlainTextToken._immutableStringBuilderRecord;
 		

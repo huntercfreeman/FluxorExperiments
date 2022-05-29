@@ -4,13 +4,13 @@ using FluxorExperiments.Classes.Sequence;
 
 namespace FluxorExperiments.Classes.PlainTextEditor;
 
-public record WhitespacePlainTextToken(PlainTextTokenKey PlainTextTokenKey, SequenceKey SequenceKey) 
-	: PlainTextTokenBase(PlainTextTokenKey, SequenceKey)
+public record WhitespacePlainTextToken(PlainTextTokenKey PlainTextTokenKey, int? IndexInContent, SequenceKey SequenceKey) 
+	: PlainTextTokenBase(PlainTextTokenKey, IndexInContent, SequenceKey)
 {
 	private readonly char _whitespaceCharacter;	
 	
 	public WhitespacePlainTextToken(KeyDownEventRecord keyDownEventRecord)
-		: this(PlainTextTokenKey.NewPlainTextTokenKey(), SequenceKey.NewSequenceKey())
+		: this(PlainTextTokenKey.NewPlainTextTokenKey(), 0, SequenceKey.NewSequenceKey())
 	{
 		_whitespaceCharacter = keyDownEventRecord.Code switch {
 			KeyboardFacts.WhitespaceKeys.SPACE_CODE => ' ',
