@@ -24,11 +24,11 @@ public static class KeyboardFacts
         switch (keyDownEventRecord.Code)
         {
             case "\t":
-            case WhitespaceKeys.Tab:
+            case WhitespaceKeys.TAB_CODE:
             case "\n":
-            case WhitespaceKeys.Enter:
+            case WhitespaceKeys.ENTER_CODE:
             case " ":
-            case WhitespaceKeys.Space:
+            case WhitespaceKeys.SPACE_CODE:
                 return true;
             default:
                 return false;
@@ -37,47 +37,47 @@ public static class KeyboardFacts
 
     public static class MetaKeys
     {
-        public const string Backspace = "Backspace";
-        public const string Escape = "Escape";
-        public const string Delete = "Delete";
+        public const string BACKSPACE = "Backspace";
+        public const string ESCAPE = "Escape";
+        public const string DELETE = "Delete";
         public const string F10 = "F10";
     }
 
     public static class WhitespaceKeys
     {
-        public const string Tab = "Tab";
-        public const string Enter = "Enter";
-        public const string Space = "Space";
+        public const string TAB_CODE = "Tab";
+        public const string ENTER_CODE = "Enter";
+        public const string SPACE_CODE = "Space";
     }
 
     public static class MovementKeys
     {
-        public const string ArrowLeft = "ArrowLeft";
-        public const string ArrowDown = "ArrowDown";
-        public const string ArrowUp = "ArrowUp";
-        public const string ArrowRight = "ArrowRight";
-        public const string Home = "Home";
-        public const string End = "End";
+        public const string ARROW_LEFT_KEY = "ArrowLeft";
+        public const string ARROW_DOWN_KEY = "ArrowDown";
+        public const string ARROW_UP_KEY = "ArrowUp";
+        public const string ARROW_RIGHT_KEY = "ArrowRight";
+        public const string HOME_KEY = "Home";
+        public const string END_KEY = "End";
     }
 
     public static class AlternateMovementKeys
     {
-        public const string ArrowLeft = "h";
-        public const string ArrowDown = "j";
-        public const string ArrowUp = "k";
-        public const string ArrowRight = "l";
+        public const string ARROW_LEFT_KEY = "h";
+        public const string ARROW_DOWN_KEY = "j";
+        public const string ARROW_UP_KEY = "k";
+        public const string ARROW_RIGHT_KEY = "l";
     }
 
     public static bool IsMovementKey(KeyDownEventRecord keyDownEventRecord)
     {
         switch (keyDownEventRecord.Key)
         {
-            case MovementKeys.ArrowLeft:
-            case MovementKeys.ArrowDown:
-            case MovementKeys.ArrowUp:
-            case MovementKeys.ArrowRight:
-            case MovementKeys.Home:
-            case MovementKeys.End:
+            case MovementKeys.ARROW_LEFT_KEY:
+            case MovementKeys.ARROW_DOWN_KEY:
+            case MovementKeys.ARROW_UP_KEY:
+            case MovementKeys.ARROW_RIGHT_KEY:
+            case MovementKeys.HOME_KEY:
+            case MovementKeys.END_KEY:
                 return true;
             default:
                 return false;

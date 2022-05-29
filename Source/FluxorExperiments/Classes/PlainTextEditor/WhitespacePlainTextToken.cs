@@ -13,8 +13,8 @@ public record WhitespacePlainTextToken(PlainTextTokenKey PlainTextTokenKey, Sequ
 		: this(PlainTextTokenKey.NewPlainTextTokenKey(), SequenceKey.NewSequenceKey())
 	{
 		_whitespaceCharacter = keyDownEventRecord.Code switch {
-			KeyboardFacts.WhitespaceKeys.Space => ' ',
-			KeyboardFacts.WhitespaceKeys.Tab => '\t',
+			KeyboardFacts.WhitespaceKeys.SPACE_CODE => ' ',
+			KeyboardFacts.WhitespaceKeys.TAB_CODE => '\t',
 			_ => throw new ApplicationException($"The whitespace with Code: '{keyDownEventRecord.Code}' was " +
 			                                    $"not found in the {nameof(KeyboardFacts.WhitespaceKeys)} constants.")
 		};

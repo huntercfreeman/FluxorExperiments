@@ -3,8 +3,17 @@
 <div class="fe_plain-text-editor-display">
     <h3>PlainTextEditorDisplay</h3>
 
-    @foreach (var plainTextRowKey in PlainTextEditorState.Value.PlainTextRowKeys)
+    @for (var i = 0; i < PlainTextEditorState.Value.PlainTextRowKeys.Length; i++)
     {
-        <PlainTextRowDisplay PlainTextRowKey="plainTextRowKey" />
+        var rowIndex = i;
+        var plainTextRowKey = PlainTextEditorState.Value.PlainTextRowKeys[rowIndex];
+        
+        <CascadingValue Name="@nameof(PlainTextEditorLineNumberDisplay.LargestLineNumberString)" 
+                        Value="@((PlainTextEditorState.Value.PlainTextRowKeys.Length + 1).ToString())">
+            <CascadingValue Name="@nameof(PlainTextEditorLineNumberDisplay.LineNumber)" 
+                            Value="rowIndex + 1">
+                <PlainTextRowDisplay PlainTextRowKey="@plainTextRowKey"/>
+            </CascadingValue>
+        </CascadingValue>
     }
 </div>
