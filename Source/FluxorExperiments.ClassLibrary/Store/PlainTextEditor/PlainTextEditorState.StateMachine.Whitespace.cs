@@ -43,6 +43,14 @@ public partial record PlainTextEditorState
 					nextPlainTextEditorState.CurrentPlainTextTokenKeyIndex += 1;
 				}
 			}
+			else if (KeyboardFacts.IsMovementKey(keyDownEventRecord))
+			{
+				PerformMove(nextPlainTextEditorState, keyDownEventRecord);
+			}
+			else if (KeyboardFacts.IsMetaKey(keyDownEventRecord))
+			{
+				
+			}
 			else
 			{
 				var defaultToken = new DefaultPlainTextToken(keyDownEventRecord);

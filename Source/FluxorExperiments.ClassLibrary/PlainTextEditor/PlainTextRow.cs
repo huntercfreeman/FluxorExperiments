@@ -11,12 +11,12 @@ public record PlainTextRowKey(Guid Id)
 	}
 }
 
-public record PlainTextRow
+public record PlainTextRow(PlainTextRowKey PlainTextRowKey, bool IsActiveRow, SequenceKey SequenceKey)
 {
 	private readonly Dictionary<PlainTextTokenKey, PlainTextTokenBase> _plainTextTokenMap;
 	private readonly List<PlainTextTokenKey> _plainTextTokenKeys;
 
-	public PlainTextRow()
+	public PlainTextRow() : this(PlainTextRowKey.NewPlainTextRowKey(), true, SequenceKey.NewSequenceKey())
 	{
 		var startOfRowToken = new StartOfRowPlainTextToken();
 		
@@ -84,9 +84,8 @@ public record PlainTextRow
 		return nextPlainTextRow;
 	}
 
-	public PlainTextRowKey PlainTextRowKey { get; private set; }
-	public SequenceKey SequenceKey { get; private set; }
 	public ImmutableArray<PlainTextTokenKey> PlainTextTokenKeys => _plainTextTokenKeys.ToImmutableArray();
+	public int TokenCount => _plainTextTokenKeys.Count;
 
 	public PlainTextTokenBase LookupPlainTextToken(PlainTextTokenKey plainTextTokenKey)
 	{

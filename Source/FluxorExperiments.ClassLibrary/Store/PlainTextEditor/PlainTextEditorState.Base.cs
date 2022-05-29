@@ -52,6 +52,7 @@ public partial record PlainTextEditorState
 	public PlainTextRow CurrentRow => GetCurrentRow();
 	public PlainTextTokenBase CurrentPlainTextToken => GetCurrentPlainTextToken();
 	public ImmutableArray<PlainTextRowKey> PlainTextRowKeys => _plainTextRowKeys.ToImmutableArray();
+	public int RowCount => _plainTextRowKeys.Count;
 
 	private PlainTextTokenBase GetCurrentPlainTextToken()
 	{
