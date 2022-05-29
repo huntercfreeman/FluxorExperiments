@@ -16,9 +16,12 @@ public partial class PlainTextTokenDisplay : ComponentBase
 	public PlainTextTokenKey PlainTextTokenKey { get; set; } = null!;
 	
 	private PlainTextTokenBase? _cachedPlainTextToken;
+	private int _rerenderCount;
 
 	protected override void OnAfterRender(bool firstRender)
 	{
+		_rerenderCount++;
+		
 		if (firstRender)
 		{
 			StateHasChanged();
