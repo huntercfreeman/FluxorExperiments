@@ -1,7 +1,14 @@
-﻿@inherits Fluxor.Blazor.Web.Components.FluxorComponent
+﻿@using FluxorExperiments.ClassLibrary.Html
+@using FluxorExperiments.ClassLibrary.PlainTextEditor
+@inherits Fluxor.Blazor.Web.Components.FluxorComponent
 
 <div class="fe_plain-text-editor-display">
     <h3>PlainTextEditorDisplay</h3>
+    
+    @if (IsDebugEnvironment)
+    {
+        <PlainTextEditorDebugDisplay PlainTextEditorState="PlainTextEditorState.Value" />
+    }
 
     @for (var i = 0; i < PlainTextEditorState.Value.PlainTextRowKeys.Length; i++)
     {

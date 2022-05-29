@@ -1,0 +1,28 @@
+﻿@using FluxorExperiments.ClassLibrary.Html
+@using FluxorExperiments.ClassLibrary.PlainTextEditor
+
+<div class="fe_plain-text-editor-display-debug">
+    <div>Debug Environment Enabled</div>
+    
+    <div>
+        @nameof(PlainTextEditorState.CurrentPlainTextToken)
+        <div style="margin-left: 30px;">
+            <div>
+                @nameof(PlainTextEditorState.CurrentPlainTextToken.ToPlainText):&nbsp;
+                @if (PlainTextEditorState.CurrentPlainTextToken.PlainTextTokenKind == PlainTextTokenKind.Whitespace ||
+                     PlainTextEditorState.CurrentPlainTextToken.PlainTextTokenKind == PlainTextTokenKind.StartOfRow)
+                {
+                    @(PlainTextEditorState.CurrentPlainTextToken.ToPlainText.EscapeHtml())
+                }
+                else
+                {
+                    @(PlainTextEditorState.CurrentPlainTextToken.ToPlainText)
+                }
+            </div>
+            <div>
+                @nameof(PlainTextEditorState.CurrentPlainTextToken.IndexInPlainText):&nbsp;
+                @(PlainTextEditorState.CurrentPlainTextToken.IndexInPlainText?.ToString() ?? "null")
+            </div>
+        </div>
+    </div>
+</div>

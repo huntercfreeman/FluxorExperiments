@@ -36,7 +36,7 @@ public partial record PlainTextEditorState
 
 			nextPlainTextEditorState._plainTextRowMap[previousRow.PlainTextRowKey] = previousRow
 				.WithReplace(previousToken.PlainTextTokenKey, previousToken with {
-					IndexInContent = indexInContent,
+					IndexInPlainText = indexInContent,
 					SequenceKey = SequenceKey.NewSequenceKey()
 				});
 		}
@@ -142,7 +142,7 @@ public partial record PlainTextEditorState
 		private static void MoveArrowLeft(PlainTextEditorState nextPlainTextEditorState,
 			KeyDownEventRecord keyDownEventRecord)
 		{
-			if (nextPlainTextEditorState.CurrentPlainTextToken.IndexInContent == 0)
+			if (nextPlainTextEditorState.CurrentPlainTextToken.IndexInPlainText == 0)
 			{
 				SetIndexInContentOfCurrentToken(nextPlainTextEditorState, null);
 
@@ -151,7 +151,7 @@ public partial record PlainTextEditorState
 			else
 			{
 				 SetIndexInContentOfCurrentToken(nextPlainTextEditorState, 
-					 nextPlainTextEditorState.CurrentPlainTextToken.IndexInContent - 1);
+					 nextPlainTextEditorState.CurrentPlainTextToken.IndexInPlainText - 1);
 			}
 		}
 
@@ -170,7 +170,18 @@ public partial record PlainTextEditorState
 		private static void MoveArrowRight(PlainTextEditorState nextPlainTextEditorState,
 			KeyDownEventRecord keyDownEventRecord)
 		{
-			throw new NotImplementedException();
+			if (nextPlainTextEditorState.CurrentPlainTextToken.IndexInPlainText == 
+			    nextPlainTextEditorState.CurrentPlainTextToken.ToPlainText.Length - 1)
+			{
+				SetIndexInContentOfCurrentToken(nextPlainTextEditorState, null);
+				
+				SetNextTokenAsCurrentToken(nextPlainTextEditorState, keyDownEventRecord);
+			}
+			else
+			{
+				SetIndexInContentOfCurrentToken(nextPlainTextEditorState, 
+					nextPlainTextEditorState.CurrentPlainTextToken.IndexInPlainText + 1);
+			}
 		}
 
 		private static void MoveHome(PlainTextEditorState nextPlainTextEditorState,

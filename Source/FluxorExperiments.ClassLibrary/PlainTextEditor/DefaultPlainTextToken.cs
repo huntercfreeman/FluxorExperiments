@@ -22,7 +22,7 @@ public record DefaultPlainTextToken(PlainTextTokenKey PlainTextTokenKey, int? In
 	
 	public DefaultPlainTextToken(KeyDownEventRecord keyDownEventRecord,
 		DefaultPlainTextToken otherDefaultPlainTextToken)
-		: this(otherDefaultPlainTextToken.PlainTextTokenKey, otherDefaultPlainTextToken.IndexInContent + 1, SequenceKey.NewSequenceKey())
+		: this(otherDefaultPlainTextToken.PlainTextTokenKey, otherDefaultPlainTextToken.IndexInPlainText + 1, SequenceKey.NewSequenceKey())
 	{
 		_immutableStringBuilderRecord = otherDefaultPlainTextToken._immutableStringBuilderRecord;
 		

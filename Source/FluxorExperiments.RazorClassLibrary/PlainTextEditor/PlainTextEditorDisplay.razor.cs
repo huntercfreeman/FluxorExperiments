@@ -9,4 +9,11 @@ public partial class PlainTextEditorDisplay : FluxorComponent
 {
 	[Inject]
 	private IState<PlainTextEditorState> PlainTextEditorState { get; set; } = null!;
+
+	private bool IsDebugEnvironment =>
+#if DEBUG
+	true;
+#else
+	false;
+#endif
 }
