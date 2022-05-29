@@ -7,6 +7,7 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\Lib\Fluxor.Blazor.Web\Fluxor.Blazor.Web.csproj" />
       <ProjectReference Include="..\Lib\Fluxor\Fluxor.csproj" />
     </ItemGroup>
 

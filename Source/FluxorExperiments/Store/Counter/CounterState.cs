@@ -26,9 +26,7 @@ public class CounterReducer
 	[ReducerMethod(typeof(IncrementCounterAction))]
 	public static CounterState ReduceIncrementCounterAction(CounterState previousCounterState)
 	{
-		return previousCounterState with {
-			Count = previousCounterState.Count + 1
-		};
+		return new CounterState(previousCounterState.Count + 1);
 	}
 }
 #endregion

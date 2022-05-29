@@ -1,19 +1,21 @@
 ﻿@page "/counter"
 
+@inherits Fluxor.Blazor.Web.Components.FluxorComponent
+
 <PageTitle>Counter</PageTitle>
 
 <h1>Counter</h1>
 
-<p role="status">Current count: @currentCount</p>
+<p role="status">Current count: @CounterState.Value.Count</p>
 
-<button class="btn btn-primary" @onclick="IncrementCount">Click me</button>
+<button class="btn btn-primary" @onclick="DispatchIncrementCounterActionOnClick">Dispatch One Incrementation On Click</button>
 
-@code {
-    private int currentCount = 0;
+<hr />
 
-    private void IncrementCount()
-    {
-        currentCount++;
-    }
+<input type="number" @bind="_amountOfIncrementCounterActionsToDispatch" />
 
-}
+<div>_amountOfIncrementCounterActionsToDispatch: @_amountOfIncrementCounterActionsToDispatch</div>
+
+<button class="btn btn-primary" @onclick="DispatchVariableAmountOfIncrementCounterActionsOnClick">
+    Dispatch Variable Amount Of Incrementations On Click
+</button>

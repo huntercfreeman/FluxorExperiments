@@ -110,9 +110,6 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FluxorBlazorWeb.ActionSubscriberTutorial.Client", "Tutorials\02-Blazor\02E-ActionSubscriber\FluxorBlazorWeb.ActionSubscriberTutorial\Client\FluxorBlazorWeb.ActionSubscriberTutorial.Client.csproj", "{3E8452CA-14A3-432E-8378-99EAC13E5EED}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Lib", "Lib", "{7BC6A874-4606-43EF-B18E-B2E22CF25AAC}"
-	ProjectSection(SolutionItems) = preProject
-		Lib\Directory.Build.props = Lib\Directory.Build.props
-	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FluxorBlazorWeb.EffectsTutorial.Server", "Tutorials\02-Blazor\02B-EffectsTutorial\EffectsTutorial\Server\FluxorBlazorWeb.EffectsTutorial.Server.csproj", "{7A6B9736-6DE1-4B52-8A88-D433C8917731}"
 EndProject
