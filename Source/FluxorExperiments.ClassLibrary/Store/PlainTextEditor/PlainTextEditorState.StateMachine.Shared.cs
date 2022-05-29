@@ -101,14 +101,11 @@ public partial record PlainTextEditorState
 			else
 			{
 				 SetIndexInContentOfCurrentToken(nextPlainTextEditorState, null);
-				 SetCurrentRowIsActiveRow(nextPlainTextEditorState, keyDownEventRecord, false);
 
 				 nextPlainTextEditorState.CurrentPlainTextTokenKeyIndex--;
 				 
 				 SetIndexInContentOfCurrentToken(nextPlainTextEditorState, 
 					 nextPlainTextEditorState.CurrentPlainTextToken.ToPlainText.Length - 1);
-				 
-				 SetCurrentRowIsActiveRow(nextPlainTextEditorState, keyDownEventRecord, true);
 			}
 		}
 
@@ -135,13 +132,10 @@ public partial record PlainTextEditorState
 			else
 			{
 				 SetIndexInContentOfCurrentToken(nextPlainTextEditorState, null);
-				 SetCurrentRowIsActiveRow(nextPlainTextEditorState, keyDownEventRecord, false);
 
 				 nextPlainTextEditorState.CurrentPlainTextTokenKeyIndex++;
 				 
 				 SetIndexInContentOfCurrentToken(nextPlainTextEditorState, 0);
-				 
-				 SetCurrentRowIsActiveRow(nextPlainTextEditorState, keyDownEventRecord, true);
 			}
 		}
 		
