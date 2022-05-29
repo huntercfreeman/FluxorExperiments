@@ -115,8 +115,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FluxorBlazorWeb.EffectsTuto
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FluxorBlazorWeb.ActionSubscriberTutorial.Contracts", "Tutorials\02-Blazor\02E-ActionSubscriber\FluxorBlazorWeb.ActionSubscriberTutorial\Shared\FluxorBlazorWeb.ActionSubscriberTutorial.Contracts.csproj", "{AE3CD639-5DE8-43ED-9CE4-8498548ADD28}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FluxorExperimentszzz", "FluxorExperimentszzz\FluxorExperimentszzz.csproj", "{B4F876E9-1758-4A57-8A7B-0561EBC7C007}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "FluxorExperiments", "FluxorExperiments", "{C965513B-3ADF-4E0F-BCBB-7C595A08003D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FluxorExperiments.App.BlazorServerSide", "FluxorExperiments.App.BlazorServerSide\FluxorExperiments.App.BlazorServerSide.csproj", "{0197CF7C-E6D8-4BD7-B3BF-14CE97BA2862}"
@@ -401,18 +399,6 @@ Global
 		{AE3CD639-5DE8-43ED-9CE4-8498548ADD28}.Release|iPhone.Build.0 = Release|Any CPU
 		{AE3CD639-5DE8-43ED-9CE4-8498548ADD28}.Release|iPhoneSimulator.ActiveCfg = Release|Any CPU
 		{AE3CD639-5DE8-43ED-9CE4-8498548ADD28}.Release|iPhoneSimulator.Build.0 = Release|Any CPU
-		{B4F876E9-1758-4A57-8A7B-0561EBC7C007}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B4F876E9-1758-4A57-8A7B-0561EBC7C007}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B4F876E9-1758-4A57-8A7B-0561EBC7C007}.Debug|iPhone.ActiveCfg = Debug|Any CPU
-		{B4F876E9-1758-4A57-8A7B-0561EBC7C007}.Debug|iPhone.Build.0 = Debug|Any CPU
-		{B4F876E9-1758-4A57-8A7B-0561EBC7C007}.Debug|iPhoneSimulator.ActiveCfg = Debug|Any CPU
-		{B4F876E9-1758-4A57-8A7B-0561EBC7C007}.Debug|iPhoneSimulator.Build.0 = Debug|Any CPU
-		{B4F876E9-1758-4A57-8A7B-0561EBC7C007}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B4F876E9-1758-4A57-8A7B-0561EBC7C007}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B4F876E9-1758-4A57-8A7B-0561EBC7C007}.Release|iPhone.ActiveCfg = Release|Any CPU
-		{B4F876E9-1758-4A57-8A7B-0561EBC7C007}.Release|iPhone.Build.0 = Release|Any CPU
-		{B4F876E9-1758-4A57-8A7B-0561EBC7C007}.Release|iPhoneSimulator.ActiveCfg = Release|Any CPU
-		{B4F876E9-1758-4A57-8A7B-0561EBC7C007}.Release|iPhoneSimulator.Build.0 = Release|Any CPU
 		{0197CF7C-E6D8-4BD7-B3BF-14CE97BA2862}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{0197CF7C-E6D8-4BD7-B3BF-14CE97BA2862}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0197CF7C-E6D8-4BD7-B3BF-14CE97BA2862}.Debug|iPhone.ActiveCfg = Debug|Any CPU
