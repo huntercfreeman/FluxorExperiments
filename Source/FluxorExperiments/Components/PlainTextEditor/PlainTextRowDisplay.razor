@@ -1,0 +1,10 @@
+﻿@if (_cachedPlainTextRow is not null)
+{
+    <div class="fe_plain-text-row-display">
+        @foreach (var plainTextTokenKey in _cachedPlainTextRow.PlainTextTokenKeys)
+        {
+            <PlainTextTokenDisplay PlainTextRow="_cachedPlainTextRow"
+                                   PlainTextTokenKey="plainTextTokenKey" />
+        }
+    </div>
+}

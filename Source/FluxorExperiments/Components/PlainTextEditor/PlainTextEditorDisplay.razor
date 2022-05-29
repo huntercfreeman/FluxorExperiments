@@ -1,0 +1,10 @@
+﻿@inherits Fluxor.Blazor.Web.Components.FluxorComponent
+
+<div class="fe_plain-text-editor-display">
+    <h3>PlainTextEditorDisplay</h3>
+
+    @foreach (var plainTextRowKey in PlainTextEditorState.Value.PlainTextRowKeys)
+    {
+        <PlainTextRowDisplay PlainTextRowKey="plainTextRowKey" />
+    }
+</div>
