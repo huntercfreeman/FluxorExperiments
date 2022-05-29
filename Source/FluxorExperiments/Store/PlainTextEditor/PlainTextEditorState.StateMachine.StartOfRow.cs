@@ -10,9 +10,11 @@ public partial record PlainTextEditorState
 {
 	private static partial class PlainTextEditorStateMachine
 	{
-		public static PlainTextEditorState GetNextStateFromStartOfRow(PlainTextEditorState nextPlainTextEditorState,
+		private static PlainTextEditorState GetNextStateFromStartOfRow(PlainTextEditorState nextPlainTextEditorState,
 			KeyDownEventRecord keyDownEventRecord)
 		{
+			SetIndexInContentOfCurrentToken(nextPlainTextEditorState, null);
+
 			if (KeyboardFacts.IsWhitespaceKey(keyDownEventRecord))
 			{
 				if (KeyboardFacts.WhitespaceKeys.ENTER_CODE == keyDownEventRecord.Code)

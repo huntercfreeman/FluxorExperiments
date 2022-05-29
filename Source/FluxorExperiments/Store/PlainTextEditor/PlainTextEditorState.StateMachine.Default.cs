@@ -9,11 +9,13 @@ public partial record PlainTextEditorState
 {
 	private static partial class PlainTextEditorStateMachine
 	{
-		public static PlainTextEditorState GetNextStateFromDefault(PlainTextEditorState nextPlainTextEditorState,
+		private static PlainTextEditorState GetNextStateFromDefault(PlainTextEditorState nextPlainTextEditorState,
 			KeyDownEventRecord keyDownEventRecord)
 		{
 			if (KeyboardFacts.IsWhitespaceKey(keyDownEventRecord))
 			{
+				SetIndexInContentOfCurrentToken(nextPlainTextEditorState, null);
+
 				if (KeyboardFacts.WhitespaceKeys.ENTER_CODE == keyDownEventRecord.Code)
 				{
 					var row = new PlainTextRow();
@@ -37,7 +39,7 @@ public partial record PlainTextEditorState
 						nextPlainTextEditorState.CurrentPlainTextTokenKeyIndex + 1);
 
 					nextPlainTextEditorState._plainTextRowMap[nextRow.PlainTextRowKey] = nextRow;
-					
+
 					nextPlainTextEditorState.CurrentPlainTextTokenKeyIndex += 1;
 				}
 			}
