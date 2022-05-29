@@ -1,7 +1,22 @@
-﻿@if (_cachedPlainTextToken is not null)
+﻿@using FluxorExperiments.Classes.PlainTextEditor
+@if (_cachedPlainTextToken is not null)
 {
-    <span class="fe_plain-text-token-display"
-          title="TokenRerenderCount: @_rerenderCount">
-        @_cachedPlainTextToken.ToPlainText
-    </span>
+    switch (_cachedPlainTextToken.PlainTextTokenKind)
+    {
+        case PlainTextTokenKind.StartOfRow:
+            <StartOfRowPlainTextTokenDisplay StartOfRowPlainTextToken="(StartOfRowPlainTextToken) _cachedPlainTextToken"
+                                             ShouldDisplayCursor="GetShouldDisplayCursor()"
+                                             TokenRerenderCount="_rerenderCount" />
+            break;
+        case PlainTextTokenKind.Default:
+            <DefaultPlainTextTokenDisplay DefaultPlainTextToken="(DefaultPlainTextToken) _cachedPlainTextToken"
+                                          ShouldDisplayCursor="GetShouldDisplayCursor()"
+                                          TokenRerenderCount="_rerenderCount" />
+            break;
+        case PlainTextTokenKind.Whitespace:
+            <WhitespacePlainTextTokenDisplay WhitespacePlainTextToken="(WhitespacePlainTextToken) _cachedPlainTextToken"
+                                             ShouldDisplayCursor="GetShouldDisplayCursor()"
+                                             TokenRerenderCount="_rerenderCount" />
+            break;
+    }
 }

@@ -48,4 +48,10 @@ public partial class PlainTextTokenDisplay : ComponentBase
 			return false;
 		}
 	}
+
+	private bool GetShouldDisplayCursor()
+	{
+		return PlainTextEditorState.Value.CurrentPlainTextToken.PlainTextTokenKey ==
+		       PlainTextTokenKey;
+	}
 }

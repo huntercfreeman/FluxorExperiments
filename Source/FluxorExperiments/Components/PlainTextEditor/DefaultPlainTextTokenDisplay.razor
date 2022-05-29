@@ -1,0 +1,12 @@
+﻿<span class="fe_default-plain-text-token-display"
+      title="TokenRerenderCount: @TokenRerenderCount">
+    @{
+        var toPlainText = DefaultPlainTextToken.ToPlainText;
+
+        foreach (var character in toPlainText)
+        {
+            <CharacterDisplay Character="@character.ToString()"
+                              ShouldDisplayCursor="ShouldDisplayCursor" />
+        }
+    }
+</span>
