@@ -11,10 +11,10 @@ public partial record PlainTextEditorState
 		private static PlainTextEditorState GetNextStateFromStartOfRow(PlainTextEditorState nextPlainTextEditorState,
 			KeyDownEventRecord keyDownEventRecord)
 		{
-			SetIndexInContentOfCurrentToken(nextPlainTextEditorState, null);
-
 			if (KeyboardFacts.IsWhitespaceKey(keyDownEventRecord))
 			{
+				SetIndexInContentOfCurrentToken(nextPlainTextEditorState, null);
+				
 				if (KeyboardFacts.WhitespaceKeys.ENTER_CODE == keyDownEventRecord.Code)
 				{
 					var row = new PlainTextRow();
@@ -52,6 +52,8 @@ public partial record PlainTextEditorState
 			}
 			else
 			{
+				SetIndexInContentOfCurrentToken(nextPlainTextEditorState, null);
+				
 				var defaultToken = new DefaultPlainTextToken(keyDownEventRecord);
 
 				var nextRow = new PlainTextRow(nextPlainTextEditorState.CurrentRow);
