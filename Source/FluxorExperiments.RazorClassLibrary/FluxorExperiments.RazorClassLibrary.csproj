@@ -1,0 +1,35 @@
+<Project Sdk="Microsoft.NET.Sdk.Razor">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+
+  <ItemGroup>
+    <SupportedPlatform Include="browser" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="6.0.5" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <AdditionalFiles Include="PlainTextEditor\CharacterDisplay.razor" />
+    <AdditionalFiles Include="PlainTextEditor\CursorDisplay.razor" />
+    <AdditionalFiles Include="PlainTextEditor\DefaultPlainTextTokenDisplay.razor" />
+    <AdditionalFiles Include="PlainTextEditor\PlainTextEditorDisplay.razor" />
+    <AdditionalFiles Include="PlainTextEditor\PlainTextEditorLineNumberDisplay.razor" />
+    <AdditionalFiles Include="PlainTextEditor\PlainTextRowDisplay.razor" />
+    <AdditionalFiles Include="PlainTextEditor\PlainTextTokenDisplay.razor" />
+    <AdditionalFiles Include="PlainTextEditor\StartOfRowPlainTextTokenDisplay.razor" />
+    <AdditionalFiles Include="PlainTextEditor\WhitespacePlainTextTokenDisplay.razor" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\FluxorExperiments.ClassLibrary\FluxorExperiments.ClassLibrary.csproj" />
+    <ProjectReference Include="..\Lib\Fluxor.Blazor.Web\Fluxor.Blazor.Web.csproj" />
+  </ItemGroup>
+
+</Project>
