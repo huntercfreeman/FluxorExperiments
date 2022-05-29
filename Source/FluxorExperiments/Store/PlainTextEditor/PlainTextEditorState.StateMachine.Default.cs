@@ -22,6 +22,9 @@ public partial record PlainTextEditorState
 						.Insert(nextPlainTextEditorState.CurrentRowIndex + 1, row.PlainTextRowKey);
 
 					nextPlainTextEditorState._plainTextRowMap.Add(row.PlainTextRowKey, row);
+
+					nextPlainTextEditorState.CurrentPlainTextTokenKeyIndex = 0;
+					nextPlainTextEditorState.CurrentRowIndex++;
 				}
 				else
 				{
@@ -34,6 +37,8 @@ public partial record PlainTextEditorState
 						nextPlainTextEditorState.CurrentPlainTextTokenKeyIndex + 1);
 
 					nextPlainTextEditorState._plainTextRowMap[nextRow.PlainTextRowKey] = nextRow;
+					
+					nextPlainTextEditorState.CurrentPlainTextTokenKeyIndex += 1;
 				}
 			}
 			else

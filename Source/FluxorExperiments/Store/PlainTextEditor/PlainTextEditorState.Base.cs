@@ -32,6 +32,9 @@ public partial record PlainTextEditorState
 			new(otherPlainTextEditorState._plainTextRowMap);
 		
 		_plainTextRowKeys = new(otherPlainTextEditorState._plainTextRowKeys);
+
+		CurrentRowIndex = otherPlainTextEditorState.CurrentRowIndex;
+		CurrentPlainTextTokenKeyIndex = otherPlainTextEditorState.CurrentPlainTextTokenKeyIndex;
 	}
 
 	public PlainTextRow LookupPlainTextRow(PlainTextRowKey plainTextRowKey)

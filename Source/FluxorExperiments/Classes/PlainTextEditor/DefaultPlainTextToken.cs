@@ -18,7 +18,7 @@ public record DefaultPlainTextToken(PlainTextTokenKey PlainTextTokenKey, Sequenc
 	
 	public DefaultPlainTextToken(KeyDownEventRecord keyDownEventRecord,
 		DefaultPlainTextToken otherDefaultPlainTextToken)
-		: this(PlainTextTokenKey.NewPlainTextTokenKey(), SequenceKey.NewSequenceKey())
+		: this(otherDefaultPlainTextToken.PlainTextTokenKey, SequenceKey.NewSequenceKey())
 	{
 		_contentBuilder = new(otherDefaultPlainTextToken.ToPlainText + keyDownEventRecord.Key);
 	}	

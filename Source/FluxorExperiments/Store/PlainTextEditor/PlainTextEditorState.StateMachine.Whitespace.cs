@@ -9,7 +9,8 @@ public partial record PlainTextEditorState
 {
 	private static partial class PlainTextEditorStateMachine
 	{
-		public static PlainTextEditorState GetNextStateFromWhitespace(PlainTextEditorState nextPlainTextEditorState, KeyDownEventRecord keyDownEventRecord)
+		public static PlainTextEditorState GetNextStateFromWhitespace(PlainTextEditorState nextPlainTextEditorState,
+			KeyDownEventRecord keyDownEventRecord)
 		{
 			if (KeyboardFacts.IsWhitespaceKey(keyDownEventRecord))
 			{
@@ -21,18 +22,24 @@ public partial record PlainTextEditorState
 						.Insert(nextPlainTextEditorState.CurrentRowIndex + 1, row.PlainTextRowKey);
 
 					nextPlainTextEditorState._plainTextRowMap.Add(row.PlainTextRowKey, row);
+
+					nextPlainTextEditorState.CurrentRowIndex++;
+
+					nextPlainTextEditorState.CurrentPlainTextTokenKeyIndex = 0;
 				}
 				else
 				{
-					 var whitespaceToken = new WhitespacePlainTextToken(keyDownEventRecord);
+					var whitespaceToken = new WhitespacePlainTextToken(keyDownEventRecord);
 
-					 var nextRow = new PlainTextRow(nextPlainTextEditorState.CurrentRow);
+					var nextRow = new PlainTextRow(nextPlainTextEditorState.CurrentRow);
 
-					 nextRow = nextRow.WithInsert(whitespaceToken.PlainTextTokenKey, 
-						 whitespaceToken, 
-						 nextPlainTextEditorState.CurrentPlainTextTokenKeyIndex + 1);
+					nextRow = nextRow.WithInsert(whitespaceToken.PlainTextTokenKey,
+						whitespaceToken,
+						nextPlainTextEditorState.CurrentPlainTextTokenKeyIndex + 1);
 
-					 nextPlainTextEditorState._plainTextRowMap[nextRow.PlainTextRowKey] = nextRow;
+					nextPlainTextEditorState._plainTextRowMap[nextRow.PlainTextRowKey] = nextRow;
+
+					nextPlainTextEditorState.CurrentPlainTextTokenKeyIndex += 1;
 				}
 			}
 			else
@@ -41,11 +48,13 @@ public partial record PlainTextEditorState
 
 				var nextRow = new PlainTextRow(nextPlainTextEditorState.CurrentRow);
 
-				nextRow = nextRow.WithInsert(defaultToken.PlainTextTokenKey, 
-					defaultToken, 
+				nextRow = nextRow.WithInsert(defaultToken.PlainTextTokenKey,
+					defaultToken,
 					nextPlainTextEditorState.CurrentPlainTextTokenKeyIndex + 1);
 
 				nextPlainTextEditorState._plainTextRowMap[nextRow.PlainTextRowKey] = nextRow;
+
+				nextPlainTextEditorState.CurrentPlainTextTokenKeyIndex += 1;
 			}
 
 			return nextPlainTextEditorState;
