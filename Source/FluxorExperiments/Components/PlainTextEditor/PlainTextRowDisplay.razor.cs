@@ -14,9 +14,12 @@ public partial class PlainTextRowDisplay : ComponentBase
 	public PlainTextRowKey PlainTextRowKey { get; set; } = null!;
 
 	private PlainTextRow? _cachedPlainTextRow;
+	private int _rerenderCount;
 
 	protected override void OnAfterRender(bool firstRender)
 	{
+		_rerenderCount++;
+		
 		if (firstRender)
 		{
 			// _cachedPlainTextRow is not guaranteed to have had data on first render.

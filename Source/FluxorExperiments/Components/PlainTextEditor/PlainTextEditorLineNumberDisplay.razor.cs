@@ -8,6 +8,9 @@ public partial class PlainTextEditorLineNumberDisplay : ComponentBase
 	public int LineNumber { get; set; }
 	[CascadingParameter(Name=nameof(LargestLineNumberString))]
 	public string LargestLineNumberString { get; set; } = null!;
+	
+	[Parameter, EditorRequired]
+	public int RowRerenderCount { get; set; }
 
 	private int LineNumberPadding => LargestLineNumberString.Length - LineNumber.ToString().Length;
 }
