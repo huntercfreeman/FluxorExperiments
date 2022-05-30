@@ -1,4 +1,5 @@
 ﻿using FluxorExperiments.ClassLibrary.ImmutableStringBuilder;
+using FluxorExperiments.ClassLibrary.Keyboard;
 using FluxorExperiments.ClassLibrary.KeyDownEvent;
 using FluxorExperiments.ClassLibrary.Sequence;
 
@@ -9,7 +10,7 @@ public record DefaultPlainTextToken(PlainTextTokenKey PlainTextTokenKey, int? In
 {
 	// TODO: DefaultPlainTextToken needs to be immutable look into perhaps Span<T>?
 	private readonly ImmutableStringBuilderRecord _immutableStringBuilderRecord;
-	private readonly ImmutableStringBuilderRecordKey _immutableStringBuilderRecordKey;
+	private ImmutableStringBuilderRecordKey _immutableStringBuilderRecordKey;
 
 	public DefaultPlainTextToken(KeyDownEventRecord keyDownEventRecord)
 		: this(PlainTextTokenKey.NewPlainTextTokenKey(), 0, SequenceKey.NewSequenceKey())
@@ -24,11 +25,22 @@ public record DefaultPlainTextToken(PlainTextTokenKey PlainTextTokenKey, int? In
 		DefaultPlainTextToken otherDefaultPlainTextToken)
 		: this(otherDefaultPlainTextToken.PlainTextTokenKey, otherDefaultPlainTextToken.IndexInPlainText + 1, SequenceKey.NewSequenceKey())
 	{
-		_immutableStringBuilderRecord = otherDefaultPlainTextToken._immutableStringBuilderRecord;
-		
-		_immutableStringBuilderRecordKey = _immutableStringBuilderRecord
-			.Append(keyDownEventRecord.Key);
-	}	
+		if (keyDownEventRecord.Key == KeyboardFacts.MetaKeys.BACKSPACE)
+		{
+			_immutableStringBuilderRecord = otherDefaultPlainTextToken._immutableStringBuilderRecord;
+			
+			_immutableStringBuilderRecordKey = 
+				new ImmutableStringBuilderRecordKey(
+					otherDefaultPlainTextToken._immutableStringBuilderRecordKey.Length - 1);
+		}
+		else
+		{
+			_immutableStringBuilderRecord = otherDefaultPlainTextToken._immutableStringBuilderRecord;
+			
+			_immutableStringBuilderRecordKey = _immutableStringBuilderRecord
+				 .Append(keyDownEventRecord.Key);
+		}
+	}
 	
 	public override PlainTextTokenKind PlainTextTokenKind => PlainTextTokenKind.Default;
 	public override string ToPlainText => _immutableStringBuilderRecord

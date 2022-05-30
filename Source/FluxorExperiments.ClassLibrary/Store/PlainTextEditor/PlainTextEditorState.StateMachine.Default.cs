@@ -48,7 +48,12 @@ public partial record PlainTextEditorState
 			}
 			else if (KeyboardFacts.IsMetaKey(keyDownEventRecord))
 			{
-				
+				switch (keyDownEventRecord.Key)
+				{
+					case KeyboardFacts.MetaKeys.BACKSPACE:
+						PerformDefaultPlainTextTokenBackspace(nextPlainTextEditorState, keyDownEventRecord);
+						break;
+				}
 			}
 			else
 			{
@@ -64,6 +69,20 @@ public partial record PlainTextEditorState
 			}
 
 			return nextPlainTextEditorState;
+		}
+
+		private static void PerformDefaultPlainTextTokenBackspace(PlainTextEditorState nextPlainTextEditorState,
+			KeyDownEventRecord keyDownEventRecord)
+		{
+			var nextDefaultToken = new DefaultPlainTextToken(keyDownEventRecord,
+				(DefaultPlainTextToken)nextPlainTextEditorState.CurrentPlainTextToken);
+
+			var nextRow = new PlainTextRow(nextPlainTextEditorState.CurrentRow);
+
+			nextRow = nextRow.WithReplace(nextDefaultToken.PlainTextTokenKey,
+				nextDefaultToken);
+
+			nextPlainTextEditorState._plainTextRowMap[nextRow.PlainTextRowKey] = nextRow;
 		}
 	}
 }
