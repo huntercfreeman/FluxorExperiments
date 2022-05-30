@@ -1,16 +1,13 @@
+let fluxorExperimentsOnKeyDownEventProviderIsActive = true;
+
 window.fluxorExperiments = {
     initializeOnKeyDownEventProvider: function (onKeyDownProviderDisplayReference) {
         document.addEventListener('keydown', (e) => {
-            if (e.key === "Tab" ||
-                (e.key === "a" && e.ctrlKey) ||
-                e.key === "ArrowLeft" ||
-                e.key === "ArrowDown" ||
-                e.key === "ArrowUp" ||
-                e.key === "ArrowRight" ||
-                e.key === "'") {
-                
-                e.preventDefault();
+            if(!fluxorExperimentsOnKeyDownEventProviderIsActive) {
+                return;
             }
+            
+            e.preventDefault();
             
             let dto = {
                 "key": e.key,
@@ -22,5 +19,8 @@ window.fluxorExperiments = {
 
             onKeyDownProviderDisplayReference.invokeMethodAsync('DispatchOnKeyDownEventAction', dto);
         });
+    },
+    setOnKeyDownEventProviderIsActive: function (isActive) {
+        fluxorExperimentsOnKeyDownEventProviderIsActive = isActive;
     },
 };

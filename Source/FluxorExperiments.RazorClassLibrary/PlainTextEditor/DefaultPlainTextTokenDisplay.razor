@@ -3,6 +3,11 @@
     @{
         var toPlainText = DefaultPlainTextToken.ToPlainText;
 
+        if (toPlainText.Length == 0)
+        {
+            <div>"toPlainText.Length == 0 error"</div>
+        }
+        
         for (var i = 0; i < toPlainText.Length; i++)
         {
             var characterIndex = i;

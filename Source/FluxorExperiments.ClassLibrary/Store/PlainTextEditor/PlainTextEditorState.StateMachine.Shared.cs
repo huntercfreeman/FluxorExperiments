@@ -449,7 +449,9 @@ public partial record PlainTextEditorState
 					PlainTextRow createdRowBelow = new PlainTextRow();
 
 					if (nextPlainTextEditorState.CurrentPlainTextToken.PlainTextTokenKind ==
-					    PlainTextTokenKind.Default)
+					    PlainTextTokenKind.Default &&
+					    nextPlainTextEditorState.CurrentPlainTextToken.IndexInPlainText <
+					    nextPlainTextEditorState.CurrentPlainTextToken.ToPlainText.Length - 1)
 					{
 						nextRow = nextPlainTextEditorState.CurrentRow
 							.WithRemove(nextPlainTextEditorState.CurrentPlainTextToken.PlainTextTokenKey);

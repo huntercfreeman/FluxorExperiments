@@ -1,0 +1,14 @@
+﻿@using Fluxor.Blazor.Web.Components
+
+@inherits FluxorComponent
+
+<span class="bs_focusable-boundary @(Class ?? string.Empty)"
+      @onclick="FireFocusIn">
+    <FocusTrapDisplay @ref="_focusTrapDisplay"
+                      OnFocusTrapFocusIn="OnFocusTrapFocusIn"
+                      OnFocusTrapFocusOut="OnFocusTrapFocusOut"/>
+
+    <div>FocusBoundary: @FocusTrapIsFocused</div>
+    
+    @ChildContent
+</span>

@@ -3,24 +3,26 @@
 @inherits Fluxor.Blazor.Web.Components.FluxorComponent
 
 <div class="fe_plain-text-editor-display">
-    <h3>PlainTextEditorDisplay</h3>
-    
-    @if (IsDebugEnvironment)
-    {
-        <PlainTextEditorDebugDisplay PlainTextEditorState="PlainTextEditorState.Value" />
-    }
+    <FluxorExperiments.RazorClassLibrary.Focus.FocusBoundaryDisplay @ref="_focusBoundaryDisplay">
+        <h3>PlainTextEditorDisplay</h3>
 
-    @for (var i = 0; i < PlainTextEditorState.Value.PlainTextRowKeys.Length; i++)
-    {
-        var rowIndex = i;
-        var plainTextRowKey = PlainTextEditorState.Value.PlainTextRowKeys[rowIndex];
-        
-        <CascadingValue Name="@nameof(PlainTextEditorLineNumberDisplay.LargestLineNumberString)" 
-                        Value="@((PlainTextEditorState.Value.PlainTextRowKeys.Length + 1).ToString())">
-            <CascadingValue Name="@nameof(CharacterDisplay.RowIndex)" 
-                            Value="rowIndex">
-                <PlainTextRowDisplay PlainTextRowKey="@plainTextRowKey"/>
+        @if (IsDebugEnvironment)
+        {
+            <PlainTextEditorDebugDisplay PlainTextEditorState="PlainTextEditorState.Value"/>
+        }
+
+        @for (var i = 0; i < PlainTextEditorState.Value.PlainTextRowKeys.Length; i++)
+        {
+            var rowIndex = i;
+            var plainTextRowKey = PlainTextEditorState.Value.PlainTextRowKeys[rowIndex];
+
+            <CascadingValue Name="@nameof(PlainTextEditorLineNumberDisplay.LargestLineNumberString)"
+                            Value="@((PlainTextEditorState.Value.PlainTextRowKeys.Length + 1).ToString())">
+                <CascadingValue Name="@nameof(CharacterDisplay.RowIndex)"
+                                Value="rowIndex">
+                    <PlainTextRowDisplay PlainTextRowKey="@plainTextRowKey"/>
+                </CascadingValue>
             </CascadingValue>
-        </CascadingValue>
-    }
+        }
+    </FluxorExperiments.RazorClassLibrary.Focus.FocusBoundaryDisplay>
 </div>
