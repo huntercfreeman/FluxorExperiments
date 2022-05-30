@@ -13,7 +13,7 @@ public partial record PlainTextEditorState
 		{
 			if (KeyboardFacts.IsWhitespaceKey(keyDownEventRecord))
 			{
-				SetIndexInContentOfCurrentToken(nextPlainTextEditorState, null);
+				SetIndexInPlainTextOfCurrentToken(nextPlainTextEditorState, null);
 
 				if (KeyboardFacts.WhitespaceKeys.ENTER_CODE == keyDownEventRecord.Code)
 				{
@@ -74,8 +74,29 @@ public partial record PlainTextEditorState
 		private static void PerformDefaultPlainTextTokenBackspace(PlainTextEditorState nextPlainTextEditorState,
 			KeyDownEventRecord keyDownEventRecord)
 		{
-			var nextDefaultToken = new DefaultPlainTextToken(keyDownEventRecord,
-				(DefaultPlainTextToken)nextPlainTextEditorState.CurrentPlainTextToken);
+			int i = 1;
+			bool Continue() => keyDownEventRecord.CtrlWasPressed || i-- > 0;
+
+			DefaultPlainTextToken nextDefaultToken = 
+				(DefaultPlainTextToken) nextPlainTextEditorState.CurrentPlainTextToken;
+			
+			while (nextDefaultToken.IndexInPlainText != -1 && Continue())
+			{
+				nextDefaultToken = new DefaultPlainTextToken(keyDownEventRecord,
+					(DefaultPlainTextToken)nextPlainTextEditorState.CurrentPlainTextToken);
+			}
+
+			if (nextDefaultToken.IndexInPlainText == -1)
+			{
+				if (nextDefaultToken.ToPlainText.Length == 0)
+				{
+					PerformBackspace(nextPlainTextEditorState, keyDownEventRecord);		
+				}
+				else
+				{
+					SetPreviousTokenAsCurrentToken(nextPlainTextEditorState, keyDownEventRecord);
+				}
+			}
 
 			var nextRow = new PlainTextRow(nextPlainTextEditorState.CurrentRow);
 

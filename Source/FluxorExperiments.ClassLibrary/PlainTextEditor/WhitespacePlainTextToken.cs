@@ -4,8 +4,8 @@ using FluxorExperiments.ClassLibrary.Sequence;
 
 namespace FluxorExperiments.ClassLibrary.PlainTextEditor;
 
-public record WhitespacePlainTextToken(PlainTextTokenKey PlainTextTokenKey, int? IndexInContent, SequenceKey SequenceKey) 
-	: PlainTextTokenBase(PlainTextTokenKey, IndexInContent, SequenceKey)
+public record WhitespacePlainTextToken(PlainTextTokenKey PlainTextTokenKey, int? IndexInPlainText, SequenceKey SequenceKey) 
+	: PlainTextTokenBase(PlainTextTokenKey, IndexInPlainText, SequenceKey)
 {
 	private readonly char _whitespaceCharacter;	
 	

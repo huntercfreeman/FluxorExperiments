@@ -5,8 +5,8 @@ using FluxorExperiments.ClassLibrary.Sequence;
 
 namespace FluxorExperiments.ClassLibrary.PlainTextEditor;
 
-public record DefaultPlainTextToken(PlainTextTokenKey PlainTextTokenKey, int? IndexInContent, SequenceKey SequenceKey) 
-	: PlainTextTokenBase(PlainTextTokenKey, IndexInContent, SequenceKey)
+public record DefaultPlainTextToken(PlainTextTokenKey PlainTextTokenKey, int? IndexInPlainText, SequenceKey SequenceKey) 
+	: PlainTextTokenBase(PlainTextTokenKey, IndexInPlainText, SequenceKey)
 {
 	// TODO: DefaultPlainTextToken needs to be immutable look into perhaps Span<T>?
 	private readonly ImmutableStringBuilderRecord _immutableStringBuilderRecord;
@@ -17,8 +17,9 @@ public record DefaultPlainTextToken(PlainTextTokenKey PlainTextTokenKey, int? In
 	{
 		_immutableStringBuilderRecord = new();
 
-		_immutableStringBuilderRecordKey = _immutableStringBuilderRecord
-			.Append(keyDownEventRecord.Key);
+		_immutableStringBuilderRecord.Insert(0, keyDownEventRecord.Key);
+
+		_immutableStringBuilderRecordKey = new ImmutableStringBuilderRecordKey(1);
 	}	
 	
 	public DefaultPlainTextToken(KeyDownEventRecord keyDownEventRecord,
@@ -32,13 +33,18 @@ public record DefaultPlainTextToken(PlainTextTokenKey PlainTextTokenKey, int? In
 			_immutableStringBuilderRecordKey = 
 				new ImmutableStringBuilderRecordKey(
 					otherDefaultPlainTextToken._immutableStringBuilderRecordKey.Length - 1);
+
+			IndexInPlainText = otherDefaultPlainTextToken.IndexInPlainText - 1;
 		}
 		else
 		{
 			_immutableStringBuilderRecord = otherDefaultPlainTextToken._immutableStringBuilderRecord;
 			
-			_immutableStringBuilderRecordKey = _immutableStringBuilderRecord
-				 .Append(keyDownEventRecord.Key);
+			_immutableStringBuilderRecord.Insert(otherDefaultPlainTextToken._immutableStringBuilderRecordKey.Length,
+				keyDownEventRecord.Key);
+
+			_immutableStringBuilderRecordKey = 
+				new ImmutableStringBuilderRecordKey(otherDefaultPlainTextToken._immutableStringBuilderRecordKey.Length + 1);
 		}
 	}
 	

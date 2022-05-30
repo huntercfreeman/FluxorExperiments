@@ -71,8 +71,7 @@ public record PlainTextRow(PlainTextRowKey PlainTextRowKey, bool IsActiveRow, Se
 	}
 
 	// TODO: Because the state is immutable we can always reliable store the index that the key resides at to speed removal without having to search for the key in the list of keys
-	public PlainTextRow WithRemove(PlainTextTokenKey plainTextTokenKey,
-		PlainTextTokenBase plainTextToken)
+	public PlainTextRow WithRemove(PlainTextTokenKey plainTextTokenKey)
 	{
 		var nextPlainTextRow = new PlainTextRow(this);
 
@@ -84,6 +83,20 @@ public record PlainTextRow(PlainTextRowKey PlainTextRowKey, bool IsActiveRow, Se
 		return nextPlainTextRow;
 	}
 
+	public PlainTextRow WithAddRange(PlainTextRow otherPlainTextRow)
+	{
+		var nextPlainTextRow = new PlainTextRow(this);
+		
+		nextPlainTextRow._plainTextTokenKeys.AddRange(otherPlainTextRow._plainTextTokenKeys);
+
+		foreach (var mapping in otherPlainTextRow._plainTextTokenMap)
+		{
+			nextPlainTextRow._plainTextTokenMap.Add(mapping.Key, mapping.Value);
+		}
+
+		return nextPlainTextRow;
+	}
+	
 	public ImmutableArray<PlainTextTokenKey> PlainTextTokenKeys => _plainTextTokenKeys.ToImmutableArray();
 	public int TokenCount => _plainTextTokenKeys.Count;
 

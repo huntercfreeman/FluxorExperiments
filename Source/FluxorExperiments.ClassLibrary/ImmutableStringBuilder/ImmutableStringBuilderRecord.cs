@@ -11,11 +11,9 @@ public record ImmutableStringBuilderRecord
 		_stringBuilder = new();
 	}
 	
-	public ImmutableStringBuilderRecordKey Append(string value)
+	public void Insert(int index, string value)
 	{
-		_stringBuilder.Append(value);
-
-		return new ImmutableStringBuilderRecordKey(_stringBuilder.Length);
+		_stringBuilder.Insert(index, value);
 	}
 	
 	public string GetString(ImmutableStringBuilderRecordKey immutableStringBuilderRecordKey)
@@ -24,5 +22,3 @@ public record ImmutableStringBuilderRecord
 			.ToString()[..immutableStringBuilderRecordKey.Length];
 	}
 }
-
-public record ImmutableStringBuilderRecordKey(int Length);

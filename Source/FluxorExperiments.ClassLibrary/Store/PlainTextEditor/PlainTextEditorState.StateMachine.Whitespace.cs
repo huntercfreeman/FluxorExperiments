@@ -13,7 +13,7 @@ public partial record PlainTextEditorState
 		{
 			if (KeyboardFacts.IsWhitespaceKey(keyDownEventRecord))
 			{
-				SetIndexInContentOfCurrentToken(nextPlainTextEditorState, null);
+				SetIndexInPlainTextOfCurrentToken(nextPlainTextEditorState, null);
 
 				if (KeyboardFacts.WhitespaceKeys.ENTER_CODE == keyDownEventRecord.Code)
 				{
@@ -49,10 +49,16 @@ public partial record PlainTextEditorState
 			}
 			else if (KeyboardFacts.IsMetaKey(keyDownEventRecord))
 			{
+				switch (keyDownEventRecord.Key)
+				{
+					case KeyboardFacts.MetaKeys.BACKSPACE:
+						PerformBackspace(nextPlainTextEditorState, keyDownEventRecord);
+						break;
+				}
 			}
 			else
 			{
-				SetIndexInContentOfCurrentToken(nextPlainTextEditorState, null);
+				SetIndexInPlainTextOfCurrentToken(nextPlainTextEditorState, null);
 				
 				var defaultToken = new DefaultPlainTextToken(keyDownEventRecord);
 

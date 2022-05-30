@@ -2,8 +2,8 @@
 
 namespace FluxorExperiments.ClassLibrary.PlainTextEditor;
 
-public record StartOfRowPlainTextToken(PlainTextTokenKey PlainTextTokenKey, int? IndexInContent, SequenceKey SequenceKey) 
-	: PlainTextTokenBase(PlainTextTokenKey, IndexInContent, SequenceKey)
+public record StartOfRowPlainTextToken(PlainTextTokenKey PlainTextTokenKey, int? IndexInPlainText, SequenceKey SequenceKey) 
+	: PlainTextTokenBase(PlainTextTokenKey, IndexInPlainText, SequenceKey)
 {
 	public StartOfRowPlainTextToken()
 		: this(PlainTextTokenKey.NewPlainTextTokenKey(), 0, SequenceKey.NewSequenceKey())
