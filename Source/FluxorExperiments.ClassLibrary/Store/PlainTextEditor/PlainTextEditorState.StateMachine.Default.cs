@@ -83,7 +83,7 @@ public partial record PlainTextEditorState
 			while (nextDefaultToken.IndexInPlainText != -1 && Continue())
 			{
 				nextDefaultToken = new DefaultPlainTextToken(keyDownEventRecord,
-					(DefaultPlainTextToken)nextPlainTextEditorState.CurrentPlainTextToken);
+					nextDefaultToken);
 			}
 
 			if (nextDefaultToken.IndexInPlainText == -1)
