@@ -373,7 +373,7 @@ public partial record PlainTextEditorState
 
 				rollingCount += token.ToPlainText.Length;
 
-				if (rollingCount >= columnIndex)
+				if (rollingCount > columnIndex)
 					break;
 			}
 

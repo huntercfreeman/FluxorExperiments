@@ -16,6 +16,11 @@ public record ImmutableStringBuilderRecord
 		_stringBuilder.Insert(index, value);
 	}
 	
+	public void RemoveAt(int index)
+	{
+		_stringBuilder.Remove(index, 1);
+	}
+	
 	public string GetString(ImmutableStringBuilderRecordKey immutableStringBuilderRecordKey)
 	{
 		return _stringBuilder

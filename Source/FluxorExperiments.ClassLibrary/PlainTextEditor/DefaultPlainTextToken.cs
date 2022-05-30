@@ -39,6 +39,8 @@ public record DefaultPlainTextToken(PlainTextTokenKey PlainTextTokenKey, int? In
 		if (keyDownEventRecord.Key == KeyboardFacts.MetaKeys.BACKSPACE)
 		{
 			_immutableStringBuilderRecord = otherDefaultPlainTextToken._immutableStringBuilderRecord;
+
+			_immutableStringBuilderRecord.RemoveAt(otherDefaultPlainTextToken.IndexInPlainText.Value);
 			
 			_immutableStringBuilderRecordKey = 
 				new ImmutableStringBuilderRecordKey(
@@ -50,7 +52,7 @@ public record DefaultPlainTextToken(PlainTextTokenKey PlainTextTokenKey, int? In
 		{
 			_immutableStringBuilderRecord = otherDefaultPlainTextToken._immutableStringBuilderRecord;
 			
-			_immutableStringBuilderRecord.Insert(otherDefaultPlainTextToken._immutableStringBuilderRecordKey.Length,
+			_immutableStringBuilderRecord.Insert(otherDefaultPlainTextToken.IndexInPlainText.Value + 1,
 				keyDownEventRecord.Key);
 
 			_immutableStringBuilderRecordKey = 

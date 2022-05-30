@@ -3,7 +3,8 @@ let fluxorExperimentsOnKeyDownEventProviderIsActive = true;
 window.fluxorExperiments = {
     initializeOnKeyDownEventProvider: function (onKeyDownProviderDisplayReference) {
         document.addEventListener('keydown', (e) => {
-            if(!fluxorExperimentsOnKeyDownEventProviderIsActive) {
+            if(!fluxorExperimentsOnKeyDownEventProviderIsActive ||
+                e.key.startsWith('F') && e.key.length > 1) {
                 return;
             }
             
