@@ -201,6 +201,20 @@ public partial record PlainTextEditorState
 						0,
 						SelectionDirectionBinding.Left);
 				}
+				else
+				{
+					if (nextPlainTextEditorState.SelectionSpanRecord.OffsetDisplacement == 1 &&
+					    nextPlainTextEditorState.SelectionSpanRecord.InitialDirectionBinding == SelectionDirectionBinding.Right)
+					{
+						nextPlainTextEditorState.SelectionSpanRecord = null;
+					}
+					else
+					{
+						 nextPlainTextEditorState.SelectionSpanRecord = new(nextPlainTextEditorState.SelectionSpanRecord.InclusiveStartingDocumentTextIndex,
+							  nextPlainTextEditorState.SelectionSpanRecord.OffsetDisplacement - 1,
+							  nextPlainTextEditorState.SelectionSpanRecord.InitialDirectionBinding);
+					}
+				}
 			}
 
 			if (nextPlainTextEditorState.CurrentPlainTextToken.IndexInPlainText == 0 ||
@@ -212,7 +226,13 @@ public partial record PlainTextEditorState
 					SetPreviousTokenAsCurrentToken(nextPlainTextEditorState, keyDownEventRecord);
 
 				if (!previousWasSetAsCurrent)
+				{
 					SetIndexInPlainTextOfCurrentToken(nextPlainTextEditorState, 0);
+					
+					nextPlainTextEditorState.SelectionSpanRecord = new(nextPlainTextEditorState.SelectionSpanRecord.InclusiveStartingDocumentTextIndex,
+						  nextPlainTextEditorState.SelectionSpanRecord.OffsetDisplacement + 1,
+						  nextPlainTextEditorState.SelectionSpanRecord.InitialDirectionBinding);
+				}
 			}
 			else
 			{

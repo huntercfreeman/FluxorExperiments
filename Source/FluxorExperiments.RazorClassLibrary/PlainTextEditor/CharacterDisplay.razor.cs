@@ -1,5 +1,6 @@
 ﻿using Fluxor;
 using Fluxor.Blazor.Web.Components;
+using FluxorExperiments.ClassLibrary.PlainTextEditor;
 using FluxorExperiments.ClassLibrary.Store.PlainTextEditor;
 using Microsoft.AspNetCore.Components;
 
@@ -33,13 +34,7 @@ public partial class CharacterDisplay : FluxorComponent
 	[Parameter, EditorRequired]
 	public int CharacterIndex { get; set; }
 
-	private string IsSelectedCssClass => PlainTextEditorState.Value.SelectionSpanRecord is not null &&
-	                                     (PlainTextEditorState.Value.SelectionSpanRecord
-		                                      .InclusiveStartingDocumentTextIndex ==
-	                                      (PreviousRowsColumnCount + CurrentRowPreviousTokensColumnCount +
-	                                       CharacterIndex))
-		? "fe_is-selected"
-		: "";
+	private string IsSelectedCssClass => GetIsSelectedCss();
 
 	private void DispatchPlainTextEditorCharacterOnClickAction()
 	{
@@ -48,5 +43,43 @@ public partial class CharacterDisplay : FluxorComponent
 			CharacterIndex);
 		
 		Dispatcher.Dispatch(action);
+	}
+
+	private string GetIsSelectedCss()
+	{
+		var selectionSpanRecord = PlainTextEditorState.Value.SelectionSpanRecord;
+		
+		if (selectionSpanRecord is null)
+		{
+			return string.Empty;
+		}
+		
+		var indexOfCharacterRelativeToDocument = PreviousRowsColumnCount +
+		                                         CurrentRowPreviousTokensColumnCount +
+		                                         CharacterIndex;
+
+		int inclusiveMinimumIndexForSelectedCss;
+		int inclusiveMaximumIndexForSelectedCss;
+
+		if (selectionSpanRecord.InitialDirectionBinding == SelectionDirectionBinding.Left)
+		{
+			inclusiveMinimumIndexForSelectedCss = selectionSpanRecord.InclusiveStartingDocumentTextIndex +
+                                                  			selectionSpanRecord.OffsetDisplacement;
+			inclusiveMaximumIndexForSelectedCss = selectionSpanRecord.InclusiveStartingDocumentTextIndex;
+		}
+		else
+		{
+			inclusiveMinimumIndexForSelectedCss = selectionSpanRecord.InclusiveStartingDocumentTextIndex;
+			inclusiveMaximumIndexForSelectedCss = selectionSpanRecord.InclusiveStartingDocumentTextIndex +
+			                                      selectionSpanRecord.OffsetDisplacement;
+		}
+		
+		if (indexOfCharacterRelativeToDocument >= inclusiveMinimumIndexForSelectedCss &&
+		    indexOfCharacterRelativeToDocument <= inclusiveMaximumIndexForSelectedCss)
+		{
+			return "fe_is-selected";
+		}
+
+		return string.Empty;
 	}
 }
