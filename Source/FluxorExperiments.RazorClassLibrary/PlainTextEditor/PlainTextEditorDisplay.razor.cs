@@ -13,10 +13,10 @@ public partial class PlainTextEditorDisplay : FluxorComponent
 
 	private FocusBoundaryDisplay _focusBoundaryDisplay = null!;
 		
-	private bool IsDebugEnvironment =>
-#if DEBUG
-	true;
-#else
-	false;
-#endif
+	private bool IsDebugEnvironment => true;
+	/*#if DEBUG
+		true;
+	#else
+		false;
+	#endif*/
 }
