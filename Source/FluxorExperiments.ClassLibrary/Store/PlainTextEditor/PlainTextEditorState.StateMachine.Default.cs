@@ -13,34 +13,7 @@ public partial record PlainTextEditorState
 		{
 			if (KeyboardFacts.IsWhitespaceKey(keyDownEventRecord))
 			{
-				SetIndexInPlainTextOfCurrentToken(nextPlainTextEditorState, null);
-
-				if (KeyboardFacts.WhitespaceKeys.ENTER_CODE == keyDownEventRecord.Code)
-				{
-					var row = new PlainTextRow();
-
-					nextPlainTextEditorState._plainTextRowKeys
-						.Insert(nextPlainTextEditorState.CurrentRowIndex + 1, row.PlainTextRowKey);
-
-					nextPlainTextEditorState._plainTextRowMap.Add(row.PlainTextRowKey, row);
-
-					nextPlainTextEditorState.CurrentPlainTextTokenKeyIndex = 0;
-					nextPlainTextEditorState.CurrentRowIndex++;
-				}
-				else
-				{
-					var nextWhitespaceToken = new WhitespacePlainTextToken(keyDownEventRecord);
-
-					var nextRow = new PlainTextRow(nextPlainTextEditorState.CurrentRow);
-
-					nextRow = nextRow.WithInsert(nextWhitespaceToken.PlainTextTokenKey,
-						nextWhitespaceToken,
-						nextPlainTextEditorState.CurrentPlainTextTokenKeyIndex + 1);
-
-					nextPlainTextEditorState._plainTextRowMap[nextRow.PlainTextRowKey] = nextRow;
-
-					nextPlainTextEditorState.CurrentPlainTextTokenKeyIndex += 1;
-				}
+				HandleWhitespace(nextPlainTextEditorState, keyDownEventRecord);
 			}
 			else if (KeyboardFacts.IsMovementKey(keyDownEventRecord))
 			{

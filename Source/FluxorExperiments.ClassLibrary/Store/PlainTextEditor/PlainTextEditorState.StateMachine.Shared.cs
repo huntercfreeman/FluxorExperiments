@@ -421,5 +421,40 @@ public partial record PlainTextEditorState
 			nextPlainTextEditorState._plainTextRowMap.Remove(plainTextRowToBeMoved.PlainTextRowKey);
 			nextPlainTextEditorState._plainTextRowKeys.Remove(plainTextRowToBeMoved.PlainTextRowKey);
 		}
+
+
+		private static void HandleWhitespace(PlainTextEditorState nextPlainTextEditorState,
+			KeyDownEventRecord keyDownEventRecord)
+		{
+			 SetIndexInPlainTextOfCurrentToken(nextPlainTextEditorState, null);
+
+			 if (KeyboardFacts.WhitespaceKeys.ENTER_CODE == keyDownEventRecord.Code)
+			 {
+				 var row = new PlainTextRow();
+
+				 nextPlainTextEditorState._plainTextRowKeys
+					  .Insert(nextPlainTextEditorState.CurrentRowIndex + 1, row.PlainTextRowKey);
+
+				 nextPlainTextEditorState._plainTextRowMap.Add(row.PlainTextRowKey, row);
+
+				 nextPlainTextEditorState.CurrentRowIndex++;
+
+				 nextPlainTextEditorState.CurrentPlainTextTokenKeyIndex = 0;
+			 }
+			 else
+			 {
+				 var whitespaceToken = new WhitespacePlainTextToken(keyDownEventRecord);
+
+				 var nextRow = new PlainTextRow(nextPlainTextEditorState.CurrentRow);
+
+				 nextRow = nextRow.WithInsert(whitespaceToken.PlainTextTokenKey,
+					  whitespaceToken,
+					  nextPlainTextEditorState.CurrentPlainTextTokenKeyIndex + 1);
+
+				 nextPlainTextEditorState._plainTextRowMap[nextRow.PlainTextRowKey] = nextRow;
+
+				 nextPlainTextEditorState.CurrentPlainTextTokenKeyIndex += 1;
+			 }
+		}
 	}
 }
