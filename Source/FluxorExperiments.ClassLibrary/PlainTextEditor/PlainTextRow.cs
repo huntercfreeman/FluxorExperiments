@@ -46,14 +46,13 @@ public record PlainTextRow(PlainTextRowKey PlainTextRowKey, bool IsActiveRow, Se
 		get { return _plainTextTokenKeys[i]; }
 	}
 
-	public PlainTextRow WithInsert(PlainTextTokenKey plainTextTokenKey,
-		PlainTextTokenBase plainTextToken,
+	public PlainTextRow WithInsert(PlainTextTokenBase plainTextToken,
 		int index)
 	{
 		var nextPlainTextRow = new PlainTextRow(this);
 
-		nextPlainTextRow._plainTextTokenMap.Add(plainTextTokenKey, plainTextToken);
-		nextPlainTextRow._plainTextTokenKeys.Insert(index, plainTextTokenKey);
+		nextPlainTextRow._plainTextTokenMap.Add(plainTextToken.PlainTextTokenKey, plainTextToken);
+		nextPlainTextRow._plainTextTokenKeys.Insert(index, plainTextToken.PlainTextTokenKey);
 
 		return nextPlainTextRow;
 	}
@@ -133,8 +132,7 @@ public record PlainTextRow(PlainTextRowKey PlainTextRowKey, bool IsActiveRow, Se
 					tokenSecondKey
 				});
 
-				plainTextRow = plainTextRow.WithInsert(mergeToken.PlainTextTokenKey,
-					mergeToken,
+				plainTextRow = plainTextRow.WithInsert(mergeToken,
 					i);
 
 				// One must revisit index i for a second time if the list changes

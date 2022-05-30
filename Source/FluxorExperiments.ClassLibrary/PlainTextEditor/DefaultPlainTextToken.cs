@@ -22,6 +22,16 @@ public record DefaultPlainTextToken(PlainTextTokenKey PlainTextTokenKey, int? In
 		_immutableStringBuilderRecordKey = new ImmutableStringBuilderRecordKey(1);
 	}	
 	
+	public DefaultPlainTextToken(string initialString)
+		: this(PlainTextTokenKey.NewPlainTextTokenKey(), 0, SequenceKey.NewSequenceKey())
+	{
+		_immutableStringBuilderRecord = new();
+
+		_immutableStringBuilderRecord.Insert(0, initialString);
+
+		_immutableStringBuilderRecordKey = new ImmutableStringBuilderRecordKey(initialString.Length);
+	}	
+	
 	public DefaultPlainTextToken(KeyDownEventRecord keyDownEventRecord,
 		DefaultPlainTextToken otherDefaultPlainTextToken)
 		: this(otherDefaultPlainTextToken.PlainTextTokenKey, otherDefaultPlainTextToken.IndexInPlainText + 1, SequenceKey.NewSequenceKey())

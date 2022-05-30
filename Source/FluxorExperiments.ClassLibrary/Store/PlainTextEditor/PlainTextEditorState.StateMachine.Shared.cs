@@ -399,10 +399,10 @@ public partial record PlainTextEditorState
 			else
 			{
 				var temporarilyStoredToken = nextPlainTextEditorState.CurrentPlainTextToken;
-				
+
 				nextPlainTextEditorState._plainTextRowMap[nextRow.PlainTextRowKey] =
 					PlainTextRow.PerformMergingOn(nextRow, temporarilyStoredTokenKeyIndex - 1);
-				
+
 				SetIndexInPlainTextOfCurrentToken(nextPlainTextEditorState, temporarilyStoredToken.IndexInPlainText);
 			}
 		}
@@ -422,39 +422,85 @@ public partial record PlainTextEditorState
 			nextPlainTextEditorState._plainTextRowKeys.Remove(plainTextRowToBeMoved.PlainTextRowKey);
 		}
 
-
 		private static void HandleWhitespace(PlainTextEditorState nextPlainTextEditorState,
 			KeyDownEventRecord keyDownEventRecord)
 		{
-			 SetIndexInPlainTextOfCurrentToken(nextPlainTextEditorState, null);
+			if (KeyboardFacts.WhitespaceKeys.ENTER_CODE == keyDownEventRecord.Code)
+			{
+				if (nextPlainTextEditorState.CurrentPlainTextTokenKeyIndex !=
+				    nextPlainTextEditorState.CurrentRow.TokenCount)
+				{
+					PlainTextRow nextRow = nextPlainTextEditorState.CurrentRow;
+					PlainTextRow createdRowBelow = new PlainTextRow();
 
-			 if (KeyboardFacts.WhitespaceKeys.ENTER_CODE == keyDownEventRecord.Code)
-			 {
-				 var row = new PlainTextRow();
+					if (nextPlainTextEditorState.CurrentPlainTextToken.PlainTextTokenKind ==
+					    PlainTextTokenKind.Default)
+					{
+						nextRow = nextPlainTextEditorState.CurrentRow
+							.WithRemove(nextPlainTextEditorState.CurrentPlainTextToken.PlainTextTokenKey);
 
-				 nextPlainTextEditorState._plainTextRowKeys
-					  .Insert(nextPlainTextEditorState.CurrentRowIndex + 1, row.PlainTextRowKey);
+						var tokenFirstString = nextPlainTextEditorState.CurrentPlainTextToken.ToPlainText
+							.Substring(0,
+								nextPlainTextEditorState.CurrentPlainTextToken.IndexInPlainText!.Value + 1);
 
-				 nextPlainTextEditorState._plainTextRowMap.Add(row.PlainTextRowKey, row);
+						var tokenSecondString = nextPlainTextEditorState.CurrentPlainTextToken.ToPlainText
+							.Substring(nextPlainTextEditorState.CurrentPlainTextToken.IndexInPlainText!.Value + 1);
 
-				 nextPlainTextEditorState.CurrentRowIndex++;
+						nextRow = nextRow.WithInsert(new DefaultPlainTextToken(tokenFirstString),
+							nextPlainTextEditorState.CurrentPlainTextTokenKeyIndex);
 
-				 nextPlainTextEditorState.CurrentPlainTextTokenKeyIndex = 0;
-			 }
-			 else
-			 {
-				 var whitespaceToken = new WhitespacePlainTextToken(keyDownEventRecord);
+						nextRow = nextRow.WithInsert(new DefaultPlainTextToken(tokenSecondString),
+							nextPlainTextEditorState.CurrentPlainTextTokenKeyIndex + 1);
+					}
 
-				 var nextRow = new PlainTextRow(nextPlainTextEditorState.CurrentRow);
+					var createdRowBelowInsertIndex = 1;
 
-				 nextRow = nextRow.WithInsert(whitespaceToken.PlainTextTokenKey,
-					  whitespaceToken,
-					  nextPlainTextEditorState.CurrentPlainTextTokenKeyIndex + 1);
+					for (var i = nextPlainTextEditorState.CurrentPlainTextTokenKeyIndex + 1;
+					     i < nextRow.TokenCount;
+					     i++)
+					{
+						var token = nextRow.GetPlainTextTokenFromIndex(i);
 
-				 nextPlainTextEditorState._plainTextRowMap[nextRow.PlainTextRowKey] = nextRow;
+						nextRow = nextRow.WithRemove(token.PlainTextTokenKey);
+						createdRowBelow = createdRowBelow.WithInsert(token, createdRowBelowInsertIndex++);
+					}
 
-				 nextPlainTextEditorState.CurrentPlainTextTokenKeyIndex += 1;
-			 }
+					nextPlainTextEditorState._plainTextRowMap[nextRow.PlainTextRowKey] = nextRow;
+					
+					SetIndexInPlainTextOfCurrentToken(nextPlainTextEditorState, null);
+
+					nextPlainTextEditorState._plainTextRowKeys.Insert(nextPlainTextEditorState.CurrentRowIndex + 1,
+						createdRowBelow.PlainTextRowKey);
+
+					nextPlainTextEditorState._plainTextRowMap.Add(createdRowBelow.PlainTextRowKey, createdRowBelow);
+				}
+
+				nextPlainTextEditorState.CurrentRowIndex++;
+
+				nextPlainTextEditorState.CurrentPlainTextTokenKeyIndex = 0;
+			}
+			else
+			{
+				SetIndexInPlainTextOfCurrentToken(nextPlainTextEditorState, null);
+
+				var row = new PlainTextRow();
+
+				nextPlainTextEditorState._plainTextRowKeys
+					.Insert(nextPlainTextEditorState.CurrentRowIndex + 1, row.PlainTextRowKey);
+
+				nextPlainTextEditorState._plainTextRowMap.Add(row.PlainTextRowKey, row);
+
+				var whitespaceToken = new WhitespacePlainTextToken(keyDownEventRecord);
+
+				var nextRow = new PlainTextRow(nextPlainTextEditorState.CurrentRow);
+
+				nextRow = nextRow.WithInsert(whitespaceToken,
+					nextPlainTextEditorState.CurrentPlainTextTokenKeyIndex + 1);
+
+				nextPlainTextEditorState._plainTextRowMap[nextRow.PlainTextRowKey] = nextRow;
+
+				nextPlainTextEditorState.CurrentPlainTextTokenKeyIndex += 1;
+			}
 		}
 	}
 }

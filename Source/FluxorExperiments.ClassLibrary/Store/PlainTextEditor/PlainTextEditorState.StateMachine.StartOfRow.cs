@@ -36,8 +36,7 @@ public partial record PlainTextEditorState
 
 				var nextRow = new PlainTextRow(nextPlainTextEditorState.CurrentRow);
 
-				nextRow = nextRow.WithInsert(defaultToken.PlainTextTokenKey,
-					defaultToken,
+				nextRow = nextRow.WithInsert(defaultToken,
 					nextPlainTextEditorState.CurrentPlainTextTokenKeyIndex + 1);
 
 				nextPlainTextEditorState._plainTextRowMap[nextRow.PlainTextRowKey] = nextRow;
