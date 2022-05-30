@@ -25,4 +25,23 @@
             </div>
         </div>
     </div>
+    <div>
+        @nameof(PlainTextEditorState.SelectionSpanRecord)
+        <div style="margin-left: 30px;">
+            <div>
+                <div>
+                    @nameof(PlainTextEditorState.SelectionSpanRecord.InclusiveStartingDocumentTextIndex):&nbsp;
+                    @(PlainTextEditorState.SelectionSpanRecord?.InclusiveStartingDocumentTextIndex.ToString() ?? "null")
+                </div>
+                <div>
+                    @nameof(PlainTextEditorState.SelectionSpanRecord.OffsetDisplacement):&nbsp;
+                    @(PlainTextEditorState.SelectionSpanRecord?.OffsetDisplacement.ToString() ?? "null")
+                </div>
+                <div>
+                    @nameof(PlainTextEditorState.SelectionSpanRecord.InitialDirectionBinding):&nbsp;
+                    @(PlainTextEditorState.SelectionSpanRecord?.InitialDirectionBinding.ToString() ?? "null")
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

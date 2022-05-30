@@ -13,6 +13,10 @@ public partial class CharacterDisplay : ComponentBase
 	public int RowIndex { get; set; }
 	[CascadingParameter(Name=nameof(PlainTextTokenKeyIndex))]
 	public int PlainTextTokenKeyIndex { get; set; }
+	[CascadingParameter(Name=nameof(PreviousRowsColumnCount))]
+	public int PreviousRowsColumnCount { get; set; }
+	[CascadingParameter(Name=nameof(CurrentRowPreviousTokensColumnCount))]
+	public int CurrentRowPreviousTokensColumnCount { get; set; }
 	
 	[Parameter, EditorRequired]
 	public bool ShouldDisplayCursor { get; set; }

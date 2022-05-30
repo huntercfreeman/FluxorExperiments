@@ -33,6 +33,8 @@ public partial record PlainTextEditorState
 		
 		_plainTextRowKeys = new(otherPlainTextEditorState._plainTextRowKeys);
 
+		SelectionSpanRecord = otherPlainTextEditorState.SelectionSpanRecord;
+
 		CurrentRowIndex = otherPlainTextEditorState.CurrentRowIndex;
 		CurrentPlainTextTokenKeyIndex = otherPlainTextEditorState.CurrentPlainTextTokenKeyIndex;
 	}
@@ -63,6 +65,7 @@ public partial record PlainTextEditorState
 	
 	public int CurrentRowIndex { get; private set; }
 	public int CurrentPlainTextTokenKeyIndex { get; private set; }
+	public SelectionSpanRecord? SelectionSpanRecord { get; private set; }
 	public PlainTextRow CurrentRow => GetCurrentRow();
 	public PlainTextTokenBase CurrentPlainTextToken => GetCurrentPlainTextToken();
 	public ImmutableArray<PlainTextRowKey> PlainTextRowKeys => _plainTextRowKeys.ToImmutableArray();

@@ -1,5 +1,6 @@
 ﻿<span class="fe_character-display"
-      @onclick="DispatchPlainTextEditorCharacterOnClickAction">
+      @onclick="DispatchPlainTextEditorCharacterOnClickAction"
+      title='@($"PreviousRowsColumnCount: {PreviousRowsColumnCount}; CurrentRowPreviousTokensColumnCount: {CurrentRowPreviousTokensColumnCount};")'>
     @((MarkupString) Character)
     
     @if (ShouldDisplayCursor)
