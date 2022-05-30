@@ -463,6 +463,8 @@ public partial record PlainTextEditorState
 
 						nextRow = nextRow.WithRemove(token.PlainTextTokenKey);
 						createdRowBelow = createdRowBelow.WithInsert(token, createdRowBelowInsertIndex++);
+
+						i--;
 					}
 
 					nextPlainTextEditorState._plainTextRowMap[nextRow.PlainTextRowKey] = nextRow;
@@ -482,13 +484,6 @@ public partial record PlainTextEditorState
 			else
 			{
 				SetIndexInPlainTextOfCurrentToken(nextPlainTextEditorState, null);
-
-				var row = new PlainTextRow();
-
-				nextPlainTextEditorState._plainTextRowKeys
-					.Insert(nextPlainTextEditorState.CurrentRowIndex + 1, row.PlainTextRowKey);
-
-				nextPlainTextEditorState._plainTextRowMap.Add(row.PlainTextRowKey, row);
 
 				var whitespaceToken = new WhitespacePlainTextToken(keyDownEventRecord);
 
