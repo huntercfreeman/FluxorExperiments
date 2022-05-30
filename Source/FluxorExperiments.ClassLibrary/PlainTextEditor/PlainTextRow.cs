@@ -77,7 +77,6 @@ public record PlainTextRow(PlainTextRowKey PlainTextRowKey, bool IsActiveRow, Se
 
 		nextPlainTextRow._plainTextTokenMap.Remove(plainTextTokenKey);
 
-		// TODO: Prove this ignores memory reference and instead checks on value of inner Guid Id of the Key
 		nextPlainTextRow._plainTextTokenKeys.Remove(plainTextTokenKey);
 
 		return nextPlainTextRow;
@@ -85,6 +84,8 @@ public record PlainTextRow(PlainTextRowKey PlainTextRowKey, bool IsActiveRow, Se
 
 	public PlainTextRow WithAddRange(PlainTextRow otherPlainTextRow)
 	{
+		var currentCount = TokenCount;
+		
 		var nextPlainTextRow = new PlainTextRow(this);
 		
 		nextPlainTextRow._plainTextTokenKeys.AddRange(otherPlainTextRow._plainTextTokenKeys);
@@ -94,9 +95,53 @@ public record PlainTextRow(PlainTextRowKey PlainTextRowKey, bool IsActiveRow, Se
 			nextPlainTextRow._plainTextTokenMap.Add(mapping.Key, mapping.Value);
 		}
 
+		if (currentCount != nextPlainTextRow.TokenCount)
+		{
+			// A token was added therefore we possibly have
+			// two DefaultPlainTextTokens "side by side" and need to merge them into one
+			for (int i = currentCount - 1; i < nextPlainTextRow.TokenCount - 1; i++)
+			{
+				var tokenFirstKey = nextPlainTextRow._plainTextTokenKeys[i];
+				var tokenSecondKey = nextPlainTextRow._plainTextTokenKeys[i + 1];
+
+				var mergeToken = PlainTextTokenMerger
+					.MergePlainTextTokens(nextPlainTextRow.LookupPlainTextToken(tokenFirstKey),
+										  nextPlainTextRow.LookupPlainTextToken(tokenSecondKey));
+
+				if (mergeToken is not null)
+				{
+					nextPlainTextRow = nextPlainTextRow.WithRemoveRange(new PlainTextTokenKey[] 
+					{
+						tokenFirstKey,
+						tokenSecondKey
+					});
+
+					nextPlainTextRow = nextPlainTextRow.WithInsert(mergeToken.PlainTextTokenKey,
+						mergeToken,
+						i);
+
+					// One must revisit index i for a second time if the list changes
+					i--;
+				}
+			}
+		}
+
 		return nextPlainTextRow;
 	}
-	
+
+	private PlainTextRow WithRemoveRange(IEnumerable<PlainTextTokenKey> tokenKeys)
+	{
+		var nextPlainTextRow = new PlainTextRow(this);
+
+		foreach (var tokenKey in tokenKeys)
+		{
+			nextPlainTextRow._plainTextTokenMap.Remove(tokenKey);
+			nextPlainTextRow._plainTextTokenKeys.Remove(tokenKey);
+		}
+
+		return nextPlainTextRow;
+	}
+
 	public ImmutableArray<PlainTextTokenKey> PlainTextTokenKeys => _plainTextTokenKeys.ToImmutableArray();
 	public int TokenCount => _plainTextTokenKeys.Count;
 

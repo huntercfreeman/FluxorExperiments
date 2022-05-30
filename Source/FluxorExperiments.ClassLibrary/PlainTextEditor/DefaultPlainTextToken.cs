@@ -48,6 +48,20 @@ public record DefaultPlainTextToken(PlainTextTokenKey PlainTextTokenKey, int? In
 		}
 	}
 	
+	public DefaultPlainTextToken(DefaultPlainTextToken tokenFirst,
+		DefaultPlainTextToken tokenSecond)
+		: this(PlainTextTokenKey.NewPlainTextTokenKey(), tokenFirst.IndexInPlainText, SequenceKey.NewSequenceKey())
+	{
+		 _immutableStringBuilderRecord = tokenFirst._immutableStringBuilderRecord;
+		 
+		 _immutableStringBuilderRecord.Insert(tokenFirst._immutableStringBuilderRecordKey.Length,
+			 tokenSecond.ToPlainText);
+
+		 _immutableStringBuilderRecordKey = 
+			 new ImmutableStringBuilderRecordKey(tokenFirst._immutableStringBuilderRecordKey.Length + 
+			                                     tokenSecond._immutableStringBuilderRecordKey.Length);
+	}
+	
 	public override PlainTextTokenKind PlainTextTokenKind => PlainTextTokenKind.Default;
 	public override string ToPlainText => _immutableStringBuilderRecord
 		.GetString(_immutableStringBuilderRecordKey);
