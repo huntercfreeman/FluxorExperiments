@@ -380,7 +380,8 @@ public partial record PlainTextEditorState
 			}
 
 			var removeAStartOfRow = nextPlainTextEditorState.CurrentPlainTextToken.PlainTextTokenKind ==
-			                               PlainTextTokenKind.StartOfRow;
+			                        PlainTextTokenKind.StartOfRow;
+			var temporarilyStoredTokenKeyIndex = nextPlainTextEditorState.CurrentPlainTextTokenKeyIndex;
 
 			var nextRow = nextPlainTextEditorState.CurrentRow
 				.WithRemove(nextPlainTextEditorState.CurrentPlainTextToken.PlainTextTokenKey);
@@ -391,12 +392,21 @@ public partial record PlainTextEditorState
 
 			if (removeAStartOfRow)
 			{
-				MoveRowToEndOfOtherRow(nextPlainTextEditorState, 
+				MoveRowToEndOfOtherRow(nextPlainTextEditorState,
 					nextRow,
 					nextPlainTextEditorState.CurrentRow);
 			}
+			else
+			{
+				var temporarilyStoredToken = nextPlainTextEditorState.CurrentPlainTextToken;
+				
+				nextPlainTextEditorState._plainTextRowMap[nextRow.PlainTextRowKey] =
+					PlainTextRow.PerformMergingOn(nextRow, temporarilyStoredTokenKeyIndex - 1);
+				
+				SetIndexInPlainTextOfCurrentToken(nextPlainTextEditorState, temporarilyStoredToken.IndexInPlainText);
+			}
 		}
-		
+
 		/// <summary>
 		/// Joins together two rows into one.
 		/// </summary>
@@ -405,9 +415,9 @@ public partial record PlainTextEditorState
 			PlainTextRow plainTextRowOther)
 		{
 			var nextRow = plainTextRowOther.WithAddRange(plainTextRowToBeMoved);
-			
+
 			nextPlainTextEditorState._plainTextRowMap[nextRow.PlainTextRowKey] = nextRow;
-			
+
 			nextPlainTextEditorState._plainTextRowMap.Remove(plainTextRowToBeMoved.PlainTextRowKey);
 			nextPlainTextEditorState._plainTextRowKeys.Remove(plainTextRowToBeMoved.PlainTextRowKey);
 		}

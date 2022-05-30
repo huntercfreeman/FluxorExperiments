@@ -19,14 +19,12 @@ public record PlainTextRow(PlainTextRowKey PlainTextRowKey, bool IsActiveRow, Se
 	public PlainTextRow() : this(PlainTextRowKey.NewPlainTextRowKey(), true, SequenceKey.NewSequenceKey())
 	{
 		var startOfRowToken = new StartOfRowPlainTextToken();
-		
-		_plainTextTokenMap = new()
-		{
+
+		_plainTextTokenMap = new() {
 			{ startOfRowToken.PlainTextTokenKey, startOfRowToken }
 		};
-		
-		_plainTextTokenKeys = new()
-		{
+
+		_plainTextTokenKeys = new() {
 			startOfRowToken.PlainTextTokenKey
 		};
 
@@ -42,11 +40,11 @@ public record PlainTextRow(PlainTextRowKey PlainTextRowKey, bool IsActiveRow, Se
 		PlainTextRowKey = otherPlainTextRow.PlainTextRowKey;
 		SequenceKey = SequenceKey.NewSequenceKey();
 	}
-	
+
 	public object this[int i]
 	{
 		get { return _plainTextTokenKeys[i]; }
-	}	
+	}
 
 	public PlainTextRow WithInsert(PlainTextTokenKey plainTextTokenKey,
 		PlainTextTokenBase plainTextToken,
@@ -85,9 +83,9 @@ public record PlainTextRow(PlainTextRowKey PlainTextRowKey, bool IsActiveRow, Se
 	public PlainTextRow WithAddRange(PlainTextRow otherPlainTextRow)
 	{
 		var currentCount = TokenCount;
-		
+
 		var nextPlainTextRow = new PlainTextRow(this);
-		
+
 		nextPlainTextRow._plainTextTokenKeys.AddRange(otherPlainTextRow._plainTextTokenKeys);
 
 		foreach (var mapping in otherPlainTextRow._plainTextTokenMap)
@@ -96,35 +94,7 @@ public record PlainTextRow(PlainTextRowKey PlainTextRowKey, bool IsActiveRow, Se
 		}
 
 		if (currentCount != nextPlainTextRow.TokenCount)
-		{
-			// A token was added therefore we possibly have
-			// two DefaultPlainTextTokens "side by side" and need to merge them into one
-			for (int i = currentCount - 1; i < nextPlainTextRow.TokenCount - 1; i++)
-			{
-				var tokenFirstKey = nextPlainTextRow._plainTextTokenKeys[i];
-				var tokenSecondKey = nextPlainTextRow._plainTextTokenKeys[i + 1];
-
-				var mergeToken = PlainTextTokenMerger
-					.MergePlainTextTokens(nextPlainTextRow.LookupPlainTextToken(tokenFirstKey),
-										  nextPlainTextRow.LookupPlainTextToken(tokenSecondKey));
-
-				if (mergeToken is not null)
-				{
-					nextPlainTextRow = nextPlainTextRow.WithRemoveRange(new PlainTextTokenKey[] 
-					{
-						tokenFirstKey,
-						tokenSecondKey
-					});
-
-					nextPlainTextRow = nextPlainTextRow.WithInsert(mergeToken.PlainTextTokenKey,
-						mergeToken,
-						i);
-
-					// One must revisit index i for a second time if the list changes
-					i--;
-				}
-			}
-		}
+			return PerformMergingOn(nextPlainTextRow, currentCount - 1);
 
 		return nextPlainTextRow;
 	}
@@ -140,6 +110,39 @@ public record PlainTextRow(PlainTextRowKey PlainTextRowKey, bool IsActiveRow, Se
 		}
 
 		return nextPlainTextRow;
+	}
+
+	public static PlainTextRow PerformMergingOn(PlainTextRow plainTextRow,
+		int startingIndex = 0)
+	{
+		// A token was added therefore we possibly have
+		// two DefaultPlainTextTokens "side by side" and need to merge them into one
+		for (int i = startingIndex; i < plainTextRow.TokenCount - 1; i++)
+		{
+			var tokenFirstKey = plainTextRow._plainTextTokenKeys[i];
+			var tokenSecondKey = plainTextRow._plainTextTokenKeys[i + 1];
+
+			var mergeToken = PlainTextTokenMerger
+				.MergePlainTextTokens(plainTextRow.LookupPlainTextToken(tokenFirstKey),
+					plainTextRow.LookupPlainTextToken(tokenSecondKey));
+
+			if (mergeToken is not null)
+			{
+				plainTextRow = plainTextRow.WithRemoveRange(new PlainTextTokenKey[] {
+					tokenFirstKey,
+					tokenSecondKey
+				});
+
+				plainTextRow = plainTextRow.WithInsert(mergeToken.PlainTextTokenKey,
+					mergeToken,
+					i);
+
+				// One must revisit index i for a second time if the list changes
+				i--;
+			}
+		}
+
+		return plainTextRow;
 	}
 
 	public ImmutableArray<PlainTextTokenKey> PlainTextTokenKeys => _plainTextTokenKeys.ToImmutableArray();
