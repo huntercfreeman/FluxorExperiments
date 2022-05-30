@@ -323,13 +323,60 @@ public partial record PlainTextEditorState
 		private static void MoveHome(PlainTextEditorState nextPlainTextEditorState,
 			KeyDownEventRecord keyDownEventRecord)
 		{
-			throw new NotImplementedException();
+			PlainTextTokenBase goalToken = keyDownEventRecord.CtrlWasPressed
+				? nextPlainTextEditorState.GetRowAtIndex(0).GetPlainTextTokenFromIndex(0)
+				: nextPlainTextEditorState.CurrentRow.GetPlainTextTokenFromIndex(0);
+
+			while (nextPlainTextEditorState.CurrentPlainTextToken.PlainTextTokenKey !=
+			       goalToken.PlainTextTokenKey)
+			{
+				MoveArrowLeft(nextPlainTextEditorState, new KeyDownEventRecord(KeyboardFacts.MovementKeys.ARROW_LEFT_KEY,
+					KeyboardFacts.MovementKeys.ARROW_LEFT_KEY,
+					false,
+					false,
+					false));
+			}
+
+			while (nextPlainTextEditorState.CurrentPlainTextToken.IndexInPlainText != 0)
+			{
+				MoveArrowLeft(nextPlainTextEditorState, new KeyDownEventRecord(KeyboardFacts.MovementKeys.ARROW_LEFT_KEY,
+					KeyboardFacts.MovementKeys.ARROW_LEFT_KEY,
+					false,
+					false,
+					false));	
+			}
 		}
 
 		private static void MoveEnd(PlainTextEditorState nextPlainTextEditorState,
 			KeyDownEventRecord keyDownEventRecord)
 		{
-			throw new NotImplementedException();
+			var finalRow = nextPlainTextEditorState.GetRowAtIndex(nextPlainTextEditorState.RowCount - 1);
+			
+			PlainTextTokenBase goalToken = keyDownEventRecord.CtrlWasPressed
+				? finalRow
+					.GetPlainTextTokenFromIndex(finalRow.TokenCount - 1)
+				: nextPlainTextEditorState.CurrentRow.GetPlainTextTokenFromIndex(nextPlainTextEditorState.CurrentRow
+					.TokenCount - 1);
+
+			while (nextPlainTextEditorState.CurrentPlainTextToken.PlainTextTokenKey !=
+			       goalToken.PlainTextTokenKey)
+			{
+				MoveArrowRight(nextPlainTextEditorState, new KeyDownEventRecord(KeyboardFacts.MovementKeys.ARROW_RIGHT_KEY,
+					KeyboardFacts.MovementKeys.ARROW_RIGHT_KEY,
+					false,
+					false,
+					false));
+			}
+
+			while (nextPlainTextEditorState.CurrentPlainTextToken.IndexInPlainText != 
+			       nextPlainTextEditorState.CurrentPlainTextToken.ToPlainText.Length - 1)
+			{
+				MoveArrowRight(nextPlainTextEditorState, new KeyDownEventRecord(KeyboardFacts.MovementKeys.ARROW_RIGHT_KEY,
+					KeyboardFacts.MovementKeys.ARROW_RIGHT_KEY,
+					false,
+					false,
+					false));	
+			}
 		}
 
 		/// <summary>
