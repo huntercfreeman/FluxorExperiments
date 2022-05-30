@@ -181,7 +181,8 @@ public partial record PlainTextEditorState
 		private static void MoveArrowLeft(PlainTextEditorState nextPlainTextEditorState,
 			KeyDownEventRecord keyDownEventRecord)
 		{
-			if (nextPlainTextEditorState.CurrentPlainTextToken.IndexInPlainText == 0)
+			if (nextPlainTextEditorState.CurrentPlainTextToken.IndexInPlainText == 0 ||
+			    keyDownEventRecord.CtrlWasPressed)
 			{
 				SetIndexInPlainTextOfCurrentToken(nextPlainTextEditorState, null);
 
@@ -288,15 +289,29 @@ public partial record PlainTextEditorState
 			KeyDownEventRecord keyDownEventRecord)
 		{
 			if (nextPlainTextEditorState.CurrentPlainTextToken.IndexInPlainText ==
-			    nextPlainTextEditorState.CurrentPlainTextToken.ToPlainText.Length - 1)
+			    nextPlainTextEditorState.CurrentPlainTextToken.ToPlainText.Length - 1 ||
+			    keyDownEventRecord.CtrlWasPressed)
 			{
+				var passOnArrowRightEvent = nextPlainTextEditorState.CurrentPlainTextToken.IndexInPlainText ==
+				                            nextPlainTextEditorState.CurrentPlainTextToken.ToPlainText.Length - 1;
+				
 				SetIndexInPlainTextOfCurrentToken(nextPlainTextEditorState, null);
-
+				
 				var nextWasSetAsCurrent = SetNextTokenAsCurrentToken(nextPlainTextEditorState, keyDownEventRecord);
 
 				if (!nextWasSetAsCurrent)
+				{
 					SetIndexInPlainTextOfCurrentToken(nextPlainTextEditorState,
-						nextPlainTextEditorState.CurrentPlainTextToken.ToPlainText.Length - 1);
+						nextPlainTextEditorState.CurrentPlainTextToken.ToPlainText.Length - 1);	
+				}
+				else
+				{
+					if (passOnArrowRightEvent && keyDownEventRecord.CtrlWasPressed)
+					{
+						SetIndexInPlainTextOfCurrentToken(nextPlainTextEditorState, 
+							nextPlainTextEditorState.CurrentPlainTextToken.ToPlainText.Length - 1);
+					}	
+				}
 			}
 			else
 			{
