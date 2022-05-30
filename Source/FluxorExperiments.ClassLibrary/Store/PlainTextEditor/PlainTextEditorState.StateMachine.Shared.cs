@@ -27,6 +27,25 @@ public partial record PlainTextEditorState
 			};
 		}
 
+		public static PlainTextEditorState GetNextState(PlainTextEditorState plainTextEditorState,
+			int rowIndex, 
+			int plainTextTokenKeyIndex, 
+			int characterIndex)
+		{
+			var nextPlainTextEditorState = new PlainTextEditorState(plainTextEditorState);
+			
+			SetCurrentRowIsActiveRow(nextPlainTextEditorState, null, false);
+			SetIndexInContentOfCurrentToken(nextPlainTextEditorState, null);
+
+			nextPlainTextEditorState.CurrentRowIndex = rowIndex;
+			nextPlainTextEditorState.CurrentPlainTextTokenKeyIndex = plainTextTokenKeyIndex;
+
+			SetCurrentRowIsActiveRow(nextPlainTextEditorState, null, true);
+			SetIndexInContentOfCurrentToken(nextPlainTextEditorState, characterIndex);
+
+			return nextPlainTextEditorState;
+		}
+		
 		private static void SetIndexInContentOfCurrentToken(PlainTextEditorState nextPlainTextEditorState,
 			int? indexInContent)
 		{

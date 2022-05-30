@@ -9,7 +9,8 @@
             var character = toPlainText[characterIndex];
             
             <CharacterDisplay Character="@character.ToString()"
-                              ShouldDisplayCursor="@(ShouldDisplayCursor && characterIndex == DefaultPlainTextToken.IndexInPlainText)"/>
+                              ShouldDisplayCursor="@(ShouldDisplayCursor && characterIndex == DefaultPlainTextToken.IndexInPlainText)"
+                              CharacterIndex="characterIndex" />
         }
     }
 </span>

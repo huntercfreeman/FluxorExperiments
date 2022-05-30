@@ -47,6 +47,20 @@ public partial record PlainTextEditorState
 		return PlainTextEditorStateMachine.GetNextState(this, keyDownEventRecord);
 	}
 	
+	/// <summary>
+	/// Specify a specific rowIndex, plainTextTokenKeyIndex, and characterIndex
+	/// and that location will be set as the current token.
+	/// </summary>
+	/// <param name="rowIndex"></param>
+	/// <param name="plainTextTokenKeyIndex"></param>
+	/// <param name="characterIndex"></param>
+	/// <returns></returns>
+	/// <exception cref="NotImplementedException"></exception>
+	public PlainTextEditorState GetNextState(int rowIndex, int plainTextTokenKeyIndex, int characterIndex)
+	{
+		return PlainTextEditorStateMachine.GetNextState(this, rowIndex, plainTextTokenKeyIndex, characterIndex);
+	}
+	
 	public int CurrentRowIndex { get; private set; }
 	public int CurrentPlainTextTokenKeyIndex { get; private set; }
 	public PlainTextRow CurrentRow => GetCurrentRow();

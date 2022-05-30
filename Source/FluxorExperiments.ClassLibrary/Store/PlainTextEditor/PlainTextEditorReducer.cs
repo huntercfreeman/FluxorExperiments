@@ -13,4 +13,13 @@ public class PlainTextEditorReducer
 
 		return previousPlainTextEditorState.GetNextState(keyDownEventAction.OnKeyDownEventRecord);
 	}
+	
+	[ReducerMethod]
+	public static PlainTextEditorState ReducePlainTextEditorCharacterOnClickAction(PlainTextEditorState previousPlainTextEditorState,
+		PlainTextEditorCharacterOnClickAction plainTextEditorCharacterOnClickAction)
+	{
+		return previousPlainTextEditorState.GetNextState(plainTextEditorCharacterOnClickAction.RowIndex,
+			plainTextEditorCharacterOnClickAction.PlainTextTokenKeyIndex,
+			plainTextEditorCharacterOnClickAction.CharacterIndex);
+	}
 }

@@ -17,8 +17,8 @@
         
         <CascadingValue Name="@nameof(PlainTextEditorLineNumberDisplay.LargestLineNumberString)" 
                         Value="@((PlainTextEditorState.Value.PlainTextRowKeys.Length + 1).ToString())">
-            <CascadingValue Name="@nameof(PlainTextEditorLineNumberDisplay.LineNumber)" 
-                            Value="rowIndex + 1">
+            <CascadingValue Name="@nameof(CharacterDisplay.RowIndex)" 
+                            Value="rowIndex">
                 <PlainTextRowDisplay PlainTextRowKey="@plainTextRowKey"/>
             </CascadingValue>
         </CascadingValue>
