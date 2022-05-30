@@ -1,11 +1,14 @@
 ﻿using Fluxor;
+using Fluxor.Blazor.Web.Components;
 using FluxorExperiments.ClassLibrary.Store.PlainTextEditor;
 using Microsoft.AspNetCore.Components;
 
 namespace FluxorExperiments.RazorClassLibrary.PlainTextEditor;
 
-public partial class CharacterDisplay : ComponentBase
+public partial class CharacterDisplay : FluxorComponent
 {
+	[Inject]
+	private IState<PlainTextEditorState> PlainTextEditorState { get; set; } = null!;
 	[Inject]
 	private IDispatcher Dispatcher { get; set; } = null!;
 	
@@ -29,6 +32,14 @@ public partial class CharacterDisplay : ComponentBase
 	public string Character { get; set; } = null!;
 	[Parameter, EditorRequired]
 	public int CharacterIndex { get; set; }
+
+	private string IsSelectedCssClass => PlainTextEditorState.Value.SelectionSpanRecord is not null &&
+	                                     (PlainTextEditorState.Value.SelectionSpanRecord
+		                                      .InclusiveStartingDocumentTextIndex ==
+	                                      (PreviousRowsColumnCount + CurrentRowPreviousTokensColumnCount +
+	                                       CharacterIndex))
+		? "fe_is-selected"
+		: "";
 
 	private void DispatchPlainTextEditorCharacterOnClickAction()
 	{

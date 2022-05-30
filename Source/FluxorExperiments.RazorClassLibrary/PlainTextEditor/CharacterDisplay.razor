@@ -1,4 +1,6 @@
-﻿<span class="fe_character-display"
+﻿@inherits Fluxor.Blazor.Web.Components.FluxorComponent
+
+<span class="fe_character-display @IsSelectedCssClass"
       @onclick="DispatchPlainTextEditorCharacterOnClickAction"
       title='@($"PreviousRowsColumnCount: {PreviousRowsColumnCount}; CurrentRowPreviousTokensColumnCount: {CurrentRowPreviousTokensColumnCount};")'>
     @((MarkupString) Character)

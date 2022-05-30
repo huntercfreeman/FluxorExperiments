@@ -16,6 +16,10 @@
     position: relative;
 }
 
+.fe_is-selected {
+    background-color: aqua;
+}
+
 @keyframes fe_blink {
     0% {
         background-color: #e1e1e1;
