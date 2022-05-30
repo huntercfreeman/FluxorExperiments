@@ -53,10 +53,15 @@ public partial record PlainTextEditorState
 	public PlainTextTokenBase CurrentPlainTextToken => GetCurrentPlainTextToken();
 	public ImmutableArray<PlainTextRowKey> PlainTextRowKeys => _plainTextRowKeys.ToImmutableArray();
 	public int RowCount => _plainTextRowKeys.Count;
+	
+	public PlainTextRow GetRowAtIndex(int index)
+	{
+		return _plainTextRowMap[_plainTextRowKeys[index]];
+	}
 
 	private PlainTextTokenBase GetCurrentPlainTextToken()
 	{
-		return CurrentRow.GetPlainTextTokenFromKeyAtIndex(CurrentPlainTextTokenKeyIndex);
+		return CurrentRow.GetPlainTextTokenFromIndex(CurrentPlainTextTokenKeyIndex);
 	}
 
 	private PlainTextRow GetCurrentRow()

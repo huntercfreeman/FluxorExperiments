@@ -92,7 +92,7 @@ public record PlainTextRow(PlainTextRowKey PlainTextRowKey, bool IsActiveRow, Se
 		return _plainTextTokenMap[plainTextTokenKey];
 	}
 
-	public PlainTextTokenBase GetPlainTextTokenFromKeyAtIndex(int plainTextTokenKeyIndex)
+	public PlainTextTokenBase GetPlainTextTokenFromIndex(int plainTextTokenKeyIndex)
 	{
 		return _plainTextTokenMap[_plainTextTokenKeys[plainTextTokenKeyIndex]];
 	}
