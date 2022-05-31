@@ -63,14 +63,14 @@ public partial class CharacterDisplay : FluxorComponent
 
 		if (selectionSpanRecord.InitialDirectionBinding == SelectionDirectionBinding.Left)
 		{
-			inclusiveMinimumIndexForSelectedCss = selectionSpanRecord.InclusiveStartingDocumentTextIndex +
+			inclusiveMinimumIndexForSelectedCss = selectionSpanRecord.InclusiveStartingColumnIndexRelativeToDocument +
                                                   			selectionSpanRecord.OffsetDisplacement;
-			inclusiveMaximumIndexForSelectedCss = selectionSpanRecord.InclusiveStartingDocumentTextIndex;
+			inclusiveMaximumIndexForSelectedCss = selectionSpanRecord.InclusiveStartingColumnIndexRelativeToDocument;
 		}
 		else
 		{
-			inclusiveMinimumIndexForSelectedCss = selectionSpanRecord.InclusiveStartingDocumentTextIndex;
-			inclusiveMaximumIndexForSelectedCss = selectionSpanRecord.InclusiveStartingDocumentTextIndex +
+			inclusiveMinimumIndexForSelectedCss = selectionSpanRecord.InclusiveStartingColumnIndexRelativeToDocument;
+			inclusiveMaximumIndexForSelectedCss = selectionSpanRecord.InclusiveStartingColumnIndexRelativeToDocument +
 			                                      selectionSpanRecord.OffsetDisplacement;
 		}
 		

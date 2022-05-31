@@ -7,18 +7,18 @@
 /// </summary>
 public record SelectionSpanRecord
 {
-	public SelectionSpanRecord(int inclusiveStartingDocumentTextIndex,
+	public SelectionSpanRecord(int inclusiveStartingColumnIndexRelativeToDocument,
 		int offsetDisplacement,
 		SelectionDirectionBinding initialDirectionBinding)
 	{
-		InclusiveStartingDocumentTextIndex = inclusiveStartingDocumentTextIndex;
+		InclusiveStartingColumnIndexRelativeToDocument = inclusiveStartingColumnIndexRelativeToDocument;
 		OffsetDisplacement = offsetDisplacement;
 		InitialDirectionBinding = initialDirectionBinding;
 	}
 	
 	public SelectionSpanRecord(SelectionSpanRecord otherSelectionSpanRecord)
 	{
-		InclusiveStartingDocumentTextIndex = otherSelectionSpanRecord.InclusiveStartingDocumentTextIndex;
+		InclusiveStartingColumnIndexRelativeToDocument = otherSelectionSpanRecord.InclusiveStartingColumnIndexRelativeToDocument;
 		OffsetDisplacement = otherSelectionSpanRecord.OffsetDisplacement;
 		InitialDirectionBinding = otherSelectionSpanRecord.InitialDirectionBinding;
 	}
@@ -28,7 +28,7 @@ public record SelectionSpanRecord
 	/// lengths of all previous rows plus the column in the current row
 	/// and is the first column to highlight.
 	/// </summary>
-	public int InclusiveStartingDocumentTextIndex { get; set; }
+	public int InclusiveStartingColumnIndexRelativeToDocument { get; set; }
 	/// <summary>
 	/// A positive displacement is to say from the marker
 	/// highlight additionally the next {x} column
