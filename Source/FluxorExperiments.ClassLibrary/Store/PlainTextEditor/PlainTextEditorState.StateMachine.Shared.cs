@@ -51,6 +51,42 @@ public partial record PlainTextEditorState
 
 			return nextPlainTextEditorState;
 		}
+		
+		public static PlainTextEditorState GetNextState(PlainTextEditorState plainTextEditorState, 
+			string bulkStringInsertionValue)
+		{
+			var nextPlainTextEditorState = new PlainTextEditorState(plainTextEditorState);
+			
+			foreach (var character in bulkStringInsertionValue)
+			{
+				var code = character switch {
+					'\n' => KeyboardFacts.WhitespaceKeys.ENTER_CODE,
+					'\t' => KeyboardFacts.WhitespaceKeys.TAB_CODE,
+					' ' => KeyboardFacts.WhitespaceKeys.SPACE_CODE,
+					_ => character.ToString()
+				};
+				
+				var keyDownEventRecord = new KeyDownEventRecord(character.ToString(), 
+					code,
+					false,
+					false,
+					false);
+				
+				nextPlainTextEditorState = nextPlainTextEditorState.CurrentPlainTextToken.PlainTextTokenKind switch {
+					PlainTextTokenKind.StartOfRow => GetNextStateFromStartOfRow(nextPlainTextEditorState,
+						keyDownEventRecord),
+					PlainTextTokenKind.Default => GetNextStateFromDefault(nextPlainTextEditorState, keyDownEventRecord),
+					PlainTextTokenKind.Whitespace => GetNextStateFromWhitespace(nextPlainTextEditorState,
+						keyDownEventRecord),
+					_ => throw new ApplicationException($"The " +
+					                                    $"{nameof(nextPlainTextEditorState.CurrentPlainTextToken.PlainTextTokenKind)} " +
+					                                    $"of {nextPlainTextEditorState.CurrentPlainTextToken.PlainTextTokenKind} " +
+					                                    $"is not currently supported.")
+				};
+			}
+
+			return nextPlainTextEditorState;
+		}
 
 		private static void SetIndexInPlainTextOfCurrentToken(PlainTextEditorState nextPlainTextEditorState,
 			int? indexInContent)
@@ -745,21 +781,5 @@ public partial record PlainTextEditorState
 				}
 			}
 		}
-		
-		// private static async Task HandlePasteAsync(OnKeyDownEventArgs onKeyDownEventArgs, CancellationToken cancellationToken)
-		// {
-		// 	var clipboardText = await _clipboardProvider.ReadClipboard();
-		//
-		// 	if (string.IsNullOrWhiteSpace(clipboardText))
-		// 		return;
-		// }
-		//
-		// private static async Task HandleCopyAsync()
-		// {
-		// 	if (Selection is not null)
-		// 	{
-		// 		await _clipboardProvider.SetClipboard(SelectionToPlainText());
-		// 	}
-		// }
 	}
 }

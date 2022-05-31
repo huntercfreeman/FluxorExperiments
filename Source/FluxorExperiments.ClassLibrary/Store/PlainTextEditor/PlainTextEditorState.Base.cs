@@ -39,7 +39,16 @@ public partial record PlainTextEditorState
 		CurrentRowIndex = otherPlainTextEditorState.CurrentRowIndex;
 		CurrentPlainTextTokenKeyIndex = otherPlainTextEditorState.CurrentPlainTextTokenKeyIndex;
 	}
-
+	
+	public int CurrentRowIndex { get; private set; }
+	public int CurrentPlainTextTokenKeyIndex { get; private set; }
+	public SelectionSpanRecord? SelectionSpanRecord { get; private set; }
+	public PlainTextRow CurrentRow => GetCurrentRow();
+	public PlainTextTokenBase CurrentPlainTextToken => GetCurrentPlainTextToken();
+	public ImmutableArray<PlainTextRowKey> PlainTextRowKeys => _plainTextRowKeys.ToImmutableArray();
+	public int RowCount => _plainTextRowKeys.Count;
+	public string EntireDocumentToPlainText => GetEntireDocumentToPlainText();
+	
 	public PlainTextRow LookupPlainTextRow(PlainTextRowKey plainTextRowKey)
 	{
 		return _plainTextRowMap[plainTextRowKey];
@@ -64,14 +73,10 @@ public partial record PlainTextEditorState
 		return PlainTextEditorStateMachine.GetNextState(this, rowIndex, plainTextTokenKeyIndex, characterIndex);
 	}
 	
-	public int CurrentRowIndex { get; private set; }
-	public int CurrentPlainTextTokenKeyIndex { get; private set; }
-	public SelectionSpanRecord? SelectionSpanRecord { get; private set; }
-	public PlainTextRow CurrentRow => GetCurrentRow();
-	public PlainTextTokenBase CurrentPlainTextToken => GetCurrentPlainTextToken();
-	public ImmutableArray<PlainTextRowKey> PlainTextRowKeys => _plainTextRowKeys.ToImmutableArray();
-	public int RowCount => _plainTextRowKeys.Count;
-	public string EntireDocumentToPlainText => GetEntireDocumentToPlainText();
+	public PlainTextEditorState GetNextState(string bulkStringInsertionValue)
+	{
+		return PlainTextEditorStateMachine.GetNextState(this, bulkStringInsertionValue);
+	}
 
 	public PlainTextRow GetRowAtIndex(int index)
 	{
@@ -113,4 +118,5 @@ public partial record PlainTextEditorState
 
 		return plainTextBuilder.ToString();
 	}
+
 }

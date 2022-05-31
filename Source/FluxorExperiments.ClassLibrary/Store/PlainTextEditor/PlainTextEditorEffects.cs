@@ -19,37 +19,27 @@ public class PlainTextEditorEffects
 	public async Task HandleKeyDownEventAction(KeyDownEventAction keyDownEventAction,
 		IDispatcher dispatcher)
 	{
+		var handledCtrlKeyAction = keyDownEventAction.KeyDownEventRecord.CtrlWasPressed;
+		
 		if (keyDownEventAction.KeyDownEventRecord.CtrlWasPressed)
 		{
 			if (keyDownEventAction.KeyDownEventRecord.Key == "v")
 			{
 				var clipboardContents = await _clipboardProvider.ReadClipboard();
-
-				foreach (var character in clipboardContents)
-				{
-					if (character == '\r')
-						continue;
-
-					var code = character switch {
-						'\t' => KeyboardFacts.WhitespaceKeys.TAB_CODE,
-						'\n' => KeyboardFacts.WhitespaceKeys.ENTER_CODE,
-						' ' => KeyboardFacts.WhitespaceKeys.SPACE_CODE,
-						_ => character.ToString()
-					};
-
-					dispatcher.Dispatch(new KeyDownEventAction(new KeyDownEventRecord(character.ToString(),
-						code,
-						false,
-						false,
-						false)));
-				}
+				
+				dispatcher.Dispatch(new BulkPlainTextEditorTextInsertAction(clipboardContents));
 			}
 			else if (keyDownEventAction.KeyDownEventRecord.Key == "c")
 			{
 				dispatcher.Dispatch(new PlainTextEditorCopyAction(_clipboardProvider));
 			}
+			else
+			{
+				handledCtrlKeyAction = false;
+			}
 		}
-		else
+		
+		if (!handledCtrlKeyAction)
 		{
 			dispatcher
 				.Dispatch(new PlainTextEditorKeyDownEventAction(keyDownEventAction.KeyDownEventRecord));
