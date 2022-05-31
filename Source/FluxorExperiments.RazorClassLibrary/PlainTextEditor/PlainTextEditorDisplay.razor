@@ -11,35 +11,37 @@
             <PlainTextEditorDebugDisplay PlainTextEditorState="PlainTextEditorState.Value"/>
         }
 
-        @{
-            var previousRowsColumnCounter = 0;
+        <CascadingValue Value="PlainTextEditorState">
+            @{
+                var previousRowsColumnCounter = 0;
 
-            for (var i = 0; i < PlainTextEditorState.Value.PlainTextRowKeys.Length; i++)
-            {
-                var rowIndex = i;
-                var plainTextRowKey = PlainTextEditorState.Value.PlainTextRowKeys[rowIndex];
+                for (var i = 0; i < PlainTextEditorState.Value.PlainTextRowKeys.Length; i++)
+                {
+                    var rowIndex = i;
+                    var plainTextRowKey = PlainTextEditorState.Value.PlainTextRowKeys[rowIndex];
 
-                var localPreviousRowsColumnCounter = previousRowsColumnCounter;
+                    var localPreviousRowsColumnCounter = previousRowsColumnCounter;
 
-                <CascadingValue Name="@nameof(PlainTextEditorLineNumberDisplay.LargestLineNumberString)"
-                                Value="@((PlainTextEditorState.Value.PlainTextRowKeys.Length + 1).ToString())">
-                    <CascadingValue Name="@nameof(CharacterDisplay.RowIndex)"
-                                    Value="rowIndex">
-                        <CascadingValue Name="@nameof(CharacterDisplay.PreviousRowsColumnCount)"
-                                        Value="localPreviousRowsColumnCounter">
-                            <PlainTextRowDisplay PlainTextRowKey="@plainTextRowKey"/>
+                    <CascadingValue Name="@nameof(PlainTextEditorLineNumberDisplay.LargestLineNumberString)"
+                                    Value="@((PlainTextEditorState.Value.PlainTextRowKeys.Length + 1).ToString())">
+                        <CascadingValue Name="@nameof(CharacterDisplay.RowIndex)"
+                                        Value="rowIndex">
+                            <CascadingValue Name="@nameof(CharacterDisplay.PreviousRowsColumnCount)"
+                                            Value="localPreviousRowsColumnCounter">
+                                <PlainTextRowDisplay PlainTextRowKey="@plainTextRowKey"/>
+                            </CascadingValue>
                         </CascadingValue>
                     </CascadingValue>
-                </CascadingValue>
 
-                var row = PlainTextEditorState.Value.LookupPlainTextRow(plainTextRowKey);
-                foreach (var plainTextTokenKey in row.PlainTextTokenKeys)
-                {
-                    var plainTextToken = row.LookupPlainTextToken(plainTextTokenKey);
+                    var row = PlainTextEditorState.Value.LookupPlainTextRow(plainTextRowKey);
+                    foreach (var plainTextTokenKey in row.PlainTextTokenKeys)
+                    {
+                        var plainTextToken = row.LookupPlainTextToken(plainTextTokenKey);
 
-                    previousRowsColumnCounter += plainTextToken.ToPlainText.Length;
+                        previousRowsColumnCounter += plainTextToken.ToPlainText.Length;
+                    }
                 }
             }
-        }
+        </CascadingValue>
     </FluxorExperiments.RazorClassLibrary.Focus.FocusBoundaryDisplay>
 </div>

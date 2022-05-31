@@ -6,13 +6,13 @@ using Microsoft.AspNetCore.Components;
 
 namespace FluxorExperiments.RazorClassLibrary.PlainTextEditor;
 
-public partial class CharacterDisplay : FluxorComponent
+public partial class CharacterDisplay
 {
 	[Inject]
-	private IState<PlainTextEditorState> PlainTextEditorState { get; set; } = null!;
-	[Inject]
 	private IDispatcher Dispatcher { get; set; } = null!;
-	
+
+	[CascadingParameter]
+	public IState<PlainTextEditorState> PlainTextEditorState { get; set; } = null!;
 	[CascadingParameter(Name=nameof(RowIndex))]
 	public int RowIndex { get; set; }
 	[CascadingParameter(Name=nameof(PlainTextTokenKeyIndex))]
