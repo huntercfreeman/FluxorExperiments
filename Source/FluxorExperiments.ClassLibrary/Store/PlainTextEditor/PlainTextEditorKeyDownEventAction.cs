@@ -1,0 +1,5 @@
+﻿using FluxorExperiments.ClassLibrary.KeyDownEvent;
+
+namespace FluxorExperiments.ClassLibrary.Store.PlainTextEditor;
+
+public record PlainTextEditorKeyDownEventAction(KeyDownEventRecord KeyDownEventRecord);

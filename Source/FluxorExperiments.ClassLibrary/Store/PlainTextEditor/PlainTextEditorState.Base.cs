@@ -2,6 +2,7 @@
 using FluxorExperiments.ClassLibrary.KeyDownEvent;
 using FluxorExperiments.ClassLibrary.PlainTextEditor;
 using System.Collections.Immutable;
+using System.Text;
 
 namespace FluxorExperiments.ClassLibrary.Store.PlainTextEditor;
 
@@ -70,7 +71,8 @@ public partial record PlainTextEditorState
 	public PlainTextTokenBase CurrentPlainTextToken => GetCurrentPlainTextToken();
 	public ImmutableArray<PlainTextRowKey> PlainTextRowKeys => _plainTextRowKeys.ToImmutableArray();
 	public int RowCount => _plainTextRowKeys.Count;
-	
+	public string EntireDocumentToPlainText => GetEntireDocumentToPlainText();
+
 	public PlainTextRow GetRowAtIndex(int index)
 	{
 		return _plainTextRowMap[_plainTextRowKeys[index]];
@@ -84,5 +86,31 @@ public partial record PlainTextEditorState
 	private PlainTextRow GetCurrentRow()
 	{
 		return _plainTextRowMap[_plainTextRowKeys[CurrentRowIndex]];
+	}
+
+	private string GetEntireDocumentToPlainText()
+	{
+		var plainTextBuilder = new StringBuilder();
+
+		var firstStartOfRowToken = GetRowAtIndex(0).GetPlainTextTokenFromIndex(0);
+
+		foreach (var rowKey in _plainTextRowKeys)
+		{
+			var row = LookupPlainTextRow(rowKey);
+
+			foreach (var tokenKey in row.PlainTextTokenKeys)
+			{
+				if (tokenKey == firstStartOfRowToken.PlainTextTokenKey)
+				{
+					continue;
+				}
+				
+				var token = row.LookupPlainTextToken(tokenKey);
+
+				plainTextBuilder.Append(token.ToPlainText);
+			}
+		}
+
+		return plainTextBuilder.ToString();
 	}
 }

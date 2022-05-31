@@ -1,4 +1,5 @@
-﻿using FluxorExperiments.ClassLibrary.Keyboard;
+﻿using FluxorExperiments.ClassLibrary.Clipboard;
+using FluxorExperiments.ClassLibrary.Keyboard;
 using FluxorExperiments.ClassLibrary.KeyDownEvent;
 using FluxorExperiments.ClassLibrary.PlainTextEditor;
 using FluxorExperiments.ClassLibrary.Sequence;
@@ -13,6 +14,11 @@ public partial record PlainTextEditorState
 			KeyDownEventRecord keyDownEventRecord)
 		{
 			var nextPlainTextEditorState = new PlainTextEditorState(plainTextEditorState);
+
+			if (keyDownEventRecord.Key == "c" && keyDownEventRecord.CtrlWasPressed)
+			{
+				return nextPlainTextEditorState;
+			}
 
 			return nextPlainTextEditorState.CurrentPlainTextToken.PlainTextTokenKind switch {
 				PlainTextTokenKind.StartOfRow => GetNextStateFromStartOfRow(nextPlainTextEditorState,
@@ -383,12 +389,12 @@ public partial record PlainTextEditorState
 							SelectionDirectionBinding.Right);
 					}
 
-					if (passOnArrowRightEvent && 
-					    keyDownEventRecord.CtrlWasPressed && 
+					if (passOnArrowRightEvent &&
+					    keyDownEventRecord.CtrlWasPressed &&
 					    nextPlainTextEditorState.CurrentPlainTextToken.ToPlainText.Length > 1)
 					{
 						MoveArrowRight(nextPlainTextEditorState, new KeyDownEventRecord(keyDownEventRecord.Key,
-							keyDownEventRecord.Code, 
+							keyDownEventRecord.Code,
 							true,
 							keyDownEventRecord.ShiftWasPressed,
 							false));
@@ -422,7 +428,8 @@ public partial record PlainTextEditorState
 						PerformTextSelection(nextPlainTextEditorState,
 							temporaryTokenMetaDataForTextSelection
 								.PositionSpanRelativeToDocumentRecord!
-								.InclusiveStartingDocumentIndex + temporaryTokenIndexInPlainTextForTextSelection!.Value + 1,
+								.InclusiveStartingDocumentIndex +
+							temporaryTokenIndexInPlainTextForTextSelection!.Value + 1,
 							+1,
 							SelectionDirectionBinding.Right);
 					}
@@ -738,7 +745,21 @@ public partial record PlainTextEditorState
 				}
 			}
 		}
+		
+		// private static async Task HandlePasteAsync(OnKeyDownEventArgs onKeyDownEventArgs, CancellationToken cancellationToken)
+		// {
+		// 	var clipboardText = await _clipboardProvider.ReadClipboard();
+		//
+		// 	if (string.IsNullOrWhiteSpace(clipboardText))
+		// 		return;
+		// }
+		//
+		// private static async Task HandleCopyAsync()
+		// {
+		// 	if (Selection is not null)
+		// 	{
+		// 		await _clipboardProvider.SetClipboard(SelectionToPlainText());
+		// 	}
+		// }
 	}
 }
-
-
