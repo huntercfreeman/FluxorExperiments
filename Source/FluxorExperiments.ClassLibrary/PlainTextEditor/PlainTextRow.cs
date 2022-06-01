@@ -19,7 +19,7 @@ public record PlainTextRow
 	public PlainTextRowKey KeyRecord { get; set; } = new();
 	public bool IsActiveRow { get; init; }
 
-	public PlainTextRow ConstructDeepClone() => this with 
+	public override PlainTextRow ConstructDeepClone() => this with 
 	{
 		SequenceKeyRecord = new SequenceKeyRecord()
 	};

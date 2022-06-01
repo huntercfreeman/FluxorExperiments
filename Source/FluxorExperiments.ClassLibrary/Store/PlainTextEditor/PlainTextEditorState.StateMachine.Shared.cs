@@ -93,13 +93,15 @@ public partial record PlainTextEditorState
 		{
 			var previousToken = nextPlainTextEditorState.CurrentPlainTextToken;
 
+			var nextToken = previousToken with {
+				IndexInPlainText = indexInContent,
+				SequenceKeyRecord = new SequenceKeyRecord()
+			};
+			
 			var previousRow = nextPlainTextEditorState.CurrentRow;
 
 			nextPlainTextEditorState.FeatureStateMap[previousRow.KeyRecord] = previousRow
-				.WithReplace(previousToken.KeyRecord, previousToken with {
-					IndexInPlainText = indexInContent,
-					SequenceKeyRecord = new SequenceKeyRecord()
-				});
+				.WithReplace(previousToken.KeyRecord, nextToken);
 		}
 
 		private static void PerformMove(PlainTextEditorState nextPlainTextEditorState,

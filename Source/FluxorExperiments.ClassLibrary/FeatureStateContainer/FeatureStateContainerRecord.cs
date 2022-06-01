@@ -20,7 +20,7 @@ public record FeatureStateContainerRecord<TFeatureStateContainerRecord, TKey, TI
         FeatureStateKeys = new();
     }
 
-    protected virtual TFeatureStateContainerRecord ConstructDeepClone()
+    public virtual TFeatureStateContainerRecord ConstructDeepClone()
     {
         // The state must be immutable in order for this shallow copy
         // to behave in effect like a deep copy.

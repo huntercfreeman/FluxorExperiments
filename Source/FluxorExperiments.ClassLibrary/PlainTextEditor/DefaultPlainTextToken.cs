@@ -35,6 +35,8 @@ public record DefaultPlainTextToken(int? IndexInPlainText)
 		DefaultPlainTextToken otherDefaultPlainTextToken)
 		: this(otherDefaultPlainTextToken.IndexInPlainText + 1)
 	{
+		KeyRecord = otherDefaultPlainTextToken.KeyRecord;
+		
 		if (keyDownEventRecord.Key == KeyboardFacts.MetaKeys.BACKSPACE)
 		{
 			_immutableStringBuilderRecord = otherDefaultPlainTextToken._immutableStringBuilderRecord;
