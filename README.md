@@ -6,8 +6,20 @@ Find the Fluxor repository at:
 
 ---
 
+Links are at the bottom of the README.md 
+
+One of which includes a published WebAssembly Blazor application that runs this repo's code.
+
+Be sure to clear your cache if it appears you have an older cache of the WebAssembly site.
+
+---
+
 # Goal
 Add the [Fluxor](https://github.com/mrpmorris/Fluxor) state management library which is a .NET implementation of the [Flux](https://facebook.github.io/flux/) state management application architecture.
+
+Following that the next step is to make a PlainTextEditor using Fluxor as shown in this end result gif.
+
+![plainTextEditor gif](./Images/feature_AddFluxor/plainTextEditor.gif)
 
 # Reasoning
 The Flux state management application architecture helps drastically reduce the amount of mutable state in the application that occurs due to events firing.
@@ -409,3 +421,20 @@ One can override the Dispose method and dispatch an Action that removes the indi
 The logic necessary to create many individual counter states is very repetitive in the sense that anytime one wishes to have many individual states of the same class the logic is repeated but with different key, value pairs in the "FeatureState" dictionary.
 
 It is likely the case that one can abstract away the logic regarding many individual states of the same class.
+
+---
+
+## Links
+- Azure host of the repo: [https://hunter-freeman-dev.azurewebsites.net/](https://hunter-freeman-dev.azurewebsites.net/)
+
+- My email: hunterfreemandev@gmail.com
+
+- My LinkedIn profile: [https://www.linkedin.com/in/hunter-freeman-7271a5176/](https://www.linkedin.com/in/hunter-freeman-7271a5176/)
+
+- My Github profile: [https://github.com/huntercfreeman](https://github.com/huntercfreeman/)
+
+- My Youtube channel: [https://www.youtube.com/channel/UCzhWhqYVP40as1MFUesQM9w/](https://www.youtube.com/channel/UCzhWhqYVP40as1MFUesQM9w/)
+
+- My reddit profile: [https://www.reddit.com/user/hunter-freeman-dev](https://www.reddit.com/user/hunter-freeman-dev)
+
+- Coffee: [Buy me a coffee](https://www.buymeacoffee.com/hunterfdev)
