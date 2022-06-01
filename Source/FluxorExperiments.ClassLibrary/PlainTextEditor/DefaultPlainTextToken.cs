@@ -5,15 +5,15 @@ using FluxorExperiments.ClassLibrary.Sequence;
 
 namespace FluxorExperiments.ClassLibrary.PlainTextEditor;
 
-public record DefaultPlainTextToken(PlainTextTokenKey PlainTextTokenKey, int? IndexInPlainText, SequenceKey SequenceKey) 
-	: PlainTextTokenBase(PlainTextTokenKey, IndexInPlainText, SequenceKey)
+public record DefaultPlainTextToken(int? IndexInPlainText) 
+	: PlainTextTokenBase(IndexInPlainText)
 {
 	// TODO: DefaultPlainTextToken needs to be immutable look into perhaps Span<T>?
 	private readonly ImmutableStringBuilderRecord _immutableStringBuilderRecord;
 	private ImmutableStringBuilderRecordKey _immutableStringBuilderRecordKey;
 
 	public DefaultPlainTextToken(KeyDownEventRecord keyDownEventRecord)
-		: this(PlainTextTokenKey.NewPlainTextTokenKey(), 0, SequenceKey.NewSequenceKey())
+		: this(0)
 	{
 		_immutableStringBuilderRecord = new();
 
@@ -23,7 +23,7 @@ public record DefaultPlainTextToken(PlainTextTokenKey PlainTextTokenKey, int? In
 	}	
 	
 	public DefaultPlainTextToken(string initialString)
-		: this(PlainTextTokenKey.NewPlainTextTokenKey(), 0, SequenceKey.NewSequenceKey())
+		: this(0)
 	{
 		_immutableStringBuilderRecord = new();
 
@@ -34,7 +34,7 @@ public record DefaultPlainTextToken(PlainTextTokenKey PlainTextTokenKey, int? In
 	
 	public DefaultPlainTextToken(KeyDownEventRecord keyDownEventRecord,
 		DefaultPlainTextToken otherDefaultPlainTextToken)
-		: this(otherDefaultPlainTextToken.PlainTextTokenKey, otherDefaultPlainTextToken.IndexInPlainText + 1, SequenceKey.NewSequenceKey())
+		: this(otherDefaultPlainTextToken.IndexInPlainText + 1)
 	{
 		if (keyDownEventRecord.Key == KeyboardFacts.MetaKeys.BACKSPACE)
 		{
@@ -62,7 +62,7 @@ public record DefaultPlainTextToken(PlainTextTokenKey PlainTextTokenKey, int? In
 	
 	public DefaultPlainTextToken(DefaultPlainTextToken tokenFirst,
 		DefaultPlainTextToken tokenSecond)
-		: this(PlainTextTokenKey.NewPlainTextTokenKey(), tokenFirst.IndexInPlainText, SequenceKey.NewSequenceKey())
+		: this(tokenFirst.IndexInPlainText)
 	{
 		 _immutableStringBuilderRecord = tokenFirst._immutableStringBuilderRecord;
 		 

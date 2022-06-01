@@ -2,4 +2,4 @@
 
 namespace FluxorExperiments.ClassLibrary.PlainTextEditor;
 
-public record PlainTextTokenKey : KeyRecord;
+public record PlainTextRowKey : KeyRecord;

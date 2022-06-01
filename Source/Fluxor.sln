@@ -34,8 +34,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FluxorExperiments.ClassLibr
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FluxorExperiments.RazorClassLibrary", "FluxorExperiments.RazorClassLibrary\FluxorExperiments.RazorClassLibrary.csproj", "{CC8E9F96-FF3B-43D9-8CA6-7B00AC82622D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorReRenderExperiments", "BlazorReRenderExperiments\BlazorReRenderExperiments.csproj", "{33448C49-798B-4EFE-9074-7D997F011E41}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -130,18 +128,6 @@ Global
 		{CC8E9F96-FF3B-43D9-8CA6-7B00AC82622D}.Release|iPhone.Build.0 = Release|Any CPU
 		{CC8E9F96-FF3B-43D9-8CA6-7B00AC82622D}.Release|iPhoneSimulator.ActiveCfg = Release|Any CPU
 		{CC8E9F96-FF3B-43D9-8CA6-7B00AC82622D}.Release|iPhoneSimulator.Build.0 = Release|Any CPU
-		{33448C49-798B-4EFE-9074-7D997F011E41}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{33448C49-798B-4EFE-9074-7D997F011E41}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{33448C49-798B-4EFE-9074-7D997F011E41}.Debug|iPhone.ActiveCfg = Debug|Any CPU
-		{33448C49-798B-4EFE-9074-7D997F011E41}.Debug|iPhone.Build.0 = Debug|Any CPU
-		{33448C49-798B-4EFE-9074-7D997F011E41}.Debug|iPhoneSimulator.ActiveCfg = Debug|Any CPU
-		{33448C49-798B-4EFE-9074-7D997F011E41}.Debug|iPhoneSimulator.Build.0 = Debug|Any CPU
-		{33448C49-798B-4EFE-9074-7D997F011E41}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{33448C49-798B-4EFE-9074-7D997F011E41}.Release|Any CPU.Build.0 = Release|Any CPU
-		{33448C49-798B-4EFE-9074-7D997F011E41}.Release|iPhone.ActiveCfg = Release|Any CPU
-		{33448C49-798B-4EFE-9074-7D997F011E41}.Release|iPhone.Build.0 = Release|Any CPU
-		{33448C49-798B-4EFE-9074-7D997F011E41}.Release|iPhoneSimulator.ActiveCfg = Release|Any CPU
-		{33448C49-798B-4EFE-9074-7D997F011E41}.Release|iPhoneSimulator.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -154,7 +140,6 @@ Global
 		{363070E1-7947-4C46-8801-EEF2739177DD} = {C965513B-3ADF-4E0F-BCBB-7C595A08003D}
 		{0BD662D1-78A0-4A2F-A67A-E2E6B9631675} = {C965513B-3ADF-4E0F-BCBB-7C595A08003D}
 		{CC8E9F96-FF3B-43D9-8CA6-7B00AC82622D} = {C965513B-3ADF-4E0F-BCBB-7C595A08003D}
-		{33448C49-798B-4EFE-9074-7D997F011E41} = {C965513B-3ADF-4E0F-BCBB-7C595A08003D}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B1F2E0DF-C651-48A3-83E3-3B77D34EC3A2}
