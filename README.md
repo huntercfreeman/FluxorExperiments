@@ -24,7 +24,7 @@ The Dictionary then looks up the state for a corresponding UI element using a ke
 
 This results in the logic for that "immutable dictionary" being rewritten over and over for every class that is desired to be used many times for many state instances.
 
-I am to make an abstraction for the "immutable dictionary" specifically with regards to Fluxor. The .NET built in ImmutableDictionary I do not believe fits this Fluxor state management case.
+I aim to make an abstraction for the "immutable dictionary" specifically with regards to Fluxor. The .NET built in ImmutableDictionary I do not believe fits this Fluxor state management case.
 
 ## Example Description
 The most obvious example of this is a counter component in Blazor.
