@@ -52,7 +52,7 @@ public record FeatureStateContainerRecord<TFeatureStateContainerRecord, TKey, TI
     {
         var otherFeatureStateContainerRecord = ConstructDeepClone();
 
-        otherFeatureStateContainerRecord.FeatureStateKeys.Add(key);
+        otherFeatureStateContainerRecord.FeatureStateKeys.Remove(key);
         otherFeatureStateContainerRecord.FeatureStateMap.Remove(key);
 
         return otherFeatureStateContainerRecord;

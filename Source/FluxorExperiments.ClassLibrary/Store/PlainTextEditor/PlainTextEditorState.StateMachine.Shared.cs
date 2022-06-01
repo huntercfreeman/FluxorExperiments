@@ -683,15 +683,17 @@ public partial record PlainTextEditorState
 					    nextPlainTextEditorState.CurrentPlainTextToken.IndexInPlainText <
 					    nextPlainTextEditorState.CurrentPlainTextToken.ToPlainText.Length - 1)
 					{
+						var temporaryToken = nextPlainTextEditorState.CurrentPlainTextToken;
+						
 						nextRow = nextPlainTextEditorState.CurrentRow
-							.WithRemove(nextPlainTextEditorState.CurrentPlainTextToken.KeyRecord);
+							.WithRemove(temporaryToken.KeyRecord);
 
-						var tokenFirstString = nextPlainTextEditorState.CurrentPlainTextToken.ToPlainText
+						var tokenFirstString = temporaryToken.ToPlainText
 							.Substring(0,
-								nextPlainTextEditorState.CurrentPlainTextToken.IndexInPlainText!.Value + 1);
+								temporaryToken.IndexInPlainText!.Value + 1);
 
-						var tokenSecondString = nextPlainTextEditorState.CurrentPlainTextToken.ToPlainText
-							.Substring(nextPlainTextEditorState.CurrentPlainTextToken.IndexInPlainText!.Value + 1);
+						var tokenSecondString = temporaryToken.ToPlainText
+							.Substring(temporaryToken.IndexInPlainText!.Value + 1);
 
 						var tokenFirst = new DefaultPlainTextToken(tokenFirstString);
 						var tokenSecond = new DefaultPlainTextToken(tokenSecondString);
