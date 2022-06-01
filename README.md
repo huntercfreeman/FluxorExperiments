@@ -425,7 +425,7 @@ It is likely the case that one can abstract away the logic regarding many indivi
 ---
 
 ## Links
-- Azure host of the repo: [https://hunter-freeman-dev.azurewebsites.net/](https://hunter-freeman-dev.azurewebsites.net/](https://hunter-freeman-dev-staging.azurewebsites.net/plainTextEditor)
+- Azure host of the repo: [https://hunter-freeman-dev-staging.azurewebsites.net/plainTextEditor](https://hunter-freeman-dev-staging.azurewebsites.net/plainTextEditor)
 
 - My email: hunterfreemandev@gmail.com
 
