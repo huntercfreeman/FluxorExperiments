@@ -1,0 +1,6 @@
+﻿using BlazorReRenderExperiments.Records.RenderCounter;
+
+namespace BlazorReRenderExperiments.Store.RenderCounter;
+
+public record RegisterRenderCounterAction(RenderCounterRowRecordKey RenderCounterRowRecordKey,
+	RenderCounterRecordKey RenderCounterRecordKey);
