@@ -1,4 +1,5 @@
 ﻿using Fluxor;
+using FluxorExperiments.ClassLibrary.Clipboard;
 using FluxorExperiments.ClassLibrary.FeatureStateContainer;
 using FluxorExperiments.ClassLibrary.KeyDownEvent;
 using FluxorExperiments.ClassLibrary.PlainTextEditor;

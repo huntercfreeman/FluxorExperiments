@@ -2,4 +2,4 @@
 
 namespace FluxorExperiments.ClassLibrary.Store.KeyDownEvent;
 
-public record class KeyDownEventAction(KeyDownEventRecord KeyDownEventRecord);
+public record KeyDownEventAction(KeyDownEventRecord KeyDownEventRecord);

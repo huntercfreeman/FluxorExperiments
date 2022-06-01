@@ -2,6 +2,7 @@
 using Fluxor.Blazor.Web.Components;
 using FluxorExperiments.ClassLibrary.PlainTextEditor;
 using FluxorExperiments.ClassLibrary.Store.PlainTextEditor;
+using FluxorExperiments.RazorClassLibrary.Focus;
 using Microsoft.AspNetCore.Components;
 
 namespace FluxorExperiments.RazorClassLibrary.PlainTextEditor;
@@ -11,6 +12,8 @@ public partial class CharacterDisplay
 	[Inject]
 	private IDispatcher Dispatcher { get; set; } = null!;
 
+	[CascadingParameter]
+	public FocusBoundaryDisplay FocusBoundaryDisplay { get; set; } = null!;
 	[CascadingParameter]
 	public IState<PlainTextEditorState> PlainTextEditorState { get; set; } = null!;
 	[CascadingParameter(Name=nameof(RowIndex))]
@@ -43,6 +46,8 @@ public partial class CharacterDisplay
 			CharacterIndex);
 		
 		Dispatcher.Dispatch(action);
+		
+		FocusBoundaryDisplay.FireFocusIn();
 	}
 
 	private string GetIsSelectedCss()

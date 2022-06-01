@@ -8,5 +8,7 @@
                       OnFocusTrapFocusIn="OnFocusTrapFocusIn"
                       OnFocusTrapFocusOut="OnFocusTrapFocusOut"/>
 
-    @ChildContent
+    <CascadingValue Value="this">
+        @ChildContent
+    </CascadingValue>
 </span>

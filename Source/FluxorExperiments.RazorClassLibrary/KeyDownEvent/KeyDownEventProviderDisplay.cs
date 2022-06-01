@@ -1,4 +1,5 @@
 ﻿using Fluxor;
+using FluxorExperiments.ClassLibrary.Clipboard;
 using FluxorExperiments.ClassLibrary.KeyDownEvent;
 using FluxorExperiments.ClassLibrary.Store.KeyDownEvent;
 using Microsoft.AspNetCore.Components;
@@ -10,6 +11,8 @@ public partial class KeyDownEventProviderDisplay : ComponentBase
 {
 	[Inject]
 	private IJSRuntime JsRuntime { get; set; } = null!;
+	[Inject]
+	private IClipboardProvider ClipboardProvider { get; set; } = null!;
 	[Inject]
 	private IDispatcher Dispatcher { get; set; } = null!;
 
@@ -25,10 +28,25 @@ public partial class KeyDownEventProviderDisplay : ComponentBase
 	}
 
 	[JSInvokable]
-	public void DispatchOnKeyDownEventAction(KeyDownEventRecord onKeyDownEventRecord)
+	public void DispatchOnKeyDownEventAction(KeyDownEventRecord keyDownEventRecord)
 	{
-		var action = new KeyDownEventAction(onKeyDownEventRecord);
+		var handledControlModifiedKeyPress = false;
 
-		Dispatcher.Dispatch(action);
+		if (keyDownEventRecord.CtrlWasPressed)
+		{
+			if (keyDownEventRecord.Key == "c")
+			{
+				Dispatcher.Dispatch(new CopyEventAction(keyDownEventRecord, ClipboardProvider));
+				handledControlModifiedKeyPress = true;
+			}
+			else if (keyDownEventRecord.Key == "v")
+			{
+				Dispatcher.Dispatch(new PasteEventAction(keyDownEventRecord, ClipboardProvider));
+				handledControlModifiedKeyPress = true;
+			}
+		}
+
+		if (!handledControlModifiedKeyPress)
+			Dispatcher.Dispatch(new KeyDownEventAction(keyDownEventRecord));
 	}
 }

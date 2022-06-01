@@ -4,6 +4,10 @@
     position: relative;
 }
 
+.fe_plain-text-row-display.fe_active {
+    background-color: #FAFADC;
+}
+
 .fe_plain-text-editor-line-number-display {
     margin-right: 10px;
 }

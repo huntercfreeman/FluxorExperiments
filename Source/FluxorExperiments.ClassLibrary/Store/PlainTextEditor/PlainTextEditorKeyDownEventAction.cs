@@ -1,5 +1,6 @@
-﻿using FluxorExperiments.ClassLibrary.KeyDownEvent;
+﻿using FluxorExperiments.ClassLibrary.Clipboard;
+using FluxorExperiments.ClassLibrary.KeyDownEvent;
 
 namespace FluxorExperiments.ClassLibrary.Store.PlainTextEditor;
 
-public record PlainTextEditorKeyDownEventAction(KeyDownEventRecord KeyDownEventRecord);
+public record PlainTextEditorKeyDownEventAction(KeyDownEventRecord KeyDownEventRecord, IClipboardProvider ClipboardProvider);

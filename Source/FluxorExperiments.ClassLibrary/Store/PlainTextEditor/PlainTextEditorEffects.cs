@@ -16,33 +16,18 @@ public class PlainTextEditorEffects
 	}
 
 	[EffectMethod]
-	public async Task HandleKeyDownEventAction(KeyDownEventAction keyDownEventAction,
+	public async Task HandleKeyDownEventAction(CopyEventAction copyEventAction,
 		IDispatcher dispatcher)
 	{
-		var handledCtrlKeyAction = keyDownEventAction.KeyDownEventRecord.CtrlWasPressed;
-		
-		if (keyDownEventAction.KeyDownEventRecord.CtrlWasPressed)
-		{
-			if (keyDownEventAction.KeyDownEventRecord.Key == "v")
-			{
-				var clipboardContents = await _clipboardProvider.ReadClipboard();
+		dispatcher.Dispatch(new PlainTextEditorCopyAction(_clipboardProvider));
+	}
+	
+	[EffectMethod]
+	public async Task HandleKeyDownEventAction(PasteEventAction pasteEventAction,
+		IDispatcher dispatcher)
+	{
+		var clipboardContents = await _clipboardProvider.ReadClipboard();
 				
-				dispatcher.Dispatch(new BulkPlainTextEditorTextInsertAction(clipboardContents));
-			}
-			else if (keyDownEventAction.KeyDownEventRecord.Key == "c")
-			{
-				dispatcher.Dispatch(new PlainTextEditorCopyAction(_clipboardProvider));
-			}
-			else
-			{
-				handledCtrlKeyAction = false;
-			}
-		}
-		
-		if (!handledCtrlKeyAction)
-		{
-			dispatcher
-				.Dispatch(new PlainTextEditorKeyDownEventAction(keyDownEventAction.KeyDownEventRecord));
-		}
+		dispatcher.Dispatch(new BulkPlainTextEditorTextInsertAction(clipboardContents));
 	}
 }

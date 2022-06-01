@@ -10,19 +10,19 @@ public class PlainTextEditorReducer
 	[ReducerMethod]
 	public static PlainTextEditorState ReducePlainTextEditorKeyDownEventAction(
 		PlainTextEditorState previousPlainTextEditorState,
-		PlainTextEditorKeyDownEventAction plainTextEditorKeyDownEventAction)
+		KeyDownEventAction keyDownEventAction)
 	{
-		Console.WriteLine($"Key: {plainTextEditorKeyDownEventAction.KeyDownEventRecord.Key} was pressed.");
+		Console.WriteLine($"Key: {keyDownEventAction.KeyDownEventRecord.Key} was pressed.");
 
-		return previousPlainTextEditorState.GetNextState(plainTextEditorKeyDownEventAction.KeyDownEventRecord);
+		return previousPlainTextEditorState.GetNextState(keyDownEventAction.KeyDownEventRecord);
 	}
-
+	
 	[ReducerMethod]
 	public static PlainTextEditorState ReduceBulkPlainTextEditorTextInsertAction(
 		PlainTextEditorState previousPlainTextEditorState,
-		BulkPlainTextEditorTextInsertAction bulkPlainTextEditorTextInsertAction)
+		BulkPlainTextEditorTextInsertAction pasteEventAction)
 	{
-		return previousPlainTextEditorState.GetNextState(bulkPlainTextEditorTextInsertAction.Value);
+		return previousPlainTextEditorState.GetNextState(pasteEventAction.Value);
 	}
 
 	[ReducerMethod]
@@ -34,7 +34,7 @@ public class PlainTextEditorReducer
 			plainTextEditorCharacterOnClickAction.PlainTextTokenKeyIndex,
 			plainTextEditorCharacterOnClickAction.CharacterIndex);
 	}
-
+	
 	[ReducerMethod]
 	public static PlainTextEditorState ReducePlainTextEditorCopyAction(
 		PlainTextEditorState previousPlainTextEditorState,
@@ -43,7 +43,7 @@ public class PlainTextEditorReducer
 		_ = Task.Run(async () =>
 			await plainTextEditorCopyAction.ClipboardProvider.SetClipboard(previousPlainTextEditorState
 				.GetEntireDocumentToPlainText()));
-
+	
 		return previousPlainTextEditorState;
 	}
 }

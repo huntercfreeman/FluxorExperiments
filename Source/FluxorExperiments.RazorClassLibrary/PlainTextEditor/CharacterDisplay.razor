@@ -1,5 +1,6 @@
 ﻿<span class="fe_character-display @IsSelectedCssClass"
-      @onclick="DispatchPlainTextEditorCharacterOnClickAction">
+      @onclick="DispatchPlainTextEditorCharacterOnClickAction"
+      @onclick:stopPropagation="true">
     @((MarkupString) Character)
     
     @if (ShouldDisplayCursor)
