@@ -53,7 +53,7 @@ The most obvious example of this is a counter component in Blazor.
 <details>
   <summary>Construct a "FeatureState" class to hold the shared state of the counters.</summary>
 
-```
+```csharp
 // SharedCounterState.cs
 
 using Fluxor;
@@ -74,7 +74,7 @@ public record SharedCounterState(int Count)
 <details>
   <summary>Construct a "Reducer" class to alter the "FeatureState" that holds the shared state of the counters.</summary>
 
-```
+```csharp
 // SharedCounterReducer.cs
 
 using Fluxor;
@@ -98,7 +98,7 @@ public class SharedCounterReducer
 <details>
   <summary>Construct an "Action" class that identifies the OnClick event as to be handled by the "Reducer"</summary>
 
-```
+```csharp
 namespace OpenSourceIde.ClassLibrary.Store.SharedCounter;
 
 public record IncrementSharedCounterAction();
@@ -108,7 +108,7 @@ public record IncrementSharedCounterAction();
 <details>
   <summary>Construct a Blazor "FluxorComponent" that will render the shared state.</summary>
 
-```
+```csharp
 // SharedCounterDisplay.razor.cs
 
 using Fluxor;
@@ -132,7 +132,7 @@ public partial class SharedCounterDisplay : FluxorComponent
 }
 ```
 
-```
+```csharp
 // SharedCounterDisplay.razor
 
 @using Fluxor.Blazor.Web.Components
@@ -164,7 +164,7 @@ To implement a CounterState that is separate among all instances of a Counter Bl
 <details>
   <summary>Construct a CounterRecord which is unrelated to fluxor to be stored in the "FeatureState" collection type.</summary>
 
-```
+```csharp
 namespace OpenSourceIde.ClassLibrary.Counter;
 
 public record CounterRecord(int Count, SequenceRecordKey SequenceKey);
@@ -175,7 +175,7 @@ public record CounterRecord(int Count, SequenceRecordKey SequenceKey);
 <details>
   <summary>Construct a CounterRecordKey which is unrelated to fluxor, but it will be used as a key for the "FeatureState" collection type which will be a Dictionary containing many CounterRecords.</summary>
 
-```
+```csharp
 namespace OpenSourceIde.ClassLibrary.Counter;
 
 public record CounterRecordKey(Guid Id);
@@ -186,7 +186,7 @@ public record CounterRecordKey(Guid Id);
 <details>
   <summary>Construct a SequenceRecordKey which is unrelated to fluxor, but when the "FeatureState" changes every individual blazor component that has their own state will rerender. The SequenceRecordKey will be used in the ShouldRender method which is native to Blazor components and will be overriden to check if the SequenceRecordKey changed. Only then should the component rerender.</summary>
 
-```
+```csharp
 namespace OpenSourceIde.ClassLibrary.Counter;
 
 public record SequenceRecordKey(Guid Id);
@@ -197,7 +197,7 @@ public record SequenceRecordKey(Guid Id);
 <details>
   <summary>Construct a "FeatureState" class to hold the individual states of the counters.</summary>
 
-```
+```csharp
 using Fluxor;
 using OpenSourceIde.ClassLibrary.Counter;
 
@@ -246,7 +246,7 @@ public record IndividualCounterState
 <details>
   <summary>Construct a "Reducer" class to alter the "FeatureState" that holds the individual states of the counters.</summary>
 
-```
+```csharp
 using Fluxor;
 
 namespace OpenSourceIde.ClassLibrary.Store.IndividualCounter;
@@ -275,7 +275,7 @@ public class IndividualCounterReducer
 <details>
   <summary>Construct an "Action" class that identifies the increment OnClick event as to be handled by the "Reducer".</summary>
 
-```
+```csharp
 using OpenSourceIde.ClassLibrary.Counter;
 
 namespace OpenSourceIde.ClassLibrary.Store.IndividualCounter;
@@ -289,7 +289,7 @@ public record IncrementIndividualCounterState(CounterRecordKey CounterRecordKey,
 <details>
   <summary>Construct an "Action" class that allows an individual CounterRecord to be registered within the "FeatureState" collection.</summary>
 
-```
+```csharp
 using OpenSourceIde.ClassLibrary.Counter;
 
 namespace OpenSourceIde.ClassLibrary.Store.IndividualCounter;
@@ -302,7 +302,7 @@ public record RegisterIndividualCounterState(CounterRecordKey CounterRecordKey);
 <details>
   <summary>Construct a Blazor "FluxorComponent" that will render the individual state it is "given" (given in this example is a key that is used to lookup the individual state in the "FeatureState" which is a Dictionary).</summary>
 
-```
+```csharp
 // IndividualCounterDisplay.razor.cs
 
 using Fluxor;
@@ -387,7 +387,7 @@ public partial class IndividualCounterDisplay : FluxorComponent
 }
 ```
 
-```
+```csharp
 // IndividualCounterDisplay.razor
 
 @using Fluxor.Blazor.Web.Components
