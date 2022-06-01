@@ -28,7 +28,8 @@
                                         Value="rowIndex">
                             <CascadingValue Name="@nameof(CharacterDisplay.PreviousRowsColumnCount)"
                                             Value="localPreviousRowsColumnCounter">
-                                <PlainTextRowDisplay PlainTextRow="@plainTextRow"/>
+                                <PlainTextRowDisplay @key="plainTextRow.SequenceKeyRecord" 
+                                                     PlainTextRow="@plainTextRow"/>
                             </CascadingValue>
                         </CascadingValue>
                     </CascadingValue>
