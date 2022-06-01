@@ -42,7 +42,7 @@ public class PlainTextEditorReducer
 	{
 		_ = Task.Run(async () =>
 			await plainTextEditorCopyAction.ClipboardProvider.SetClipboard(previousPlainTextEditorState
-				.EntireDocumentToPlainText));
+				.GetEntireDocumentToPlainText()));
 
 		return previousPlainTextEditorState;
 	}

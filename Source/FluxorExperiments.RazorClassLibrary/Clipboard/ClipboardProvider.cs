@@ -19,7 +19,7 @@ public class ClipboardProvider : IClipboardProvider
 			return await _jsRuntime.InvokeAsync<string>(
 				"fluxorExperiments.readClipboard");
 		}
-		catch (TaskCanceledException e)
+		catch (TaskCanceledException)
 		{
 			return string.Empty;
 		}
@@ -33,7 +33,7 @@ public class ClipboardProvider : IClipboardProvider
 				"fluxorExperiments.setClipboard",
 				value);
 		}
-		catch (TaskCanceledException e)
+		catch (TaskCanceledException)
 		{
 		}
 	}

@@ -34,12 +34,13 @@ public partial record PlainTextEditorState
 				
 				var defaultToken = new DefaultPlainTextToken(keyDownEventRecord);
 
-				var nextRow = new PlainTextRow(nextPlainTextEditorState.CurrentRow);
+				var nextRow = nextPlainTextEditorState.CurrentRow.ConstructDeepClone();
 
-				nextRow = nextRow.WithInsert(defaultToken,
+				nextRow = nextRow.WithInsert(defaultToken.KeyRecord,
+					defaultToken,
 					nextPlainTextEditorState.CurrentPlainTextTokenKeyIndex + 1);
 
-				nextPlainTextEditorState._plainTextRowMap[nextRow.PlainTextRowKey] = nextRow;
+				nextPlainTextEditorState.FeatureStateMap[nextRow.KeyRecord] = nextRow;
 
 				nextPlainTextEditorState.CurrentPlainTextTokenKeyIndex += 1;
 			}

@@ -1,4 +1,5 @@
 ﻿using Fluxor;
+using FluxorExperiments.ClassLibrary.FeatureStateContainer;
 using FluxorExperiments.ClassLibrary.PlainTextEditor;
 using FluxorExperiments.ClassLibrary.Store.PlainTextEditor;
 using Microsoft.AspNetCore.Components;
@@ -13,10 +14,10 @@ public partial class PlainTextTokenDisplay : ComponentBase
 	[Parameter, EditorRequired]
 	public PlainTextRow PlainTextRow { get; set; } = null!;
 	[Parameter, EditorRequired]
-	public PlainTextTokenKey PlainTextTokenKey { get; set; } = null!;
+	public PlainTextTokenBase PlainTextToken { get; set; } = null!;
 	
-	private PlainTextTokenBase? _cachedPlainTextToken;
 	private int _rerenderCount;
+	private SequenceKeyRecord? _previousRenderedWithPlainTextTokenSequenceKey;
 
 	protected override void OnAfterRender(bool firstRender)
 	{
@@ -32,26 +33,17 @@ public partial class PlainTextTokenDisplay : ComponentBase
 
 	protected override bool ShouldRender()
 	{
-		try
-		{
-			var currentPlainTextToken = PlainTextRow.LookupPlainTextToken(PlainTextTokenKey);
+		var shouldRender = _previousRenderedWithPlainTextTokenSequenceKey is null ||
+		                   _previousRenderedWithPlainTextTokenSequenceKey != PlainTextToken.SequenceKeyRecord;
 
-			var shouldRender = _cachedPlainTextToken is null || 
-			       _cachedPlainTextToken.SequenceKey != currentPlainTextToken.SequenceKey;
+		_previousRenderedWithPlainTextTokenSequenceKey = PlainTextToken.SequenceKeyRecord;
 
-			_cachedPlainTextToken = currentPlainTextToken;
-
-			return shouldRender;
-		}
-		catch (KeyNotFoundException)
-		{
-			return false;
-		}
+		return shouldRender;
 	}
 
 	private bool GetShouldDisplayCursor()
 	{
-		return PlainTextEditorState.Value.CurrentPlainTextToken.PlainTextTokenKey ==
-		       PlainTextTokenKey;
+		return PlainTextEditorState.Value.CurrentPlainTextToken.KeyRecord ==
+		       PlainTextToken.KeyRecord;
 	}
 }

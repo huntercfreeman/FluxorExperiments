@@ -1,8 +1,8 @@
 ﻿using FluxorExperiments.ClassLibrary.Clipboard;
+using FluxorExperiments.ClassLibrary.FeatureStateContainer;
 using FluxorExperiments.ClassLibrary.Keyboard;
 using FluxorExperiments.ClassLibrary.KeyDownEvent;
 using FluxorExperiments.ClassLibrary.PlainTextEditor;
-using FluxorExperiments.ClassLibrary.Sequence;
 
 namespace FluxorExperiments.ClassLibrary.Store.PlainTextEditor;
 
@@ -95,10 +95,10 @@ public partial record PlainTextEditorState
 
 			var previousRow = nextPlainTextEditorState.CurrentRow;
 
-			nextPlainTextEditorState._plainTextRowMap[previousRow.PlainTextRowKey] = previousRow
-				.WithReplace(previousToken.PlainTextTokenKey, previousToken with {
+			nextPlainTextEditorState.FeatureStateMap[previousRow.KeyRecord] = previousRow
+				.WithReplace(previousToken.KeyRecord, previousToken with {
 					IndexInPlainText = indexInContent,
-					SequenceKey = SequenceKey.NewSequenceKey()
+					SequenceKeyRecord = new SequenceKeyRecord()
 				});
 		}
 
@@ -132,10 +132,10 @@ public partial record PlainTextEditorState
 			KeyDownEventRecord keyDownEventRecord,
 			bool isActiveRow)
 		{
-			nextPlainTextEditorState._plainTextRowMap[nextPlainTextEditorState.CurrentRow.PlainTextRowKey] =
+			nextPlainTextEditorState.FeatureStateMap[nextPlainTextEditorState.CurrentRow.KeyRecord] =
 				nextPlainTextEditorState.CurrentRow with {
 					IsActiveRow = isActiveRow,
-					SequenceKey = SequenceKey.NewSequenceKey()
+					SequenceKeyRecord = new SequenceKeyRecord()
 				};
 		}
 
@@ -156,7 +156,7 @@ public partial record PlainTextEditorState
 
 					nextPlainTextEditorState.CurrentRowIndex--;
 					nextPlainTextEditorState.CurrentPlainTextTokenKeyIndex =
-						nextPlainTextEditorState.CurrentRow.TokenCount - 1;
+						nextPlainTextEditorState.CurrentRow.Count - 1;
 
 					SetIndexInPlainTextOfCurrentToken(nextPlainTextEditorState,
 						nextPlainTextEditorState.CurrentPlainTextToken.ToPlainText.Length - 1);
@@ -188,10 +188,10 @@ public partial record PlainTextEditorState
 			var nextWasSetAsCurrent = false;
 
 			if (nextPlainTextEditorState.CurrentPlainTextTokenKeyIndex >=
-			    nextPlainTextEditorState.CurrentRow.TokenCount - 1)
+			    nextPlainTextEditorState.CurrentRow.Count - 1)
 			{
 				if (nextPlainTextEditorState.CurrentRowIndex <
-				    nextPlainTextEditorState.RowCount - 1)
+				    nextPlainTextEditorState.Count - 1)
 				{
 					SetIndexInPlainTextOfCurrentToken(nextPlainTextEditorState, null);
 					SetCurrentRowIsActiveRow(nextPlainTextEditorState, keyDownEventRecord, false);
@@ -295,7 +295,7 @@ public partial record PlainTextEditorState
 		private static void MoveArrowDown(PlainTextEditorState nextPlainTextEditorState,
 			KeyDownEventRecord keyDownEventRecord)
 		{
-			if (nextPlainTextEditorState.CurrentRowIndex >= nextPlainTextEditorState.RowCount - 1)
+			if (nextPlainTextEditorState.CurrentRowIndex >= nextPlainTextEditorState.Count - 1)
 				return;
 
 			var inclusiveStartingColumnIndexOfCurrentToken =
@@ -307,11 +307,11 @@ public partial record PlainTextEditorState
 
 			var tokenInRowBelowMetaData = CalculateTokenAtColumnIndexRespectiveToRow(
 				nextPlainTextEditorState,
-				nextPlainTextEditorState.GetRowAtIndex(nextPlainTextEditorState.CurrentRowIndex + 1),
+				nextPlainTextEditorState[nextPlainTextEditorState.CurrentRowIndex + 1],
 				currentColumnIndexWithIndexInPlainTextAccountedFor);
 
-			while (nextPlainTextEditorState.CurrentPlainTextToken.PlainTextTokenKey !=
-			       tokenInRowBelowMetaData.PlainTextToken.PlainTextTokenKey)
+			while (nextPlainTextEditorState.CurrentPlainTextToken.KeyRecord !=
+			       tokenInRowBelowMetaData.PlainTextToken.KeyRecord)
 			{
 				MoveArrowRight(nextPlainTextEditorState, new KeyDownEventRecord(
 					KeyboardFacts.MovementKeys.ARROW_RIGHT_KEY,
@@ -350,11 +350,11 @@ public partial record PlainTextEditorState
 
 			var tokenInRowAboveMetaData = CalculateTokenAtColumnIndexRespectiveToRow(
 				nextPlainTextEditorState,
-				nextPlainTextEditorState.GetRowAtIndex(nextPlainTextEditorState.CurrentRowIndex - 1),
+				nextPlainTextEditorState[nextPlainTextEditorState.CurrentRowIndex - 1],
 				currentColumnIndexWithIndexInPlainTextAccountedFor);
 
-			while (nextPlainTextEditorState.CurrentPlainTextToken.PlainTextTokenKey !=
-			       tokenInRowAboveMetaData.PlainTextToken.PlainTextTokenKey)
+			while (nextPlainTextEditorState.CurrentPlainTextToken.KeyRecord !=
+			       tokenInRowAboveMetaData.PlainTextToken.KeyRecord)
 			{
 				MoveArrowLeft(nextPlainTextEditorState, new KeyDownEventRecord(
 					KeyboardFacts.MovementKeys.ARROW_LEFT_KEY,
@@ -477,11 +477,11 @@ public partial record PlainTextEditorState
 			KeyDownEventRecord keyDownEventRecord)
 		{
 			PlainTextTokenBase goalToken = keyDownEventRecord.CtrlWasPressed
-				? nextPlainTextEditorState.GetRowAtIndex(0).GetPlainTextTokenFromIndex(0)
-				: nextPlainTextEditorState.CurrentRow.GetPlainTextTokenFromIndex(0);
+				? nextPlainTextEditorState[0][0]
+				: nextPlainTextEditorState.CurrentRow[0];
 
-			while (nextPlainTextEditorState.CurrentPlainTextToken.PlainTextTokenKey !=
-			       goalToken.PlainTextTokenKey)
+			while (nextPlainTextEditorState.CurrentPlainTextToken.KeyRecord !=
+			       goalToken.KeyRecord)
 			{
 				MoveArrowLeft(nextPlainTextEditorState, new KeyDownEventRecord(
 					KeyboardFacts.MovementKeys.ARROW_LEFT_KEY,
@@ -505,16 +505,14 @@ public partial record PlainTextEditorState
 		private static void MoveEnd(PlainTextEditorState nextPlainTextEditorState,
 			KeyDownEventRecord keyDownEventRecord)
 		{
-			var finalRow = nextPlainTextEditorState.GetRowAtIndex(nextPlainTextEditorState.RowCount - 1);
+			var finalRow = nextPlainTextEditorState[nextPlainTextEditorState.Count - 1];
 
 			PlainTextTokenBase goalToken = keyDownEventRecord.CtrlWasPressed
-				? finalRow
-					.GetPlainTextTokenFromIndex(finalRow.TokenCount - 1)
-				: nextPlainTextEditorState.CurrentRow.GetPlainTextTokenFromIndex(nextPlainTextEditorState.CurrentRow
-					.TokenCount - 1);
+				? finalRow[^1]
+				: nextPlainTextEditorState.CurrentRow[^1];
 
-			while (nextPlainTextEditorState.CurrentPlainTextToken.PlainTextTokenKey !=
-			       goalToken.PlainTextTokenKey)
+			while (nextPlainTextEditorState.CurrentPlainTextToken.KeyRecord !=
+			       goalToken.KeyRecord)
 			{
 				MoveArrowRight(nextPlainTextEditorState, new KeyDownEventRecord(
 					KeyboardFacts.MovementKeys.ARROW_RIGHT_KEY,
@@ -546,11 +544,9 @@ public partial record PlainTextEditorState
 		{
 			var rollingCount = 0;
 
-			foreach (var tokenKey in nextPlainTextEditorState.CurrentRow.PlainTextTokenKeys)
+			foreach (var token in nextPlainTextEditorState.CurrentRow.Items)
 			{
-				var token = nextPlainTextEditorState.CurrentRow.LookupPlainTextToken(tokenKey);
-
-				if (tokenKey == nextPlainTextEditorState.CurrentPlainTextToken.PlainTextTokenKey)
+				if (token.KeyRecord == nextPlainTextEditorState.CurrentPlainTextToken.KeyRecord)
 				{
 					return rollingCount;
 				}
@@ -568,15 +564,13 @@ public partial record PlainTextEditorState
 		{
 			var rollingCount = 0;
 
-			foreach (var rowKey in nextPlainTextEditorState._plainTextRowKeys)
+			foreach (var rowKey in nextPlainTextEditorState.FeatureStateKeys)
 			{
-				var row = nextPlainTextEditorState.LookupPlainTextRow(rowKey);
+				var row = nextPlainTextEditorState[rowKey];
 
-				foreach (var tokenKey in row.PlainTextTokenKeys)
+				foreach (var token in row.Items)
 				{
-					var token = row.LookupPlainTextToken(tokenKey);
-
-					if (tokenKey == nextPlainTextEditorState.CurrentPlainTextToken.PlainTextTokenKey)
+					if (token.KeyRecord == nextPlainTextEditorState.CurrentPlainTextToken.KeyRecord)
 					{
 						return new PlainTextTokenMetaData(token,
 							null,
@@ -599,11 +593,11 @@ public partial record PlainTextEditorState
 			int columnIndex)
 		{
 			var rollingCount = 0;
-			PlainTextTokenBase? token = row.GetPlainTextTokenFromIndex(0);
+			PlainTextTokenBase? token = row[0];
 
-			foreach (var tokenKey in row.PlainTextTokenKeys)
+			foreach (var temporaryToken in row.Items)
 			{
-				token = row.LookupPlainTextToken(tokenKey);
+				token = temporaryToken;
 
 				rollingCount += token.ToPlainText.Length;
 
@@ -621,8 +615,8 @@ public partial record PlainTextEditorState
 		private static void PerformBackspace(PlainTextEditorState nextPlainTextEditorState,
 			KeyDownEventRecord keyDownEventRecord)
 		{
-			if (nextPlainTextEditorState.CurrentPlainTextToken.PlainTextTokenKey ==
-			    nextPlainTextEditorState.GetRowAtIndex(0).GetPlainTextTokenFromIndex(0).PlainTextTokenKey)
+			if (nextPlainTextEditorState.CurrentPlainTextToken.KeyRecord ==
+			    nextPlainTextEditorState[0][0].KeyRecord)
 			{
 				// Do not allow Backspace to remove the First().First() StartOfRow token.
 				return;
@@ -633,9 +627,9 @@ public partial record PlainTextEditorState
 			var temporarilyStoredTokenKeyIndex = nextPlainTextEditorState.CurrentPlainTextTokenKeyIndex;
 
 			var nextRow = nextPlainTextEditorState.CurrentRow
-				.WithRemove(nextPlainTextEditorState.CurrentPlainTextToken.PlainTextTokenKey);
+				.WithRemove(nextPlainTextEditorState.CurrentPlainTextToken.KeyRecord);
 
-			nextPlainTextEditorState._plainTextRowMap[nextRow.PlainTextRowKey] = nextRow;
+			nextPlainTextEditorState.FeatureStateMap[nextRow.KeyRecord] = nextRow;
 
 			SetPreviousTokenAsCurrentToken(nextPlainTextEditorState, keyDownEventRecord, false);
 
@@ -649,7 +643,7 @@ public partial record PlainTextEditorState
 			{
 				var temporarilyStoredToken = nextPlainTextEditorState.CurrentPlainTextToken;
 
-				nextPlainTextEditorState._plainTextRowMap[nextRow.PlainTextRowKey] =
+				nextPlainTextEditorState.FeatureStateMap[nextRow.KeyRecord] =
 					PlainTextRow.PerformMergingOn(nextRow, temporarilyStoredTokenKeyIndex - 1);
 
 				SetIndexInPlainTextOfCurrentToken(nextPlainTextEditorState, temporarilyStoredToken.IndexInPlainText);
@@ -665,10 +659,10 @@ public partial record PlainTextEditorState
 		{
 			var nextRow = plainTextRowOther.WithAddRange(plainTextRowToBeMoved);
 
-			nextPlainTextEditorState._plainTextRowMap[nextRow.PlainTextRowKey] = nextRow;
+			nextPlainTextEditorState.FeatureStateMap[nextRow.KeyRecord] = nextRow;
 
-			nextPlainTextEditorState._plainTextRowMap.Remove(plainTextRowToBeMoved.PlainTextRowKey);
-			nextPlainTextEditorState._plainTextRowKeys.Remove(plainTextRowToBeMoved.PlainTextRowKey);
+			nextPlainTextEditorState.FeatureStateMap.Remove(plainTextRowToBeMoved.KeyRecord);
+			nextPlainTextEditorState.FeatureStateKeys.Remove(plainTextRowToBeMoved.KeyRecord);
 		}
 
 		private static void HandleWhitespace(PlainTextEditorState nextPlainTextEditorState,
@@ -677,7 +671,7 @@ public partial record PlainTextEditorState
 			if (KeyboardFacts.WhitespaceKeys.ENTER_CODE == keyDownEventRecord.Code)
 			{
 				if (nextPlainTextEditorState.CurrentPlainTextTokenKeyIndex !=
-				    nextPlainTextEditorState.CurrentRow.TokenCount)
+				    nextPlainTextEditorState.CurrentRow.Count)
 				{
 					PlainTextRow nextRow = nextPlainTextEditorState.CurrentRow;
 					PlainTextRow createdRowBelow = new PlainTextRow();
@@ -688,7 +682,7 @@ public partial record PlainTextEditorState
 					    nextPlainTextEditorState.CurrentPlainTextToken.ToPlainText.Length - 1)
 					{
 						nextRow = nextPlainTextEditorState.CurrentRow
-							.WithRemove(nextPlainTextEditorState.CurrentPlainTextToken.PlainTextTokenKey);
+							.WithRemove(nextPlainTextEditorState.CurrentPlainTextToken.KeyRecord);
 
 						var tokenFirstString = nextPlainTextEditorState.CurrentPlainTextToken.ToPlainText
 							.Substring(0,
@@ -697,35 +691,42 @@ public partial record PlainTextEditorState
 						var tokenSecondString = nextPlainTextEditorState.CurrentPlainTextToken.ToPlainText
 							.Substring(nextPlainTextEditorState.CurrentPlainTextToken.IndexInPlainText!.Value + 1);
 
-						nextRow = nextRow.WithInsert(new DefaultPlainTextToken(tokenFirstString),
+						var tokenFirst = new DefaultPlainTextToken(tokenFirstString);
+						var tokenSecond = new DefaultPlainTextToken(tokenSecondString);
+						
+						nextRow = nextRow.WithInsert(tokenFirst.KeyRecord,
+							tokenFirst,
 							nextPlainTextEditorState.CurrentPlainTextTokenKeyIndex);
 
-						nextRow = nextRow.WithInsert(new DefaultPlainTextToken(tokenSecondString),
+						nextRow = nextRow.WithInsert(tokenSecond.KeyRecord,
+							tokenSecond,
 							nextPlainTextEditorState.CurrentPlainTextTokenKeyIndex + 1);
 					}
 
 					var createdRowBelowInsertIndex = 1;
 
 					for (var i = nextPlainTextEditorState.CurrentPlainTextTokenKeyIndex + 1;
-					     i < nextRow.TokenCount;
+					     i < nextRow.Count;
 					     i++)
 					{
-						var token = nextRow.GetPlainTextTokenFromIndex(i);
+						var token = nextRow[i];
 
-						nextRow = nextRow.WithRemove(token.PlainTextTokenKey);
-						createdRowBelow = createdRowBelow.WithInsert(token, createdRowBelowInsertIndex++);
+						nextRow = nextRow.WithRemove(token.KeyRecord);
+						createdRowBelow = createdRowBelow.WithInsert(token.KeyRecord, 
+							token, 
+							createdRowBelowInsertIndex++);
 
 						i--;
 					}
 
-					nextPlainTextEditorState._plainTextRowMap[nextRow.PlainTextRowKey] = nextRow;
+					nextPlainTextEditorState.FeatureStateMap[nextRow.KeyRecord] = nextRow;
 
 					SetIndexInPlainTextOfCurrentToken(nextPlainTextEditorState, null);
 
-					nextPlainTextEditorState._plainTextRowKeys.Insert(nextPlainTextEditorState.CurrentRowIndex + 1,
-						createdRowBelow.PlainTextRowKey);
+					nextPlainTextEditorState.FeatureStateKeys.Insert(nextPlainTextEditorState.CurrentRowIndex + 1,
+						createdRowBelow.KeyRecord);
 
-					nextPlainTextEditorState._plainTextRowMap.Add(createdRowBelow.PlainTextRowKey, createdRowBelow);
+					nextPlainTextEditorState.FeatureStateMap.Add(createdRowBelow.KeyRecord, createdRowBelow);
 				}
 
 				nextPlainTextEditorState.CurrentRowIndex++;
@@ -738,12 +739,13 @@ public partial record PlainTextEditorState
 
 				var whitespaceToken = new WhitespacePlainTextToken(keyDownEventRecord);
 
-				var nextRow = new PlainTextRow(nextPlainTextEditorState.CurrentRow);
+				var nextRow = nextPlainTextEditorState.CurrentRow.ConstructDeepClone();
 
-				nextRow = nextRow.WithInsert(whitespaceToken,
+				nextRow = nextRow.WithInsert(whitespaceToken.KeyRecord,
+					whitespaceToken,
 					nextPlainTextEditorState.CurrentPlainTextTokenKeyIndex + 1);
 
-				nextPlainTextEditorState._plainTextRowMap[nextRow.PlainTextRowKey] = nextRow;
+				nextPlainTextEditorState.FeatureStateMap[nextRow.KeyRecord] = nextRow;
 
 				nextPlainTextEditorState.CurrentPlainTextTokenKeyIndex += 1;
 			}

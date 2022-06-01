@@ -1,5 +1,4 @@
 ﻿using FluxorExperiments.ClassLibrary.FeatureStateContainer;
-using FluxorExperiments.ClassLibrary.Sequence;
 
 namespace FluxorExperiments.ClassLibrary.PlainTextEditor;
 
@@ -8,9 +7,12 @@ public abstract record PlainTextTokenBase(int? IndexInPlainText)
 {
 	public abstract PlainTextTokenKind PlainTextTokenKind { get; }
 	public abstract string ToPlainText { get; }
-	
-	public SequenceKeyRecord SequenceKeyRecord { get; } = new();
+
+	public SequenceKeyRecord SequenceKeyRecord { get; init; } = new();
 	public PlainTextTokenKey KeyRecord { get; set; } = new();
 	
-	public PlainTextTokenBase ConstructDeepClone() => this with { };
+	public PlainTextTokenBase ConstructDeepClone() => this with 
+	{
+		SequenceKeyRecord = new SequenceKeyRecord()
+	};
 }

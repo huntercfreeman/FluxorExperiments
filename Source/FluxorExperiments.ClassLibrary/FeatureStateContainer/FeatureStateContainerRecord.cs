@@ -8,16 +8,16 @@ public record FeatureStateContainerRecord<TFeatureStateContainerRecord, TKey, TI
     where TKey : KeyRecord
     where TItem : IManyFeatureState<TKey, TItem>
 {
-    private Dictionary<TKey, TItem> _featureStateMap;
-    private List<TKey> _featureStateKeys;
+    protected readonly Dictionary<TKey, TItem> FeatureStateMap;
+    protected readonly List<TKey> FeatureStateKeys;
 
     /// <summary>
     /// Only Fluxor should be calling this constructor
     /// </summary>
     protected FeatureStateContainerRecord()
     {
-        _featureStateMap = new();
-        _featureStateKeys = new();
+        FeatureStateMap = new();
+        FeatureStateKeys = new();
     }
 
     protected virtual TFeatureStateContainerRecord ConstructDeepClone()
@@ -32,8 +32,8 @@ public record FeatureStateContainerRecord<TFeatureStateContainerRecord, TKey, TI
     {
         var otherFeatureStateContainerRecord = ConstructDeepClone();
 
-        otherFeatureStateContainerRecord._featureStateKeys.Add(key);
-        otherFeatureStateContainerRecord._featureStateMap.Add(key, item);
+        otherFeatureStateContainerRecord.FeatureStateKeys.Add(key);
+        otherFeatureStateContainerRecord.FeatureStateMap.Add(key, item);
 
         return otherFeatureStateContainerRecord;
     }
@@ -42,8 +42,8 @@ public record FeatureStateContainerRecord<TFeatureStateContainerRecord, TKey, TI
     {
         var otherFeatureStateContainerRecord = ConstructDeepClone();
 
-        otherFeatureStateContainerRecord._featureStateKeys.Insert(index, key);
-        otherFeatureStateContainerRecord._featureStateMap.Add(key, item);
+        otherFeatureStateContainerRecord.FeatureStateKeys.Insert(index, key);
+        otherFeatureStateContainerRecord.FeatureStateMap.Add(key, item);
 
         return otherFeatureStateContainerRecord;
     }
@@ -52,8 +52,8 @@ public record FeatureStateContainerRecord<TFeatureStateContainerRecord, TKey, TI
     {
         var otherFeatureStateContainerRecord = ConstructDeepClone();
 
-        otherFeatureStateContainerRecord._featureStateKeys.Add(key);
-        otherFeatureStateContainerRecord._featureStateMap.Remove(key);
+        otherFeatureStateContainerRecord.FeatureStateKeys.Add(key);
+        otherFeatureStateContainerRecord.FeatureStateMap.Remove(key);
 
         return otherFeatureStateContainerRecord;
     }
@@ -62,14 +62,16 @@ public record FeatureStateContainerRecord<TFeatureStateContainerRecord, TKey, TI
     {
         var otherFeatureStateContainerRecord = ConstructDeepClone();
 
-        otherFeatureStateContainerRecord._featureStateMap[key] = item;
+        otherFeatureStateContainerRecord.FeatureStateMap[key] = item;
 
         return otherFeatureStateContainerRecord;
     }
 
-    public ImmutableArray<TItem> Items => _featureStateKeys
-        .Select(key => _featureStateMap[key])
+    public int Count => FeatureStateKeys.Count;
+    public ImmutableArray<TItem> Items => FeatureStateKeys
+        .Select(key => FeatureStateMap[key])
         .ToImmutableArray();
 
-    public TItem this[TKey key] => _featureStateMap[key];
+    public TItem this[TKey key] => FeatureStateMap[key];
+    public TItem this[int index] => FeatureStateMap[FeatureStateKeys[index]];
 }

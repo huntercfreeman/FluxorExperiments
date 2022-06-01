@@ -1,7 +1,6 @@
 ﻿using FluxorExperiments.ClassLibrary.ImmutableStringBuilder;
 using FluxorExperiments.ClassLibrary.Keyboard;
 using FluxorExperiments.ClassLibrary.KeyDownEvent;
-using FluxorExperiments.ClassLibrary.Sequence;
 
 namespace FluxorExperiments.ClassLibrary.PlainTextEditor;
 

@@ -1,16 +1,16 @@
-﻿@if (_cachedPlainTextRow is not null)
+﻿@if (PlainTextRow is not null)
 {
     <div class="fe_plain-text-row-display">
         <PlainTextEditorLineNumberDisplay RowRerenderCount="_rerenderCount"
-                                          RowSequenceKey="_cachedPlainTextRow.SequenceKey" />
+                                          RowSequenceKey="PlainTextRow.SequenceKeyRecord" />
         
         @{
             var currentRowPreviousTokensColumnCount = 0;
             
-            for (var i = 0; i < _cachedPlainTextRow.PlainTextTokenKeys.Length; i++)
+            for (var i = 0; i < PlainTextRow.Count; i++)
             {
                 var tokenIndex = i;
-                var plainTextTokenKey = _cachedPlainTextRow.PlainTextTokenKeys[tokenIndex];
+                var plainTextToken = PlainTextRow[tokenIndex];
 
                 var localCurrentRowPreviousTokensColumnCount = currentRowPreviousTokensColumnCount;
 
@@ -18,13 +18,12 @@
                                 Value="tokenIndex">
                     <CascadingValue Name="@nameof(CharacterDisplay.CurrentRowPreviousTokensColumnCount)" 
                                     Value="localCurrentRowPreviousTokensColumnCount">
-                        <PlainTextTokenDisplay PlainTextRow="@_cachedPlainTextRow"
-                                               PlainTextTokenKey="@plainTextTokenKey"/>
+                        <PlainTextTokenDisplay PlainTextRow="@PlainTextRow"
+                                               PlainTextToken="@plainTextToken"/>
                     </CascadingValue>
                 </CascadingValue>
                 
-                currentRowPreviousTokensColumnCount += _cachedPlainTextRow
-                    .LookupPlainTextToken(plainTextTokenKey).ToPlainText.Length;
+                currentRowPreviousTokensColumnCount += plainTextToken.ToPlainText.Length;
             }
         }
     </div>

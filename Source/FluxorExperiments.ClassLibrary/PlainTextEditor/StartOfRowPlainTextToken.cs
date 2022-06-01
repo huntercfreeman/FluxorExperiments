@@ -1,6 +1,4 @@
-﻿using FluxorExperiments.ClassLibrary.Sequence;
-
-namespace FluxorExperiments.ClassLibrary.PlainTextEditor;
+﻿namespace FluxorExperiments.ClassLibrary.PlainTextEditor;
 
 public record StartOfRowPlainTextToken(int? IndexInPlainText) 
 	: PlainTextTokenBase(IndexInPlainText)

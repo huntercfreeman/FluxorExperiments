@@ -33,12 +33,13 @@ public partial record PlainTextEditorState
 				var nextDefaultToken = new DefaultPlainTextToken(keyDownEventRecord,
 					(DefaultPlainTextToken)nextPlainTextEditorState.CurrentPlainTextToken);
 
-				var nextRow = new PlainTextRow(nextPlainTextEditorState.CurrentRow);
+				var nextRow = nextPlainTextEditorState.CurrentRow
+					.ConstructDeepClone();
 
-				nextRow = nextRow.WithReplace(nextDefaultToken.PlainTextTokenKey,
+				nextRow = nextRow.WithReplace(nextDefaultToken.KeyRecord,
 					nextDefaultToken);
 
-				nextPlainTextEditorState._plainTextRowMap[nextRow.PlainTextRowKey] = nextRow;
+				nextPlainTextEditorState.FeatureStateMap[nextRow.KeyRecord] = nextRow;
 			}
 
 			return nextPlainTextEditorState;
@@ -71,12 +72,13 @@ public partial record PlainTextEditorState
 				}
 			}
 
-			var nextRow = new PlainTextRow(nextPlainTextEditorState.CurrentRow);
+			var nextRow = nextPlainTextEditorState.CurrentRow
+				.ConstructDeepClone();
 
-			nextRow = nextRow.WithReplace(nextDefaultToken.PlainTextTokenKey,
+			nextRow = nextRow.WithReplace(nextDefaultToken.KeyRecord,
 				nextDefaultToken);
 
-			nextPlainTextEditorState._plainTextRowMap[nextRow.PlainTextRowKey] = nextRow;
+			nextPlainTextEditorState.FeatureStateMap[nextRow.KeyRecord] = nextRow;
 		}
 	}
 }

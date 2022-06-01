@@ -3,7 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using Fluxor;
 using Fluxor.Blazor.Web.Components;
@@ -20,7 +19,7 @@ public partial class FocusBoundaryDisplay : FluxorComponent
 	public RenderFragment ChildContent { get; set; } = null!;
 	
 	[Parameter]
-	public string Class { get; set; }
+	public string? Class { get; set; }
 
 	[Parameter]
 	public bool InitiallySetFocusOnAfterRender { get; set; } = true;

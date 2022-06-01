@@ -1,4 +1,4 @@
-﻿using FluxorExperiments.ClassLibrary.Sequence;
+﻿using FluxorExperiments.ClassLibrary.FeatureStateContainer;
 using Microsoft.AspNetCore.Components;
 
 namespace FluxorExperiments.RazorClassLibrary.PlainTextEditor;
@@ -13,7 +13,7 @@ public partial class PlainTextEditorLineNumberDisplay : ComponentBase
 	[Parameter, EditorRequired]
 	public int RowRerenderCount { get; set; }
 	[Parameter, EditorRequired]
-	public SequenceKey RowSequenceKey { get; set; } = null!;
+	public SequenceKeyRecord RowSequenceKey { get; set; } = null!;
 
 	private int LineNumber => RowIndex + 1;
 
