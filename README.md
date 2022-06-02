@@ -30,6 +30,8 @@ As well Flux provides a single source of truth for state.
 ## Problem Description
 I find Flux can be repetitive when managing multiple instances of the same class as separate states.
 
+*Peter Morris, the creator of Fluxor, responded to an email email I sent him regarding multiple widget states. He designed IStateSelector for this purpose and I will go through and revise my code to make use of it.*
+
 This is due to the [FeatureState] (in respect to the Fluxor impelementation) being some kind of container. An example could be that the [FeatureState] is a Dictionary.
 
 The Dictionary then looks up the state for a corresponding UI element using a key.
