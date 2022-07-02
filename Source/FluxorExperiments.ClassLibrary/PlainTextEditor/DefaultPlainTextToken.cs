@@ -94,4 +94,18 @@ public record DefaultPlainTextToken(int? IndexInPlainText)
 	public override int PlanTextLength => _immutableStringBuilderRecordKey.Length;
 
 	public override string PlainText => _immutableStringBuilderRecord.ToString();
+	
+	public override string ToHtmlEscapdString()
+	{
+		return new StringBuilder()
+			.Append(PlainTextSpan)
+			.Replace("&", HtmlHelper._ampersandString)
+			.Replace("<", HtmlHelper._leftAngleBracketString)
+			.Replace(">", HtmlHelper._rightAngleBracketString)
+			.Replace("\t", HtmlHelper._tabString)
+			.Replace(" ", HtmlHelper._spaceString)
+			.Replace("\n", HtmlHelper._newLineString)
+			.Replace("\"", HtmlHelper._doubleQuoteString)
+			.Replace("'", HtmlHelper._singleQuoteString).ToString();
+	}
 }

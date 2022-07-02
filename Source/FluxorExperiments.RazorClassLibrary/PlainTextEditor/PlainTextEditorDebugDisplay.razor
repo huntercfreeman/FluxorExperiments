@@ -12,7 +12,7 @@
                 @if (PlainTextEditorState.CurrentPlainTextToken.PlainTextTokenKind == PlainTextTokenKind.Whitespace ||
                      PlainTextEditorState.CurrentPlainTextToken.PlainTextTokenKind == PlainTextTokenKind.StartOfRow)
                 {
-                    @(PlainTextEditorState.CurrentPlainTextToken.PlainTextSpan.ToHtmlEscapedString())
+                    @(PlainTextEditorState.CurrentPlainTextToken.ToHtmlEscapdString())
                 }
                 else
                 {

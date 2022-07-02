@@ -19,4 +19,9 @@ public record StartOfRowPlainTextToken(int? IndexInPlainText)
 	public override int PlanTextLength => 1;
 
 	public override string PlainText => NextLine;
+
+	public override string ToHtmlEscapdString()
+	{
+		return HtmlHelper._newLineString;
+	}
 }

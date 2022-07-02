@@ -45,17 +45,17 @@ public static class HtmlHelper
 			.Replace("'", _singleQuoteString).ToString();
 	}
 
-	public static string ToHtmlEscapedString(this ReadOnlySpan<char> input)
-	{
-		return new StringBuilder()
-			.Append(input)
-			.Replace("&", _ampersandString)
-			.Replace("<", _leftAngleBracketString)
-			.Replace(">", _rightAngleBracketString)
-			.Replace("\t", _tabString)
-			.Replace(" ", _spaceString)
-			.Replace("\n", _newLineString)
-			.Replace("\"", _doubleQuoteString)
-			.Replace("'", _singleQuoteString).ToString();
-	}
+	//public static string ToHtmlEscapedString(this ReadOnlySpan<char> input)
+	//{
+	//	return new StringBuilder()
+	//		.Append(input)
+	//		.Replace("&", _ampersandString)
+	//		.Replace("<", _leftAngleBracketString)
+	//		.Replace(">", _rightAngleBracketString)
+	//		.Replace("\t", _tabString)
+	//		.Replace(" ", _spaceString)
+	//		.Replace("\n", _newLineString)
+	//		.Replace("\"", _doubleQuoteString)
+	//		.Replace("'", _singleQuoteString).ToString();
+	//}
 }

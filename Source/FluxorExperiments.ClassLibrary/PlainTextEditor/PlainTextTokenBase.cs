@@ -16,4 +16,5 @@ public abstract record PlainTextTokenBase(int? IndexInPlainText)
 	{
 		SequenceKeyRecord = new SequenceKeyRecord(Guid.NewGuid())
 	};
+	public abstract string ToHtmlEscapdString();
 }
