@@ -8,7 +8,7 @@
         @nameof(PlainTextEditorState.CurrentPlainTextToken)
         <div style="margin-left: 30px;">
             <div>
-                @nameof(PlainTextEditorState.CurrentPlainTextToken.PlainTextSpan):&nbsp;
+                @nameof(PlainTextEditorState.CurrentPlainTextToken.PlainText):&nbsp;
                 @if (PlainTextEditorState.CurrentPlainTextToken.PlainTextTokenKind == PlainTextTokenKind.Whitespace ||
                      PlainTextEditorState.CurrentPlainTextToken.PlainTextTokenKind == PlainTextTokenKind.StartOfRow)
                 {
@@ -16,7 +16,7 @@
                 }
                 else
                 {
-                    @(PlainTextEditorState.CurrentPlainTextToken.PlainTextSpan.ToString())
+                    @(PlainTextEditorState.CurrentPlainTextToken.PlainText)
                 }
             </div>
             <div>

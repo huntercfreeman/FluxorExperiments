@@ -1,6 +1,8 @@
-﻿using FluxorExperiments.ClassLibrary.ImmutableStringBuilder;
+﻿using FluxorExperiments.ClassLibrary.Html;
+using FluxorExperiments.ClassLibrary.ImmutableStringBuilder;
 using FluxorExperiments.ClassLibrary.Keyboard;
 using FluxorExperiments.ClassLibrary.KeyDownEvent;
+using System.Text;
 
 namespace FluxorExperiments.ClassLibrary.PlainTextEditor;
 
@@ -90,4 +92,6 @@ public record DefaultPlainTextToken(int? IndexInPlainText)
 		.ToStringAsSpan(_immutableStringBuilderRecordKey);
 
 	public override int PlanTextLength => _immutableStringBuilderRecordKey.Length;
+
+	public override string PlainText => _immutableStringBuilderRecord.ToString();
 }

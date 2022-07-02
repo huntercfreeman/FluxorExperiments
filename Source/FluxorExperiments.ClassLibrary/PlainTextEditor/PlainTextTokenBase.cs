@@ -7,6 +7,7 @@ public abstract record PlainTextTokenBase(int? IndexInPlainText)
 {
 	public abstract PlainTextTokenKind PlainTextTokenKind { get; }
 	public abstract ReadOnlySpan<char> PlainTextSpan { get; }
+	public abstract string PlainText { get; }	
 	public abstract int PlanTextLength { get; }
 	public SequenceKeyRecord SequenceKeyRecord { get; init; } = new(Guid.NewGuid());
 	public PlainTextTokenKey KeyRecord { get; init; } = new(Guid.NewGuid());

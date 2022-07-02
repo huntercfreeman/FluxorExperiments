@@ -1,4 +1,6 @@
-﻿namespace FluxorExperiments.ClassLibrary.PlainTextEditor;
+﻿using FluxorExperiments.ClassLibrary.Html;
+
+namespace FluxorExperiments.ClassLibrary.PlainTextEditor;
 
 public record StartOfRowPlainTextToken(int? IndexInPlainText) 
 	: PlainTextTokenBase(IndexInPlainText)
@@ -15,4 +17,6 @@ public record StartOfRowPlainTextToken(int? IndexInPlainText)
 	public override ReadOnlySpan<char> PlainTextSpan => NextLine.AsSpan();
 
 	public override int PlanTextLength => 1;
+
+	public override string PlainText => NextLine;
 }
