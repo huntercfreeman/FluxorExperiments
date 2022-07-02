@@ -87,7 +87,7 @@ public record DefaultPlainTextToken(int? IndexInPlainText)
 	
 	public override PlainTextTokenKind PlainTextTokenKind => PlainTextTokenKind.Default;
 	public override ReadOnlySpan<char> PlainTextSpan => _immutableStringBuilderRecord
-		.ToStringSpan(_immutableStringBuilderRecordKey);
+		.ToStringAsSpan(_immutableStringBuilderRecordKey);
 
 	public override int PlanTextLength => _immutableStringBuilderRecordKey.Length;
 }

@@ -69,8 +69,8 @@ public record FeatureStateContainerRecord<TFeatureStateContainerRecord, TKey, TI
 
     public int Count => FeatureStateKeys.Count;
     public ImmutableArray<TItem> Items => FeatureStateMap.Values
-        .ToImmutableArray();
-
-    public TItem this[TKey key] => FeatureStateMap[key];
+		.ToImmutableArray();
+	
+	public TItem this[TKey key] => FeatureStateMap[key];
     public TItem this[int index] => FeatureStateMap[FeatureStateKeys[index]];
 }

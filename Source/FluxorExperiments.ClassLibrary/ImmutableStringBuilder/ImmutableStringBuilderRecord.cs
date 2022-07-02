@@ -26,7 +26,7 @@ public record ImmutableStringBuilderRecord
 		_stringBuilder.Remove(index, 1);
 	}
 	
-	public ReadOnlySpan<char> ToStringSpan(ImmutableStringBuilderRecordKey immutableStringBuilderRecordKey)
+	public ReadOnlySpan<char> ToStringAsSpan(ImmutableStringBuilderRecordKey immutableStringBuilderRecordKey)
 	{
 		return _stringBuilder
 			.ToString().AsSpan()[..immutableStringBuilderRecordKey.Length];
