@@ -46,7 +46,7 @@ public partial class PlainTextRowDisplay : ComponentBase
 	{
 		var action = new PlainTextEditorCharacterOnClickAction(PlainTextRowIndex, 
 			PlainTextRow.Count - 1,
-			PlainTextRow[^1].AsPlainTextSpan.Length - 1);
+			PlainTextRow[^1].PlanTextLength - 1);
 		
 		Dispatcher.Dispatch(action);
 	}

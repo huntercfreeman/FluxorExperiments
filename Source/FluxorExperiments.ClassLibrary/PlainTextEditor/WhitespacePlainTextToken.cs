@@ -19,5 +19,7 @@ public record WhitespacePlainTextToken(int? IndexInPlainText)
 		};
 
 	public override PlainTextTokenKind PlainTextTokenKind => PlainTextTokenKind.Whitespace;
-	public override ReadOnlySpan<char> AsPlainTextSpan => _whitespaceCharacter.AsSpan();
+	public override ReadOnlySpan<char> PlainTextSpan => _whitespaceCharacter.AsSpan();
+
+	public override int PlanTextLength => 1;
 }

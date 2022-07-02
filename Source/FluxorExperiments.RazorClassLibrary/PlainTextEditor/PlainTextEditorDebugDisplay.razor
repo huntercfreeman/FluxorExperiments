@@ -8,21 +8,15 @@
         @nameof(PlainTextEditorState.CurrentPlainTextToken)
         <div style="margin-left: 30px;">
             <div>
-                @nameof(PlainTextEditorState.CurrentPlainTextToken.AsPlainTextSpan):&nbsp;
+                @nameof(PlainTextEditorState.CurrentPlainTextToken.PlainTextSpan):&nbsp;
                 @if (PlainTextEditorState.CurrentPlainTextToken.PlainTextTokenKind == PlainTextTokenKind.Whitespace ||
                      PlainTextEditorState.CurrentPlainTextToken.PlainTextTokenKind == PlainTextTokenKind.StartOfRow)
                 {
-                    @(PlainTextEditorState.CurrentPlainTextToken.AsPlainTextSpan.ToHtmlEscapedString())
+                    @(PlainTextEditorState.CurrentPlainTextToken.PlainTextSpan.ToHtmlEscapedString())
                 }
                 else
                 {
-                    @(PlainTextEditorState.CurrentPlainTextToken.AsPlainTextSpan.ToString())
-                    @*or this? lol*@
-                    @*ReadOnlySpan<char> span = PlainTextEditorState.CurrentPlainTextToken.ToPlainText;
-                    for(int i = 0; i < span.Length; i++)
-                    {
-                        @span[i]
-                    }*@
+                    @(PlainTextEditorState.CurrentPlainTextToken.PlainTextSpan.ToString())
                 }
             </div>
             <div>
@@ -36,15 +30,15 @@
         <div style="margin-left: 30px;">
             <div>
                 <div>
-                    @nameof(PlainTextEditorState.SelectionSpanRecord.InclusiveStartingColumnIndexRelativeToDocument):&nbsp;
+                    @nameof(PlainTextEditorState.SelectionSpanRecord.Value.InclusiveStartingColumnIndexRelativeToDocument):&nbsp;
                     @(PlainTextEditorState.SelectionSpanRecord?.InclusiveStartingColumnIndexRelativeToDocument.ToString() ?? "null")
                 </div>
                 <div>
-                    @nameof(PlainTextEditorState.SelectionSpanRecord.OffsetDisplacement):&nbsp;
+                    @nameof(PlainTextEditorState.SelectionSpanRecord.Value.OffsetDisplacement):&nbsp;
                     @(PlainTextEditorState.SelectionSpanRecord?.OffsetDisplacement.ToString() ?? "null")
                 </div>
                 <div>
-                    @nameof(PlainTextEditorState.SelectionSpanRecord.InitialDirectionBinding):&nbsp;
+                    @nameof(PlainTextEditorState.SelectionSpanRecord.Value.InitialDirectionBinding):&nbsp;
                     @(PlainTextEditorState.SelectionSpanRecord?.InitialDirectionBinding.ToString() ?? "null")
                 </div>
             </div>

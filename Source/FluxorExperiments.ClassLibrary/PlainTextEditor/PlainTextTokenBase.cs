@@ -6,7 +6,8 @@ public abstract record PlainTextTokenBase(int? IndexInPlainText)
 	: IManyFeatureState<PlainTextTokenKey, PlainTextTokenBase>
 {
 	public abstract PlainTextTokenKind PlainTextTokenKind { get; }
-	public abstract ReadOnlySpan<char> AsPlainTextSpan { get; }
+	public abstract ReadOnlySpan<char> PlainTextSpan { get; }
+	public abstract int PlanTextLength { get; }
 	public SequenceKeyRecord SequenceKeyRecord { get; init; } = new(Guid.NewGuid());
 	public PlainTextTokenKey KeyRecord { get; init; } = new(Guid.NewGuid());
 	

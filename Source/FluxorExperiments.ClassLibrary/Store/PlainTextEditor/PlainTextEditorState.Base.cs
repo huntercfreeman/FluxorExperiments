@@ -60,7 +60,7 @@ public partial record PlainTextEditorState
 					continue;
 				}
 
-				plainTextBuilder.Append(token.AsPlainTextSpan);
+				plainTextBuilder.Append(token.PlainTextSpan);
 			}
 		}
 

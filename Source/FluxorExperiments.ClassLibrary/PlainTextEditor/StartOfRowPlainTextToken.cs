@@ -12,5 +12,7 @@ public record StartOfRowPlainTextToken(int? IndexInPlainText)
 	}
 	
 	public override PlainTextTokenKind PlainTextTokenKind => PlainTextTokenKind.StartOfRow;
-	public override ReadOnlySpan<char> AsPlainTextSpan => NextLine.AsSpan();
+	public override ReadOnlySpan<char> PlainTextSpan => NextLine.AsSpan();
+
+	public override int PlanTextLength => 1;
 }

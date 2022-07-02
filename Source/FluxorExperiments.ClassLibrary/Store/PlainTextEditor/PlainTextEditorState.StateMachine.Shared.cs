@@ -64,7 +64,7 @@ public partial record PlainTextEditorState
 					'\n' => KeyboardFacts.WhitespaceKeys.ENTER_CODE,
 					'\t' => KeyboardFacts.WhitespaceKeys.TAB_CODE,
 					' ' => KeyboardFacts.WhitespaceKeys.SPACE_CODE,
-					_ => character.ToString()
+					_ => string.Create(1, character, (span, c) => { span[0] = c; })
 				};
 				
 				var keyDownEventRecord = new KeyDownEventRecord(character.ToString(), 
@@ -161,7 +161,7 @@ public partial record PlainTextEditorState
 						nextPlainTextEditorState.CurrentRow.Count - 1;
 
 					SetIndexInPlainTextOfCurrentToken(nextPlainTextEditorState,
-						nextPlainTextEditorState.CurrentPlainTextToken.AsPlainTextSpan.Length - 1);
+						nextPlainTextEditorState.CurrentPlainTextToken.PlanTextLength - 1);
 
 					SetCurrentRowIsActiveRow(nextPlainTextEditorState, true);
 
@@ -176,7 +176,7 @@ public partial record PlainTextEditorState
 				nextPlainTextEditorState.CurrentPlainTextTokenKeyIndex--;
 
 				SetIndexInPlainTextOfCurrentToken(nextPlainTextEditorState,
-					nextPlainTextEditorState.CurrentPlainTextToken.AsPlainTextSpan.Length - 1);
+					nextPlainTextEditorState.CurrentPlainTextToken.PlanTextLength - 1);
 
 				previousWasSetAsCurrent = true;
 			}
@@ -338,7 +338,7 @@ public partial record PlainTextEditorState
 			else
 			{
 				SetIndexInPlainTextOfCurrentToken(nextPlainTextEditorState,
-					nextPlainTextEditorState.CurrentPlainTextToken.AsPlainTextSpan.Length - 1);
+					nextPlainTextEditorState.CurrentPlainTextToken.PlanTextLength - 1);
 			}
 		}
 
@@ -382,7 +382,7 @@ public partial record PlainTextEditorState
 			else
 			{
 				SetIndexInPlainTextOfCurrentToken(nextPlainTextEditorState,
-					nextPlainTextEditorState.CurrentPlainTextToken.AsPlainTextSpan.Length - 1);
+					nextPlainTextEditorState.CurrentPlainTextToken.PlanTextLength - 1);
 			}
 		}
 
@@ -406,10 +406,10 @@ public partial record PlainTextEditorState
 			}
 
 			if (nextPlainTextEditorState.CurrentPlainTextToken.IndexInPlainText ==
-			    nextPlainTextEditorState.CurrentPlainTextToken.AsPlainTextSpan.Length - 1)
+			    nextPlainTextEditorState.CurrentPlainTextToken.PlanTextLength - 1)
 			{
 				var passOnArrowRightEvent = nextPlainTextEditorState.CurrentPlainTextToken.IndexInPlainText ==
-				                            nextPlainTextEditorState.CurrentPlainTextToken.AsPlainTextSpan.Length - 1;
+				                            nextPlainTextEditorState.CurrentPlainTextToken.PlanTextLength - 1;
 
 				SetIndexInPlainTextOfCurrentToken(nextPlainTextEditorState, null);
 
@@ -418,7 +418,7 @@ public partial record PlainTextEditorState
 				if (!nextWasSetAsCurrent)
 				{
 					SetIndexInPlainTextOfCurrentToken(nextPlainTextEditorState,
-						nextPlainTextEditorState.CurrentPlainTextToken.AsPlainTextSpan.Length - 1);
+						nextPlainTextEditorState.CurrentPlainTextToken.PlanTextLength - 1);
 				}
 				else
 				{
@@ -437,7 +437,7 @@ public partial record PlainTextEditorState
 
 					if (passOnArrowRightEvent &&
 					    keyDownEventRecord.CtrlWasPressed &&
-					    nextPlainTextEditorState.CurrentPlainTextToken.AsPlainTextSpan.Length > 1)
+					    nextPlainTextEditorState.CurrentPlainTextToken.PlanTextLength > 1)
 					{
 						MoveArrowRight(nextPlainTextEditorState, new KeyDownEventRecord(keyDownEventRecord.Key,
 							keyDownEventRecord.Code,
@@ -453,7 +453,7 @@ public partial record PlainTextEditorState
 				{
 					var arrowRightMovementsNeeded = nextPlainTextEditorState
 							.CurrentPlainTextToken
-							.AsPlainTextSpan.Length - 1
+							.PlanTextLength - 1
 							                    - nextPlainTextEditorState
 								                    .CurrentPlainTextToken
 								                    .IndexInPlainText;
@@ -517,7 +517,7 @@ public partial record PlainTextEditorState
 		private static void MoveEnd(PlainTextEditorState nextPlainTextEditorState,
 			KeyDownEventRecord keyDownEventRecord)
 		{
-			var finalRow = nextPlainTextEditorState[nextPlainTextEditorState.Count - 1];
+			var finalRow = nextPlainTextEditorState[^1];
 
 			PlainTextTokenBase goalToken = keyDownEventRecord.CtrlWasPressed
 				? finalRow[^1]
@@ -535,7 +535,7 @@ public partial record PlainTextEditorState
 			}
 
 			while (nextPlainTextEditorState.CurrentPlainTextToken.IndexInPlainText !=
-			       nextPlainTextEditorState.CurrentPlainTextToken.AsPlainTextSpan.Length - 1)
+			       nextPlainTextEditorState.CurrentPlainTextToken.PlanTextLength - 1)
 			{
 				MoveArrowRight(nextPlainTextEditorState, new KeyDownEventRecord(
 					KeyboardFacts.MovementKeys.ARROW_RIGHT_KEY,
@@ -565,7 +565,7 @@ public partial record PlainTextEditorState
 				}
 				else
 				{
-					rollingCount += token.AsPlainTextSpan.Length;
+					rollingCount += token.PlanTextLength;
 				}
 			}
 
@@ -590,11 +590,11 @@ public partial record PlainTextEditorState
 						return new PlainTextTokenMetaData(token,
 							null,
 							new PositionSpanRelativeToDocumentRecord(rollingCount,
-								rollingCount + token.AsPlainTextSpan.Length));
+								rollingCount + token.PlanTextLength));
 					}
 					else
 					{
-						rollingCount += token.AsPlainTextSpan.Length;
+						rollingCount += token.PlanTextLength;
 					}
 				}
 			}
@@ -614,14 +614,14 @@ public partial record PlainTextEditorState
 			{
 				token = temporaryToken;
 
-				rollingCount += token.AsPlainTextSpan.Length;
+				rollingCount += token.PlanTextLength;
 
 				if (rollingCount > columnIndex)
 					break;
 			}
 
 			var positionRelativeToRow = new PositionSpanRelativeToRowRecord(
-				rollingCount - token.AsPlainTextSpan.Length,
+				rollingCount - token.PlanTextLength,
 				rollingCount);
 
 			return new PlainTextTokenMetaData(token, positionRelativeToRow, null);
@@ -694,16 +694,16 @@ public partial record PlainTextEditorState
 					if (nextPlainTextEditorState.CurrentPlainTextToken.PlainTextTokenKind ==
 					    PlainTextTokenKind.Default &&
 					    nextPlainTextEditorState.CurrentPlainTextToken.IndexInPlainText <
-					    nextPlainTextEditorState.CurrentPlainTextToken.AsPlainTextSpan.Length - 1)
+					    nextPlainTextEditorState.CurrentPlainTextToken.PlanTextLength - 1)
 					{
 						var temporaryToken = nextPlainTextEditorState.CurrentPlainTextToken;
 						
 						nextRow = nextPlainTextEditorState.CurrentRow
 							.WithRemove(temporaryToken.KeyRecord);
 
-						var tokenFirstString = temporaryToken.AsPlainTextSpan[..(temporaryToken.IndexInPlainText!.Value + 1)];
+						var tokenFirstString = temporaryToken.PlainTextSpan[..(temporaryToken.IndexInPlainText!.Value + 1)];
 
-						var tokenSecondString = temporaryToken.AsPlainTextSpan[(temporaryToken.IndexInPlainText!.Value + 1)..];
+						var tokenSecondString = temporaryToken.PlainTextSpan[(temporaryToken.IndexInPlainText!.Value + 1)..];
 
 						var tokenFirst = new DefaultPlainTextToken(tokenFirstString);
 						var tokenSecond = new DefaultPlainTextToken(tokenSecondString);
@@ -787,11 +787,11 @@ public partial record PlainTextEditorState
 			else
 			{
 				nextPlainTextEditorState.SelectionSpanRecord = new SelectionSpanRecord(
-					nextPlainTextEditorState.SelectionSpanRecord.InclusiveStartingColumnIndexRelativeToDocument,
-					nextPlainTextEditorState.SelectionSpanRecord.OffsetDisplacement + offsetDisplacementChange,
-					nextPlainTextEditorState.SelectionSpanRecord.InitialDirectionBinding);
+					nextPlainTextEditorState.SelectionSpanRecord.Value.InclusiveStartingColumnIndexRelativeToDocument,
+					nextPlainTextEditorState.SelectionSpanRecord.Value.OffsetDisplacement + offsetDisplacementChange,
+					nextPlainTextEditorState.SelectionSpanRecord.Value.InitialDirectionBinding);
 
-				if (nextPlainTextEditorState.SelectionSpanRecord.OffsetDisplacement == 0)
+				if (nextPlainTextEditorState.SelectionSpanRecord.Value.OffsetDisplacement == 0)
 				{
 					nextPlainTextEditorState.SelectionSpanRecord = null;
 				}

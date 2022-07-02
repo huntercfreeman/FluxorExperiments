@@ -66,17 +66,17 @@ public partial class CharacterDisplay
 		int inclusiveMinimumIndexForSelectedCss;
 		int inclusiveMaximumIndexForSelectedCss;
 
-		if (selectionSpanRecord.InitialDirectionBinding == SelectionDirectionBinding.Left)
+		if (selectionSpanRecord.Value.InitialDirectionBinding == SelectionDirectionBinding.Left)
 		{
-			inclusiveMinimumIndexForSelectedCss = selectionSpanRecord.InclusiveStartingColumnIndexRelativeToDocument +
-                                                  			selectionSpanRecord.OffsetDisplacement;
-			inclusiveMaximumIndexForSelectedCss = selectionSpanRecord.InclusiveStartingColumnIndexRelativeToDocument;
+			inclusiveMinimumIndexForSelectedCss = selectionSpanRecord.Value.InclusiveStartingColumnIndexRelativeToDocument +
+                                                  			selectionSpanRecord.Value.OffsetDisplacement;
+			inclusiveMaximumIndexForSelectedCss = selectionSpanRecord.Value.InclusiveStartingColumnIndexRelativeToDocument;
 		}
 		else
 		{
-			inclusiveMinimumIndexForSelectedCss = selectionSpanRecord.InclusiveStartingColumnIndexRelativeToDocument;
-			inclusiveMaximumIndexForSelectedCss = selectionSpanRecord.InclusiveStartingColumnIndexRelativeToDocument +
-			                                      selectionSpanRecord.OffsetDisplacement;
+			inclusiveMinimumIndexForSelectedCss = selectionSpanRecord.Value.InclusiveStartingColumnIndexRelativeToDocument;
+			inclusiveMaximumIndexForSelectedCss = selectionSpanRecord.Value.InclusiveStartingColumnIndexRelativeToDocument +
+			                                      selectionSpanRecord.Value.OffsetDisplacement;
 		}
 		
 		if (indexOfCharacterRelativeToDocument >= inclusiveMinimumIndexForSelectedCss &&
