@@ -15,15 +15,20 @@ public record ImmutableStringBuilderRecord
 	{
 		_stringBuilder.Insert(index, value);
 	}
-	
+
+	public void Insert(int index, ReadOnlySpan<char> value)
+	{
+		_stringBuilder.Insert(index, value);
+	}
+
 	public void RemoveAt(int index)
 	{
 		_stringBuilder.Remove(index, 1);
 	}
 	
-	public string GetString(ImmutableStringBuilderRecordKey immutableStringBuilderRecordKey)
+	public ReadOnlySpan<char> ToStringSpan(ImmutableStringBuilderRecordKey immutableStringBuilderRecordKey)
 	{
 		return _stringBuilder
-			.ToString()[..immutableStringBuilderRecordKey.Length];
+			.ToString().AsSpan()[..immutableStringBuilderRecordKey.Length];
 	}
 }

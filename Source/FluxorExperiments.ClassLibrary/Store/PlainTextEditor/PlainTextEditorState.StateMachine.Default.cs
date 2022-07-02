@@ -62,7 +62,7 @@ public partial record PlainTextEditorState
 
 			if (nextDefaultToken.IndexInPlainText == -1)
 			{
-				if (nextDefaultToken.ToPlainText.Length == 0)
+				if (nextDefaultToken.AsPlainTextSpan.Length == 0)
 				{
 					PerformBackspace(nextPlainTextEditorState, keyDownEventRecord);		
 				}

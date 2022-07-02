@@ -35,7 +35,7 @@ public partial class PlainTextRowDisplay : ComponentBase
 	protected override bool ShouldRender()
 	{
 		var shouldRender = _previouslyRenderedWithPlainTextRowSequenceKey is null ||
-		                   _previouslyRenderedWithPlainTextRowSequenceKey != PlainTextRow.SequenceKeyRecord;
+		                   !_previouslyRenderedWithPlainTextRowSequenceKey.Equals(PlainTextRow.SequenceKeyRecord);
 
 		_previouslyRenderedWithPlainTextRowSequenceKey = PlainTextRow.SequenceKeyRecord;
 
@@ -46,7 +46,7 @@ public partial class PlainTextRowDisplay : ComponentBase
 	{
 		var action = new PlainTextEditorCharacterOnClickAction(PlainTextRowIndex, 
 			PlainTextRow.Count - 1,
-			PlainTextRow[^1].ToPlainText.Length - 1);
+			PlainTextRow[^1].AsPlainTextSpan.Length - 1);
 		
 		Dispatcher.Dispatch(action);
 	}

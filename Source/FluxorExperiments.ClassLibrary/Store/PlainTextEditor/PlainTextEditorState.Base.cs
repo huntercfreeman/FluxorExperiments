@@ -47,20 +47,23 @@ public partial record PlainTextEditorState
 
 		var firstStartOfRowToken = this[0][0];
 
-		foreach (var rowKey in FeatureStateKeys)
+		for (int i1 = 0; i1 < FeatureStateKeys.Count; i1++)
 		{
+			PlainTextRowKey rowKey = FeatureStateKeys[i1];
 			var row = this[rowKey];
 
-			foreach (var token in row.Items)
+			for (int i = 0; i < row.Items.Length; i++)
 			{
+				PlainTextTokenBase? token = row.Items[i];
 				if (token.KeyRecord == firstStartOfRowToken.KeyRecord)
 				{
 					continue;
 				}
 
-				plainTextBuilder.Append(token.ToPlainText);
+				plainTextBuilder.Append(token.AsPlainTextSpan);
 			}
 		}
 
-		return plainTextBuilder.ToString();	}
+		return plainTextBuilder.ToString();	
+	}
 }

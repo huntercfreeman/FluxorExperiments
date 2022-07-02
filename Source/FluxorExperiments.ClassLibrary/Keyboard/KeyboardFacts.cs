@@ -70,17 +70,14 @@ public static class KeyboardFacts
 
     public static bool IsMovementKey(KeyDownEventRecord keyDownEventRecord)
     {
-        switch (keyDownEventRecord.Key)
-        {
-            case MovementKeys.ARROW_LEFT_KEY:
-            case MovementKeys.ARROW_DOWN_KEY:
-            case MovementKeys.ARROW_UP_KEY:
-            case MovementKeys.ARROW_RIGHT_KEY:
-            case MovementKeys.HOME_KEY:
-            case MovementKeys.END_KEY:
-                return true;
-            default:
-                return false;
-        }
-    }
+		return keyDownEventRecord.Key switch {
+			MovementKeys.ARROW_LEFT_KEY or 
+			MovementKeys.ARROW_DOWN_KEY or 
+			MovementKeys.ARROW_UP_KEY or 
+			MovementKeys.ARROW_RIGHT_KEY or 
+			MovementKeys.HOME_KEY or 
+			MovementKeys.END_KEY => true,
+			_ => false,
+		};
+	}
 }

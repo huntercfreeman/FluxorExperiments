@@ -21,7 +21,7 @@ public partial class KeyDownEventProviderDisplay : ComponentBase
 		if(firstRender)
 		{
 			JsRuntime.InvokeVoidAsync("fluxorExperiments.initializeOnKeyDownEventProvider",
-				DotNetObjectReference.Create(this));
+				DotNetObjectReference.Create(this)).AsTask();
 		}
 
 		return base.OnAfterRenderAsync(firstRender);
@@ -30,7 +30,7 @@ public partial class KeyDownEventProviderDisplay : ComponentBase
 	[JSInvokable]
 	public void DispatchOnKeyDownEventAction(KeyDownEventRecord keyDownEventRecord)
 	{
-		var handledControlModifiedKeyPress = false;
+		bool handledControlModifiedKeyPress = false;
 
 		if (keyDownEventRecord.CtrlWasPressed)
 		{

@@ -1,6 +1,6 @@
 ﻿namespace FluxorExperiments.ClassLibrary.FeatureStateContainer;
 
-public abstract record KeyRecord
+public interface IKeyRecord
 {
-    public Guid Id { get; } = Guid.NewGuid();
+    public Guid Id { get; }
 }

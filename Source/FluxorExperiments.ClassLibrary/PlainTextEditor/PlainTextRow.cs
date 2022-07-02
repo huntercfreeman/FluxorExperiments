@@ -15,13 +15,13 @@ public record PlainTextRow
 		FeatureStateMap.Add(startOfRowToken.KeyRecord, startOfRowToken);
 	}
 	
-	public SequenceKeyRecord SequenceKeyRecord { get; init; } = new();
-	public PlainTextRowKey KeyRecord { get; set; } = new();
+	public SequenceKeyRecord SequenceKeyRecord { get; init; } = new(Guid.NewGuid());
+	public PlainTextRowKey KeyRecord { get; init; } = new(Guid.NewGuid());
 	public bool IsActiveRow { get; init; }
 
 	public override PlainTextRow ConstructDeepClone() => this with 
 	{
-		SequenceKeyRecord = new SequenceKeyRecord()
+		SequenceKeyRecord = new SequenceKeyRecord(Guid.NewGuid())
 	};
 	
 	public PlainTextRow WithAddRange(PlainTextRow otherPlainTextRow)

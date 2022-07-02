@@ -5,10 +5,10 @@ namespace FluxorExperiments.ClassLibrary.FeatureStateContainer;
 
 public record FeatureStateContainerRecord<TFeatureStateContainerRecord, TKey, TItem>
     where TFeatureStateContainerRecord : FeatureStateContainerRecord<TFeatureStateContainerRecord, TKey, TItem>
-    where TKey : KeyRecord
-    where TItem : IManyFeatureState<TKey, TItem>
+    where TKey : struct, IKeyRecord
+	where TItem : IManyFeatureState<TKey, TItem>
 {
-    protected readonly Dictionary<TKey, TItem> FeatureStateMap;
+    protected readonly Dictionary<TKey, TItem> FeatureStateMap; //Tkey cannot be null, key of struct type works well here
     protected readonly List<TKey> FeatureStateKeys;
 
     /// <summary>
@@ -68,8 +68,7 @@ public record FeatureStateContainerRecord<TFeatureStateContainerRecord, TKey, TI
     }
 
     public int Count => FeatureStateKeys.Count;
-    public ImmutableArray<TItem> Items => FeatureStateKeys
-        .Select(key => FeatureStateMap[key])
+    public ImmutableArray<TItem> Items => FeatureStateMap.Values
         .ToImmutableArray();
 
     public TItem this[TKey key] => FeatureStateMap[key];

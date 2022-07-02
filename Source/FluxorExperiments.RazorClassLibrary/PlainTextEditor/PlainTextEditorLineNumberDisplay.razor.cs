@@ -7,15 +7,15 @@ public partial class PlainTextEditorLineNumberDisplay : ComponentBase
 {
 	[CascadingParameter(Name=nameof(CharacterDisplay.RowIndex))]
 	public int RowIndex { get; set; }
-	[CascadingParameter(Name=nameof(LargestLineNumberString))]
-	public string LargestLineNumberString { get; set; } = null!;
+	[CascadingParameter(Name = nameof(LargestLineNumberStringCount))]
+	public int LargestLineNumberStringCount { get; set; }
 	
 	[Parameter, EditorRequired]
 	public int RowRerenderCount { get; set; }
 	[Parameter, EditorRequired]
-	public SequenceKeyRecord RowSequenceKey { get; set; } = null!;
+	public SequenceKeyRecord RowSequenceKey { get; set; }
 
 	private int LineNumber => RowIndex + 1;
 
-	private int LineNumberPadding => LargestLineNumberString.Length - LineNumber.ToString().Length;
+	private int LineNumberPadding => LargestLineNumberStringCount - (int)Math.Log10(LineNumber);
 }

@@ -12,7 +12,7 @@ public class ClipboardProvider : IClipboardProvider
 		_jsRuntime = jsRuntime;
 	}
 
-	public async Task<string> ReadClipboard()
+	public async ValueTask<string> ReadClipboard()
 	{
 		try
 		{
@@ -25,7 +25,7 @@ public class ClipboardProvider : IClipboardProvider
 		}
 	}
 
-	public async Task SetClipboard(string value)
+	public async ValueTask SetClipboard(string value)
 	{
 		try
 		{

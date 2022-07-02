@@ -3,6 +3,8 @@
 public record StartOfRowPlainTextToken(int? IndexInPlainText) 
 	: PlainTextTokenBase(IndexInPlainText)
 {
+	public const string NextLine = "\n";
+
 	public StartOfRowPlainTextToken()
 		: this(0)
 	{
@@ -10,5 +12,5 @@ public record StartOfRowPlainTextToken(int? IndexInPlainText)
 	}
 	
 	public override PlainTextTokenKind PlainTextTokenKind => PlainTextTokenKind.StartOfRow;
-	public override string ToPlainText => "\n";
+	public override ReadOnlySpan<char> AsPlainTextSpan => NextLine.AsSpan();
 }

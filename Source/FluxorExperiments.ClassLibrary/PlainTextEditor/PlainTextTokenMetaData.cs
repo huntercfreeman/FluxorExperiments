@@ -1,5 +1,5 @@
 ﻿namespace FluxorExperiments.ClassLibrary.PlainTextEditor;
 
-public record PlainTextTokenMetaData(PlainTextTokenBase PlainTextToken,
+public record struct PlainTextTokenMetaData(PlainTextTokenBase PlainTextToken,
 	PositionSpanRelativeToRowRecord? PositionSpanRelativeToRowRecord,
 	PositionSpanRelativeToDocumentRecord? PositionSpanRelativeToDocumentRecord);

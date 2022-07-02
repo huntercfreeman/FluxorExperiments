@@ -6,19 +6,18 @@ namespace FluxorExperiments.ClassLibrary.PlainTextEditor;
 public record WhitespacePlainTextToken(int? IndexInPlainText) 
 	: PlainTextTokenBase(IndexInPlainText)
 {
-	private readonly char _whitespaceCharacter;	
+	private const string SPACE_CODE = " ";
+	private const string TAB_CODE = "\t";
+	private readonly string? _whitespaceCharacter;
 	
 	public WhitespacePlainTextToken(KeyDownEventRecord keyDownEventRecord)
-		: this(0)
-	{
-		_whitespaceCharacter = keyDownEventRecord.Code switch {
-			KeyboardFacts.WhitespaceKeys.SPACE_CODE => ' ',
-			KeyboardFacts.WhitespaceKeys.TAB_CODE => '\t',
+		: this(0) => _whitespaceCharacter = keyDownEventRecord.Code switch {
+			KeyboardFacts.WhitespaceKeys.SPACE_CODE => SPACE_CODE,
+			KeyboardFacts.WhitespaceKeys.TAB_CODE => TAB_CODE,
 			_ => throw new ApplicationException($"The whitespace with Code: '{keyDownEventRecord.Code}' was " +
-			                                    $"not found in the {nameof(KeyboardFacts.WhitespaceKeys)} constants.")
+												$"not found in the {nameof(KeyboardFacts.WhitespaceKeys)} constants.")
 		};
-	}
-	
+
 	public override PlainTextTokenKind PlainTextTokenKind => PlainTextTokenKind.Whitespace;
-	public override string ToPlainText => _whitespaceCharacter.ToString();
+	public override ReadOnlySpan<char> AsPlainTextSpan => _whitespaceCharacter.AsSpan();
 }

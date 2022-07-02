@@ -1,3 +1,3 @@
 ﻿namespace FluxorExperiments.ClassLibrary.PlainTextEditor;
 
-public record PositionSpanRelativeToRowRecord(int InclusiveStartingColumnIndex, int ExclusiveEndingColumnIndex);
+public record struct PositionSpanRelativeToRowRecord(int InclusiveStartingColumnIndex, int ExclusiveEndingColumnIndex);

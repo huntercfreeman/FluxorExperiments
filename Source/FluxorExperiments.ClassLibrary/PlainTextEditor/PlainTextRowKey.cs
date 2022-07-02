@@ -2,4 +2,4 @@
 
 namespace FluxorExperiments.ClassLibrary.PlainTextEditor;
 
-public record PlainTextRowKey : KeyRecord;
+public record struct PlainTextRowKey(Guid Id) : IKeyRecord;

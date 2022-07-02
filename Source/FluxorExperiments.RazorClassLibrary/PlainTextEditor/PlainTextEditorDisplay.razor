@@ -22,8 +22,8 @@
 
                     var localPreviousRowsColumnCounter = previousRowsColumnCounter;
 
-                    <CascadingValue Name="@nameof(PlainTextEditorLineNumberDisplay.LargestLineNumberString)"
-                                    Value="@((PlainTextEditorState.Value.Count + 1).ToString())">
+                    <CascadingValue Name="@nameof(PlainTextEditorLineNumberDisplay.LargestLineNumberStringCount)"
+                                    Value="@((int)Math.Log10(PlainTextEditorState.Value.Count + 1))">
                         <CascadingValue Name="@nameof(CharacterDisplay.RowIndex)"
                                         Value="rowIndex">
                             <CascadingValue Name="@nameof(CharacterDisplay.PreviousRowsColumnCount)"
@@ -35,9 +35,9 @@
                         </CascadingValue>
                     </CascadingValue>
 
-                    foreach (var plainTextToken in plainTextRow.Items)
+                    for (int j = 0; j < plainTextRow.Count; j++)
                     {
-                        previousRowsColumnCounter += plainTextToken.ToPlainText.Length;
+                        previousRowsColumnCounter += plainTextRow[j].AsPlainTextSpan.Length;
                     }
                 }
             }

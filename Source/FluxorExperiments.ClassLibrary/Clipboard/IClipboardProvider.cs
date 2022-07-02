@@ -2,6 +2,6 @@
 
 public interface IClipboardProvider
 {
-	public Task<string> ReadClipboard();
-	public Task SetClipboard(string value);
+	public ValueTask<string> ReadClipboard();
+	public ValueTask SetClipboard(string value);
 }

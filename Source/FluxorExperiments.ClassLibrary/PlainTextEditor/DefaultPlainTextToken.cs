@@ -29,8 +29,18 @@ public record DefaultPlainTextToken(int? IndexInPlainText)
 		_immutableStringBuilderRecord.Insert(0, initialString);
 
 		_immutableStringBuilderRecordKey = new ImmutableStringBuilderRecordKey(initialString.Length);
-	}	
-	
+	}
+
+	public DefaultPlainTextToken(ReadOnlySpan<char> initialCharSpan)
+	: this(0)
+	{
+		_immutableStringBuilderRecord = new();
+
+		_immutableStringBuilderRecord.Insert(0, initialCharSpan);
+
+		_immutableStringBuilderRecordKey = new ImmutableStringBuilderRecordKey(initialCharSpan.Length);
+	}
+
 	public DefaultPlainTextToken(KeyDownEventRecord keyDownEventRecord,
 		DefaultPlainTextToken otherDefaultPlainTextToken)
 		: this(otherDefaultPlainTextToken.IndexInPlainText + 1)
@@ -68,7 +78,7 @@ public record DefaultPlainTextToken(int? IndexInPlainText)
 		 _immutableStringBuilderRecord = tokenFirst._immutableStringBuilderRecord;
 		 
 		 _immutableStringBuilderRecord.Insert(tokenFirst._immutableStringBuilderRecordKey.Length,
-			 tokenSecond.ToPlainText);
+			 tokenSecond.AsPlainTextSpan);
 
 		 _immutableStringBuilderRecordKey = 
 			 new ImmutableStringBuilderRecordKey(tokenFirst._immutableStringBuilderRecordKey.Length + 
@@ -76,6 +86,6 @@ public record DefaultPlainTextToken(int? IndexInPlainText)
 	}
 	
 	public override PlainTextTokenKind PlainTextTokenKind => PlainTextTokenKind.Default;
-	public override string ToPlainText => _immutableStringBuilderRecord
-		.GetString(_immutableStringBuilderRecordKey);
+	public override ReadOnlySpan<char> AsPlainTextSpan => _immutableStringBuilderRecord
+		.ToStringSpan(_immutableStringBuilderRecordKey);
 }

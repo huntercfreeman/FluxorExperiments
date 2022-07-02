@@ -8,15 +8,21 @@
         @nameof(PlainTextEditorState.CurrentPlainTextToken)
         <div style="margin-left: 30px;">
             <div>
-                @nameof(PlainTextEditorState.CurrentPlainTextToken.ToPlainText):&nbsp;
+                @nameof(PlainTextEditorState.CurrentPlainTextToken.AsPlainTextSpan):&nbsp;
                 @if (PlainTextEditorState.CurrentPlainTextToken.PlainTextTokenKind == PlainTextTokenKind.Whitespace ||
                      PlainTextEditorState.CurrentPlainTextToken.PlainTextTokenKind == PlainTextTokenKind.StartOfRow)
                 {
-                    @(PlainTextEditorState.CurrentPlainTextToken.ToPlainText.EscapeHtml())
+                    @(PlainTextEditorState.CurrentPlainTextToken.AsPlainTextSpan.ToHtmlEscapedString())
                 }
                 else
                 {
-                    @(PlainTextEditorState.CurrentPlainTextToken.ToPlainText)
+                    @(PlainTextEditorState.CurrentPlainTextToken.AsPlainTextSpan.ToString())
+                    @*or this? lol*@
+                    @*ReadOnlySpan<char> span = PlainTextEditorState.CurrentPlainTextToken.ToPlainText;
+                    for(int i = 0; i < span.Length; i++)
+                    {
+                        @span[i]
+                    }*@
                 }
             </div>
             <div>

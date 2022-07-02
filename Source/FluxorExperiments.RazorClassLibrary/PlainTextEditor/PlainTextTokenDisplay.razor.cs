@@ -34,7 +34,8 @@ public partial class PlainTextTokenDisplay : ComponentBase
 	protected override bool ShouldRender()
 	{
 		var shouldRender = _previousRenderedWithPlainTextTokenSequenceKey is null ||
-		                   _previousRenderedWithPlainTextTokenSequenceKey != PlainTextToken.SequenceKeyRecord;
+						   !_previousRenderedWithPlainTextTokenSequenceKey.Equals(PlainTextToken.SequenceKeyRecord);
+
 
 		_previousRenderedWithPlainTextTokenSequenceKey = PlainTextToken.SequenceKeyRecord;
 

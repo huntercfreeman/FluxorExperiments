@@ -1,4 +1,4 @@
 ﻿namespace FluxorExperiments.ClassLibrary.PlainTextEditor;
 
-public record PositionSpanRelativeToDocumentRecord(int InclusiveStartingDocumentIndex, 
+public record struct PositionSpanRelativeToDocumentRecord(int InclusiveStartingDocumentIndex, 
 		int ExclusiveEndingDocumentIndex);

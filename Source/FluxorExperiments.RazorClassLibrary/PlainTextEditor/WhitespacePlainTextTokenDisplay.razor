@@ -1,7 +1,7 @@
 ﻿@using FluxorExperiments.ClassLibrary.Html
 <span class="fe_plain-text-token-display fe_whitespace-plain-text-token-display"
       title="whitespace-token re-render count: @TokenRerenderCount; SequenceKeyRecord: @WhitespacePlainTextToken.SequenceKeyRecord.Id">
-   <CharacterDisplay Character="@WhitespacePlainTextToken.ToPlainText.EscapeHtml()"
+   <CharacterDisplay Character="@WhitespacePlainTextToken.AsPlainTextSpan.ToHtmlEscapedString()"
                      ShouldDisplayCursor="ShouldDisplayCursor" 
                      CharacterIndex="0" />
 </span>

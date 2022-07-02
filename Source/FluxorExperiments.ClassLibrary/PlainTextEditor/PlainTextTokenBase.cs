@@ -6,13 +6,12 @@ public abstract record PlainTextTokenBase(int? IndexInPlainText)
 	: IManyFeatureState<PlainTextTokenKey, PlainTextTokenBase>
 {
 	public abstract PlainTextTokenKind PlainTextTokenKind { get; }
-	public abstract string ToPlainText { get; }
-
-	public SequenceKeyRecord SequenceKeyRecord { get; init; } = new();
-	public PlainTextTokenKey KeyRecord { get; set; } = new();
+	public abstract ReadOnlySpan<char> AsPlainTextSpan { get; }
+	public SequenceKeyRecord SequenceKeyRecord { get; init; } = new(Guid.NewGuid());
+	public PlainTextTokenKey KeyRecord { get; init; } = new(Guid.NewGuid());
 	
 	public PlainTextTokenBase ConstructDeepClone() => this with 
 	{
-		SequenceKeyRecord = new SequenceKeyRecord()
+		SequenceKeyRecord = new SequenceKeyRecord(Guid.NewGuid())
 	};
 }
