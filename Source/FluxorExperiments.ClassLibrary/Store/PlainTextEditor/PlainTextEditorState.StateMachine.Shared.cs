@@ -60,14 +60,15 @@ public partial record PlainTextEditorState
 			for (int i = 0; i < bulkStringInsertionValue.Length; i++) //enumerable is slower
 			{
 				char character = bulkStringInsertionValue[i];
-				string code = character switch {
-					'\n' => KeyboardFacts.WhitespaceKeys.ENTER_CODE,
-					'\t' => KeyboardFacts.WhitespaceKeys.TAB_CODE,
-					' ' => KeyboardFacts.WhitespaceKeys.SPACE_CODE,
-					_ => string.Create(1, character, (span, c) => { span[0] = c; })
+				(string code,bool matched) = character switch {
+					'\n' => (KeyboardFacts.WhitespaceKeys.ENTER_CODE, true),
+					'\t' => (KeyboardFacts.WhitespaceKeys.TAB_CODE, true),
+					' ' => (KeyboardFacts.WhitespaceKeys.SPACE_CODE, true),
+					_ => (character.ToString(),false)
 				};
 				
-				var keyDownEventRecord = new KeyDownEventRecord(character.ToString(), 
+				var keyDownEventRecord = new KeyDownEventRecord(
+					matched ? character.ToString() : code, 
 					code,
 					false,
 					false,
